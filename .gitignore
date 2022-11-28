@@ -50,3 +50,4 @@ firebase.js
 # Log files
 firebase-*.log*
 firestore-*.log*
+ui-*.log*
