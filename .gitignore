@@ -1,7 +1,22 @@
+### yarn ###
+.yarn/*
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+# if you are NOT using Zero-installs, then:
+# comment the following lines
+!.yarn/cache
+
+# and uncomment the following lines
+# .pnp.*
+
+### vue ###
 .DS_Store
 node_modules
 /dist
-
 
 # local env files
 .env.local
@@ -21,3 +36,17 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+firebase.js
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+# Log files
+firebase-*.log*
+firestore-*.log*
