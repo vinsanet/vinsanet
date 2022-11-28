@@ -17,7 +17,9 @@ const firebaseConfig = {
 const firebase = initializeApp(firebaseConfig);
 getAnalytics(firebase);
 
-const isEmulating = window.location.hostname === "localhost";
+const isEmulating =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
 export const firebaseAuth = getAuth();
 export const firebaseStorage = getStorage();
 export const firebaseDb = getFirestore(firebase);
