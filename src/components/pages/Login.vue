@@ -33,7 +33,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="success" @click="onClickLogin">ログイン</v-btn>
+            <v-btn color="primary" @click="onClickLogin">ログイン</v-btn>
           </v-col>
         </v-row>
       </v-container>
