@@ -36,9 +36,7 @@
     </v-navigation-drawer>
     <v-main>
       <router-view />
-      <v-container>
-        <Snackbar />
-      </v-container>
+      <Snackbar />
     </v-main>
   </v-app>
 </template>
