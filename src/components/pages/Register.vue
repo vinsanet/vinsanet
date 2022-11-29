@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <div :class="['text-h3']">Create user</div>
+            <div :class="['text-h3']">新規登録</div>
           </v-col>
         </v-row>
       </v-container>
@@ -33,7 +33,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="success" @click="onClickCreate">Create</v-btn>
+            <v-btn color="primary" @click="onClickCreate">登録</v-btn>
           </v-col>
         </v-row>
       </v-container>
