@@ -1,7 +1,7 @@
-import { loadFonts } from "./webfontloader";
-import vuetify from "./vuetify";
-
 import type { App } from "vue";
+
+import vuetify from "./vuetify";
+import { loadFonts } from "./webfontloader";
 
 export function registerPlugins(app: App) {
   loadFonts();
