@@ -10,7 +10,7 @@
       </v-container>
       <v-container class="">
         <v-row>
-          <v-col />
+          <v-spacer />
           <v-col>
             <v-form>
               <v-text-field
@@ -29,7 +29,7 @@
               />
             </v-form>
           </v-col>
-          <v-col />
+          <v-spacer />
         </v-row>
         <v-row>
           <v-col>
