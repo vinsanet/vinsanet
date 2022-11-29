@@ -12,8 +12,7 @@
         <v-row>
           <v-col></v-col>
           <v-col>
-            <!-- <v-btn color="primary" @click="onClickLogin"> Login </v-btn> -->
-            <v-btn color="primary" to="/login"> Login </v-btn>
+            <v-btn color="primary" to="/login">ログイン</v-btn>
           </v-col>
           <v-col>
             <v-btn color="success" to="/register">新規登録</v-btn>

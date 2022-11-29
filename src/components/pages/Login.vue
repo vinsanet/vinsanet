@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <div :class="['text-h3']">Kutulu character sheet</div>
+            <div :class="['text-h3']">ログイン</div>
           </v-col>
         </v-row>
       </v-container>
@@ -33,7 +33,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="success" @click="onClickLogin"> Login </v-btn>
+            <v-btn color="success" @click="onClickLogin">ログイン</v-btn>
           </v-col>
         </v-row>
       </v-container>
