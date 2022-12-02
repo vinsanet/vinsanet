@@ -17,8 +17,8 @@
         <v-list-item
           prepend-icon="mdi-format-list-text"
           title="キャラクター一覧"
-          value="lists"
-          @click="onClickLists"
+          value="mypage"
+          @click="onClickMypage"
         ></v-list-item>
         <v-list-item
           prepend-icon="mdi-pencil"
@@ -56,8 +56,8 @@
 
   const showDrawer = ref(false);
 
-  const onClickLists = () => {
-    router.push("/lists");
+  const onClickMypage = () => {
+    router.push("/mypage");
     return;
   };
   const onClickCreate = () => {
