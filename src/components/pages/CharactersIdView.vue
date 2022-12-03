@@ -75,7 +75,9 @@
           <v-col>
             <v-row>
               <v-col><div :class="'text-h4'">能力値</div></v-col>
-              <v-col><div :class="'text-h6'">0/13</div></v-col>
+              <v-col
+                ><div :class="'text-h6'">{{ skillPoints }}/13</div></v-col
+              >
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
             </v-row>
@@ -164,7 +166,9 @@
           <v-col>
             <v-row>
               <v-col><div :class="'text-h4'">専門分野</div></v-col>
-              <v-col><div :class="'text-h6'">0/10</div></v-col>
+              <v-col
+                ><div :class="'text-h6'">{{ specialityPoints }}/10</div></v-col
+              >
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
             </v-row>
@@ -241,7 +245,11 @@
               <v-col>
                 <v-row>
                   <v-col><div :class="'text-h4'">負傷</div></v-col>
-                  <v-col><div :class="'text-h6'">0/3</div></v-col>
+                  <v-col
+                    ><div :class="'text-h6'">
+                      {{ information.damage }}/3
+                    </div></v-col
+                  >
                   <v-col
                     ><v-rating
                       v-model="information.damage"
@@ -295,7 +303,7 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
-  import { onMounted, ref } from "vue";
+  import { computed, onMounted, ref } from "vue";
   import { useRoute } from "vue-router";
 
   const route = useRoute();
@@ -320,7 +328,7 @@
         }
       })
       .then(() => {
-        for (let i = 1; i <= information.value.images; i++) {
+        for (let i = 1; i <= information.value.imageNumber; i++) {
           const imageRef = storageRef(
             firebaseStorage,
             `characters/${id}-${i}.png`
@@ -330,5 +338,17 @@
           });
         }
       });
+  });
+
+  const skillPoints = computed(() => {
+    return information?.value?.skills?.reduce((sum, skill) => {
+      return sum + skill.value;
+    }, 0);
+  });
+
+  const specialityPoints = computed(() => {
+    return information?.value?.specialities?.reduce((sum, speciality) => {
+      return sum + speciality.value;
+    }, 0);
   });
 </script>
