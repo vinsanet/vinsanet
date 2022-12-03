@@ -264,6 +264,30 @@
               </v-col>
             </v-row>
           </v-sheet>
+          <v-sheet elevation="2" class="pa-6 ma-2">
+            <v-row>
+              <v-col>
+                <v-row>
+                  <v-col><div :class="'text-h4'">タグ</div> </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-divider></v-divider>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-chip-group :disabled="true">
+                      <div v-if="information?.tags?.length === 0">設定なし</div>
+                      <div v-for="tag in information.tags" v-else :key="tag">
+                        <v-chip label :ripple="false">{{ tag }}</v-chip>
+                      </div>
+                    </v-chip-group>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-sheet>
         </v-col>
         <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
