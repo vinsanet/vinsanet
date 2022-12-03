@@ -147,7 +147,7 @@
                   <v-col>
                     <v-rating
                       v-model="skill.value"
-                      length="3"
+                      length="4"
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
@@ -196,7 +196,7 @@
                   <v-col>
                     <v-rating
                       v-model="speciality.value"
-                      length="4"
+                      length="3"
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
@@ -224,7 +224,7 @@
                   <v-col>
                     <v-rating
                       v-model="speciality.value"
-                      length="4"
+                      length="3"
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
