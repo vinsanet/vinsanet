@@ -4,7 +4,6 @@
       <v-sheet elevation="2" class="pa-6 ma-2">
         <v-row>
           <v-col>
-            <v-sheet>
               <v-carousel hide-delimiters show-arrows="hover">
                 <v-carousel-item
                   v-for="imageUrl in imageUrls"
@@ -12,7 +11,6 @@
                   :src="imageUrl"
                 ></v-carousel-item>
               </v-carousel>
-            </v-sheet>
           </v-col>
           <v-col>
             <v-row>
