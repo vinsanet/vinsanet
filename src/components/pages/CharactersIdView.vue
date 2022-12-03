@@ -74,7 +74,9 @@
             <v-row>
               <v-col><div :class="'text-h4'">能力値</div></v-col>
               <v-col
-                ><div :class="'text-h6'">{{ skillPoints }}/13</div></v-col
+                ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">
+                  {{ skillPoints }}/13
+                </div></v-col
               >
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
@@ -165,7 +167,11 @@
             <v-row>
               <v-col><div :class="'text-h4'">専門分野</div></v-col>
               <v-col
-                ><div :class="'text-h6'">{{ specialityPoints }}/10</div></v-col
+                ><div
+                  :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']"
+                >
+                  {{ specialityPoints }}/10
+                </div></v-col
               >
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
