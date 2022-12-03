@@ -19,9 +19,11 @@ export type CharacterType = {
   specialities: Array<{ name: string; value: number }>;
   damage: number;
   memo: string;
+  tags: Array<string>;
+  userId: string;
+  imageNumber: number;
   created: Timestamp;
   updated: Timestamp;
-  images: number;
 };
 
 class Character implements CharacterType {
@@ -39,9 +41,11 @@ class Character implements CharacterType {
   specialities: Array<{ name: string; value: number }>;
   damage: number;
   memo: string;
+  tags: Array<string>;
+  userId: string;
+  imageNumber: number;
   created: Timestamp;
   updated: Timestamp;
-  images: number;
 
   constructor(
     _id: number,
@@ -58,9 +62,11 @@ class Character implements CharacterType {
     _specialities: Array<{ name: string; value: number }>,
     _damage: number,
     _memo: string,
+    _tags: Array<string>,
+    _userId: string,
+    _imageNumber: number,
     _created: Timestamp,
-    _updated: Timestamp,
-    _images: number
+    _updated: Timestamp
   ) {
     this.id = _id;
     this.name = _name;
@@ -76,9 +82,11 @@ class Character implements CharacterType {
     this.specialities = _specialities;
     this.damage = _damage;
     this.memo = _memo;
+    this.tags = _tags;
+    this.userId = _userId;
+    this.imageNumber = _imageNumber;
     this.created = _created;
     this.updated = _updated;
-    this.images = _images;
   }
 }
 
@@ -99,9 +107,11 @@ export const characterConverter = {
       specialities: character.specialities,
       damage: character.damage,
       memo: character.memo,
+      tags: character.tags,
+      userId: character.userId,
+      imageNumber: character.imageNumber,
       created: character.created,
       updated: character.updated,
-      images: character.images,
     };
   },
   fromFirestore: (snapshot: DocumentSnapshot, options: SnapshotOptions) => {
@@ -121,9 +131,11 @@ export const characterConverter = {
       data?.specialities,
       data?.damage,
       data?.memo,
+      data?.tags,
+      data?.userId,
+      data?.imageNumber,
       data?.created,
-      data?.updated,
-      data?.images
+      data?.updated
     );
   },
 };
