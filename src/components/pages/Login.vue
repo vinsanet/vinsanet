@@ -66,7 +66,7 @@
         const user = userCredential.user;
         console.log(user);
         showSnackbar("ログインしました", "success");
-        router.push("/lists");
+        router.push("/mypage");
       })
       .catch((error) => {
         const errorMessage = firebaseErrorMessage(error.code);
