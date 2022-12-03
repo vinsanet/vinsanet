@@ -4,13 +4,13 @@
       <v-sheet elevation="2" class="pa-6 ma-2">
         <v-row>
           <v-col>
-              <v-carousel hide-delimiters show-arrows="hover">
-                <v-carousel-item
-                  v-for="imageUrl in imageUrls"
-                  :key="imageUrl"
-                  :src="imageUrl"
-                ></v-carousel-item>
-              </v-carousel>
+            <v-carousel hide-delimiters show-arrows="hover">
+              <v-carousel-item
+                v-for="imageUrl in imageUrls"
+                :key="imageUrl"
+                :src="imageUrl"
+              ></v-carousel-item>
+            </v-carousel>
           </v-col>
           <v-col>
             <v-row>
@@ -116,6 +116,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
+                      color="teal"
                       readonly
                     ></v-rating>
                   </v-col>
@@ -151,6 +152,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
+                      color="teal"
                       readonly
                     ></v-rating>
                   </v-col>
@@ -204,6 +206,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
+                      color="indigo"
                       readonly
                     ></v-rating>
                   </v-col>
@@ -232,6 +235,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
+                      color="indigo"
                       readonly
                     ></v-rating>
                   </v-col>
@@ -261,6 +265,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
+                      color="red"
                       readonly
                     ></v-rating
                   ></v-col>
