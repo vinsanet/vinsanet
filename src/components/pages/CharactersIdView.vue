@@ -302,13 +302,51 @@
       </v-row>
     </v-responsive>
   </v-container>
+  <v-dialog v-model="exportDialog" width="30%">
+    <v-card>
+      <v-card-title>出力</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col><div :class="'text-subtitle-1'">チャットパレット</div></v-col>
+        </v-row>
+        <v-row>
+          <v-col><v-textarea v-model="chatPallette" variant="outlined" no-resize readonly></v-textarea></v-col>
+        </v-row>
+        <v-spacer></v-spacer>
+        <v-row>
+          <v-col
+            ><v-btn color="primary" block @click="onClickCopyPalette"
+              ><v-icon> mdi-clipboard-text </v-icon> クリップボードにコピー</v-btn
+            ></v-col
+          >
+        </v-row>
+        <v-row>
+          <v-col
+            ><v-btn color="primary" variant="outlined" block @click="onClickCopyCharacter"
+              ><v-icon> mdi-face-man </v-icon>CCFOLIA形式でコピー</v-btn
+            ></v-col
+          >
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-row>
+          <v-col><v-btn color="primary" block @click="exportDialog = false">閉じる</v-btn></v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   <v-footer app fixed>
     <v-card flat tile width="100%" class="text-center">
       <v-card-text>
         <v-row>
+          <v-spacer></v-spacer>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
+          <v-col>
+            <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">出力</v-btn>
+          </v-col>
+          <v-spacer></v-spacer>
         </v-row>
       </v-card-text>
     </v-card>
@@ -331,9 +369,62 @@
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
+  const exportDialog = ref(false);
+  const chatPallette = ref("");
 
   const onClickEdit = () => {
     router.push(`/characters/${id}/edit`);
+  };
+  const onClickExport = () => {
+    exportDialog.value = true;
+    let newPallete = "";
+    information.value.skills.forEach((skill) => {
+      if (skill.value !== 0) {
+        newPallete += `${skill.value}B6>=4 【${skill.name}】\n`;
+      }
+    });
+    information.value.specialities.forEach((spaciality) => {
+      if (spaciality.value !== 0) {
+        newPallete += `${spaciality.value}B6>=4 【${spaciality.name}】\n`;
+      }
+    });
+    chatPallette.value = newPallete.trim();
+  };
+  const onClickCopyPalette = () => {
+    navigator.clipboard.writeText(chatPallette.value);
+    showSnackbar("チャットパレットをコピーしました", "success");
+  };
+  const onClickCopyCharacter = () => {
+    const data = {
+      kind: "character",
+      data: {
+        name: information.value.name,
+        memo: "",
+        initiative: 0,
+        params: [] as Array<{ label: string; value: string }>,
+        status: [] as Array<{ label: string; value: string; max: number }>,
+        commands: "",
+      },
+    };
+    information.value.skills.forEach((skill) => {
+      if (skill.value !== 0) {
+        data.data.params.push({ label: `${skill.name}`, value: `${skill.value}` });
+        data.data.commands += `{${skill.name}}B6>=4 【${skill.name}】\n`;
+      }
+    });
+    information.value.specialities.forEach((spaciality) => {
+      if (spaciality.value !== 0) {
+        data.data.params.push({ label: `${spaciality.name}`, value: `${spaciality.value}` });
+        data.data.commands += `{${spaciality.name}}B6>=4 【${spaciality.name}】\n`;
+      }
+    });
+    data.data.commands = data.data.commands.trim();
+    data.data.status.push({ label: "負傷", value: `${information.value.damage}`, max: 3 });
+    data.data.memo =
+      `キャラクター名：${information.value.name}\n称号 / 肩書：${information.value.title}\n${information.value.memo}`.trim();
+
+    navigator.clipboard.writeText(JSON.stringify(data));
+    showSnackbar("キャラクターをコピーしました", "success");
   };
 
   onMounted(() => {
@@ -364,7 +455,6 @@
       return sum + skill.value;
     }, 0);
   });
-
   const specialityPoints = computed(() => {
     return information?.value?.specialities?.reduce((sum, speciality) => {
       return sum + speciality.value;
