@@ -1,16 +1,10 @@
 <template>
   <v-app :theme="theme">
     <v-app-bar hide-on-scroll>
-      <v-app-bar-nav-icon
-        variant="text"
-        @click.stop="showDrawer = !showDrawer"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon variant="text" @click.stop="showDrawer = !showDrawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Kutulu character sheet</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-        @click.stop="toggleTheme"
-      ></v-btn>
+      <v-btn :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click.stop="toggleTheme"></v-btn>
     </v-app-bar>
     <v-navigation-drawer v-model="showDrawer" expand-on-hover rail>
       <v-list nav>
@@ -20,12 +14,7 @@
           value="mypage"
           @click="onClickMypage"
         ></v-list-item>
-        <v-list-item
-          prepend-icon="mdi-pencil"
-          title="新規作成"
-          value="create"
-          @click="onClickCreate"
-        ></v-list-item>
+        <v-list-item prepend-icon="mdi-pencil" title="新規作成" value="create" @click="onClickCreate"></v-list-item>
         <v-list-item
           prepend-icon="mdi-account"
           title="アカウント"

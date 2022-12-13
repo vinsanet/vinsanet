@@ -1,8 +1,4 @@
-import {
-  DocumentSnapshot,
-  SnapshotOptions,
-  Timestamp,
-} from "firebase/firestore";
+import { DocumentSnapshot, SnapshotOptions, Timestamp } from "firebase/firestore";
 
 export type CharacterType = {
   id: number;
@@ -21,7 +17,7 @@ export type CharacterType = {
   memo: string;
   tags: Array<string>;
   userId: string;
-  imageNumber: number;
+  images: Array<{ id: number; description: string }>;
   created: Timestamp;
   updated: Timestamp;
 };
@@ -43,7 +39,7 @@ class Character implements CharacterType {
   memo: string;
   tags: Array<string>;
   userId: string;
-  imageNumber: number;
+  images: Array<{ id: number; description: string }>;
   created: Timestamp;
   updated: Timestamp;
 
@@ -64,7 +60,7 @@ class Character implements CharacterType {
     _memo: string,
     _tags: Array<string>,
     _userId: string,
-    _imageNumber: number,
+    _images: Array<{ id: number; description: string }>,
     _created: Timestamp,
     _updated: Timestamp
   ) {
@@ -84,7 +80,7 @@ class Character implements CharacterType {
     this.memo = _memo;
     this.tags = _tags;
     this.userId = _userId;
-    this.imageNumber = _imageNumber;
+    this.images = _images;
     this.created = _created;
     this.updated = _updated;
   }
@@ -109,7 +105,7 @@ export const characterConverter = {
       memo: character.memo,
       tags: character.tags,
       userId: character.userId,
-      imageNumber: character.imageNumber,
+      images: character.images,
       created: character.created,
       updated: character.updated,
     };
@@ -133,7 +129,7 @@ export const characterConverter = {
       data?.memo,
       data?.tags,
       data?.userId,
-      data?.imageNumber,
+      data?.images,
       data?.created,
       data?.updated
     );

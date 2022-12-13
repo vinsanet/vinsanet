@@ -5,26 +5,18 @@
         <v-row>
           <v-col>
             <v-carousel hide-delimiters show-arrows="hover">
-              <v-carousel-item
-                v-for="imageUrl in imageUrls"
-                :key="imageUrl"
-                :src="imageUrl"
-              ></v-carousel-item>
+              <v-carousel-item v-for="imageUrl in imageUrls" :key="imageUrl" :src="imageUrl"></v-carousel-item>
             </v-carousel>
           </v-col>
           <v-col>
             <v-row>
               <v-col>
-                <div :class="'text-h3'">
-                  {{ information.kana }}
-                </div>
+                <div :class="'text-h3'">{{ information.kana }}</div>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <div :class="'text-h1'">
-                  {{ information.name }}
-                </div>
+                <div :class="'text-h1'">{{ information.name }}</div>
               </v-col>
             </v-row>
             <v-row>
@@ -74,9 +66,7 @@
             <v-row>
               <v-col><div :class="'text-h4'">能力値</div></v-col>
               <v-col
-                ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">
-                  {{ skillPoints }}/13
-                </div></v-col
+                ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
               >
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
@@ -169,9 +159,7 @@
             <v-row>
               <v-col><div :class="'text-h4'">専門分野</div></v-col>
               <v-col
-                ><div
-                  :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']"
-                >
+                ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
                   {{ specialityPoints }}/10
                 </div></v-col
               >
@@ -187,10 +175,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <div
-              v-for="(speciality, index) in information.specialities"
-              :key="speciality.name"
-            >
+            <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
               <div v-if="index <= 5">
                 <v-row>
                   <v-col>
@@ -216,10 +201,7 @@
             </div>
           </v-col>
           <v-col>
-            <div
-              v-for="(speciality, index) in information.specialities"
-              :key="speciality.name"
-            >
+            <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
               <div v-if="index >= 6">
                 <v-row>
                   <v-col>
@@ -254,9 +236,7 @@
                 <v-row>
                   <v-col><div :class="'text-h4'">負傷</div></v-col>
                   <v-col
-                    ><div :class="'text-h6'">
-                      {{ information.damage }}/3
-                    </div></v-col
+                    ><div :class="'text-h6'">{{ information.damage }}/3</div></v-col
                   >
                   <v-col
                     ><v-rating
@@ -314,13 +294,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea
-                  v-model="information.memo"
-                  variant="outlined"
-                  auto-grow
-                  counter
-                  readonly
-                ></v-textarea>
+                <v-textarea v-model="information.memo" variant="outlined" auto-grow counter readonly></v-textarea>
               </v-col>
             </v-row>
           </v-sheet>
@@ -328,6 +302,17 @@
       </v-row>
     </v-responsive>
   </v-container>
+  <v-footer app fixed>
+    <v-card flat tile width="100%" class="text-center">
+      <v-card-text>
+        <v-row>
+          <v-col>
+            <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-footer>
 </template>
 
 <script setup lang="ts">
@@ -337,20 +322,24 @@
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
   import { computed, onMounted, ref } from "vue";
-  import { useRoute } from "vue-router";
+  import { useRoute, useRouter } from "vue-router";
 
   const route = useRoute();
+  const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
   const { id } = route.params;
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
 
+  const onClickEdit = () => {
+    router.push(`/characters/${id}/edit`);
+  };
+
   onMounted(() => {
-    const q = query(
-      collection(firebaseDb, "characters"),
-      where("id", "==", parseInt(id as string))
-    ).withConverter(characterConverter);
+    const q = query(collection(firebaseDb, "characters"), where("id", "==", parseInt(id as string))).withConverter(
+      characterConverter
+    );
     getDocs(q)
       .then((querySnapshot) => {
         if (!querySnapshot.empty) {
@@ -361,15 +350,12 @@
         }
       })
       .then(() => {
-        for (let i = 1; i <= information.value.imageNumber; i++) {
-          const imageRef = storageRef(
-            firebaseStorage,
-            `characters/${id}-${i}.png`
-          );
+        information.value.images.forEach((image) => {
+          const imageRef = storageRef(firebaseStorage, `characters/${id}-${image.id}.png`);
           getDownloadURL(imageRef).then((downloadUrl) => {
             imageUrls.value.push(downloadUrl);
           });
-        }
+        });
       });
   });
 

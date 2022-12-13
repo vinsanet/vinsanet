@@ -12,16 +12,8 @@ const routes = [
   { path: "/", name: "index", component: Index },
   { path: "/account", name: "account", component: Account },
   { path: "/create", name: "create", component: Create },
-  {
-    path: "/characters/:id/edit",
-    name: "characters-id-edit",
-    component: CharactersIdEdit,
-  },
-  {
-    path: "/characters/:id/view",
-    name: "characters-id-view",
-    component: CharactersIdView,
-  },
+  { path: "/characters/:id/edit", name: "characters-id-edit", component: CharactersIdEdit },
+  { path: "/characters/:id/view", name: "characters-id-view", component: CharactersIdView },
   { path: "/login", name: "login", component: Login },
   { path: "/mypage", name: "mypage", component: Mypage },
   { path: "/register", name: "register", component: Register },
