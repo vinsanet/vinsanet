@@ -3,5 +3,6 @@
   "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true,
-  "importOrderGroupNamespaceSpecifiers": true
+  "importOrderGroupNamespaceSpecifiers": true,
+  "printWidth": 120
 }
