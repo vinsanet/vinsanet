@@ -1,12 +1,13 @@
 <template>
   <v-app :theme="theme">
     <v-app-bar hide-on-scroll>
-      <v-app-bar-nav-icon variant="text" @click.stop="showDrawer = !showDrawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Kutulu character sheet</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click.stop="toggleTheme"></v-btn>
+      <v-btn :icon="'mdi-logout'" @click.stop="onClickLogout"></v-btn>
     </v-app-bar>
-    <v-navigation-drawer v-model="showDrawer" expand-on-hover rail>
+    <v-navigation-drawer v-model="drawer" expand-on-hover rail>
       <v-list nav>
         <v-list-item
           prepend-icon="mdi-format-list-text"
@@ -32,18 +33,19 @@
 
 <script setup lang="ts">
   import Snackbar from "@/components/parts/Snackbar.vue";
+  import { firebaseAuth } from "@/firebase/firebase";
+  import { useSnackbarStore } from "@/store/snackbar";
   import { useThemeStore } from "@/store/theme";
   import { storeToRefs } from "pinia";
   import { ref } from "vue";
   import { RouterView, useRouter } from "vue-router";
 
   const themeStore = useThemeStore();
+  const { showSnackbar } = useSnackbarStore();
+  const router = useRouter();
   const { theme } = storeToRefs(themeStore);
   const { toggleTheme } = themeStore;
-
-  const router = useRouter();
-
-  const showDrawer = ref(false);
+  const drawer = ref(false);
 
   const onClickMypage = () => {
     router.push("/mypage");
@@ -55,6 +57,13 @@
   };
   const onClickAccount = () => {
     router.push("/account");
+    return;
+  };
+  const onClickLogout = () => {
+    firebaseAuth.signOut().then(() => {
+      router.push("/login");
+      showSnackbar("ログアウトしました", "success");
+    });
     return;
   };
 </script>

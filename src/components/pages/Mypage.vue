@@ -145,7 +145,11 @@
   };
 
   firebaseAuth.onAuthStateChanged((user) => {
-    if (!user) return;
+    if (!user) {
+      showSnackbar("ログインしてください", "error");
+      router.push("/login");
+      return;
+    }
     const characterData = [] as Array<CharacterType>;
     const uid = user.uid;
     const q = query(collection(firebaseDb, "characters"), where("userId", "==", uid)).withConverter(characterConverter);
