@@ -379,11 +379,14 @@
       <v-card-title>公開設定</v-card-title>
       <v-card-text>
         <v-row>
-          <v-col>公開設定だよ</v-col>
+          <v-col>あなた以外の方にこのキャラクターを公開しますか？</v-col>
+        </v-row>
+        <v-row>
+          <v-col><v-select v-model="publish" :items="['公開', '非公開']" variant="outlined"></v-select></v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="publishingDialog = false">閉じる</v-btn>
+        <v-btn color="primary" block @click="onClickPublish">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -426,9 +429,10 @@
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
   const newImage = ref([]);
+  const newTag = ref("");
+  const publish = ref<"公開" | "非公開">("公開");
   const imageDialog = ref(false);
   const publishingDialog = ref(false);
-  const newTag = ref("");
 
   const uploadImage = async () => {
     const newId = information.value.images.slice(-1)[0].id + 1;
@@ -482,6 +486,11 @@
     router.push(`/characters/${id}/view`);
   };
 
+  const onClickPublish = () => {
+    information.value.isPublishing = publish.value === "公開";
+    publishingDialog.value = false;
+  };
+
   const onClickSave = () => {
     if (skillPoints.value > 13) {
       showSnackbar(`キャラクターを保存できません：能力値が上限を超えています`, "error");
@@ -509,6 +518,7 @@
           const character = querySnapshot.docs[0].data();
           information.value = character;
           documentId = querySnapshot.docs[0].id;
+          publish.value = character.isPublishing ? "公開" : "非公開";
         } else {
           showSnackbar("キャラクターが存在しません", "error");
         }

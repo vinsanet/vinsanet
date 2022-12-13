@@ -354,7 +354,7 @@
 </template>
 
 <script setup lang="ts">
-  import { firebaseDb, firebaseStorage } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, getDocs, query, where } from "@firebase/firestore";
@@ -433,12 +433,16 @@
     );
     getDocs(q)
       .then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          const character = querySnapshot.docs[0].data();
-          information.value = character;
-        } else {
+        if (querySnapshot.empty) {
           showSnackbar("キャラクターが存在しません", "error");
+          return;
         }
+        const character = querySnapshot.docs[0].data();
+        if (!character.isPublishing && character.userId !== firebaseAuth.currentUser?.uid) {
+          showSnackbar("キャラクターを表示できません", "error");
+          return;
+        }
+        information.value = character;
       })
       .then(() => {
         information.value.images.forEach((image) => {
