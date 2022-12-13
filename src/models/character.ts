@@ -18,6 +18,7 @@ export type CharacterType = {
   tags: Array<string>;
   userId: string;
   images: Array<{ id: number; description: string }>;
+  isPublishing: boolean;
   created: Timestamp;
   updated: Timestamp;
 };
@@ -40,6 +41,7 @@ class Character implements CharacterType {
   tags: Array<string>;
   userId: string;
   images: Array<{ id: number; description: string }>;
+  isPublishing: boolean;
   created: Timestamp;
   updated: Timestamp;
 
@@ -61,6 +63,7 @@ class Character implements CharacterType {
     _tags: Array<string>,
     _userId: string,
     _images: Array<{ id: number; description: string }>,
+    _isPublishing: boolean,
     _created: Timestamp,
     _updated: Timestamp
   ) {
@@ -81,6 +84,7 @@ class Character implements CharacterType {
     this.tags = _tags;
     this.userId = _userId;
     this.images = _images;
+    this.isPublishing = _isPublishing;
     this.created = _created;
     this.updated = _updated;
   }
@@ -106,6 +110,7 @@ export const characterConverter = {
       tags: character.tags,
       userId: character.userId,
       images: character.images,
+      isPublishing: character.isPublishing,
       created: character.created,
       updated: character.updated,
     };
@@ -130,6 +135,7 @@ export const characterConverter = {
       data?.tags,
       data?.userId,
       data?.images,
+      data?.isPublishing,
       data?.created,
       data?.updated
     );
