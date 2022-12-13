@@ -4,7 +4,20 @@
       <v-card class="m-auto">
         <v-list lines="one">
           <div v-for="(character, index) in characterInformations" :key="character.id" :index="index">
-            <v-list-item :key="character.id" :title="character.name" :prepend-avatar="character.avatar">
+            <v-list-item :key="character.id" :prepend-avatar="character.avatar">
+              <v-list-item-title>
+                {{ character.name }}
+                <v-chip
+                  v-if="!character.isPublishing"
+                  label
+                  variant="outlined"
+                  :ripple="false"
+                  size="x-small"
+                  prepend-icon="mdi-eye-off"
+                >
+                  非公開
+                </v-chip>
+              </v-list-item-title>
               <v-chip-group :disabled="true">
                 <div v-for="tag in character.tags" :key="tag" :index="index">
                   <v-chip label :ripple="false">{{ tag }}</v-chip>
@@ -75,6 +88,7 @@
     tags: Array<string>;
     avatar: string;
     images: Array<{ id: number; description: string }>;
+    isPublishing: boolean;
   };
 
   const router = useRouter();
@@ -157,6 +171,7 @@
               characterInformation.avatar = downloadUrl;
               characterInformation.tags = character.tags;
               characterInformation.images = character.images;
+              characterInformation.isPublishing = character.isPublishing;
               characterInformations.value.push(characterInformation);
             });
           });
