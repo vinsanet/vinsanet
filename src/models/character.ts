@@ -5,7 +5,7 @@ export type CharacterType = {
   name: string;
   kana: string;
   title: string;
-  age: number;
+  age: string;
   gender: string;
   profession: string;
   home: string;
@@ -28,7 +28,7 @@ class Character implements CharacterType {
   name: string;
   kana: string;
   title: string;
-  age: number;
+  age: string;
   gender: string;
   profession: string;
   home: string;
@@ -50,7 +50,7 @@ class Character implements CharacterType {
     _name: string,
     _kana: string,
     _title: string,
-    _age: number,
+    _age: string,
     _gender: string,
     _profession: string,
     _home: string,
