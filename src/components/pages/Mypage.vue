@@ -163,7 +163,7 @@
       .then(() => {
         characterData
           .sort((x, y) => {
-            return x.updated.seconds - y.updated.seconds;
+            return x.updatedAt < y.updatedAt ? 1 : -1;
           })
           .forEach((character) => {
             if (character.images.length === 0) return;
