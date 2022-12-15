@@ -415,7 +415,7 @@
   import { firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { collection, doc, getDocs, query, updateDoc, where } from "@firebase/firestore";
+  import { Timestamp, collection, doc, getDocs, query, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
   import { computed, onMounted, ref, watchEffect } from "vue";
   import { useRoute, useRouter } from "vue-router";
@@ -501,6 +501,7 @@
       return;
     }
 
+    information.value.updated = Timestamp.now();
     const docRef = doc(collection(firebaseDb, "characters"), documentId).withConverter(characterConverter);
     updateDoc(docRef, { ...information.value }).then(() => {
       showSnackbar("キャラクターを更新しました", "success");
