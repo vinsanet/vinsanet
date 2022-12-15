@@ -37,6 +37,32 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-divider></v-divider>
+      <v-container>
+        <v-row>
+          <v-col>
+            <div :class="['text-h5']">SNSでログインする</div>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-btn color="light-blue" class="text-capitalize" prepend-icon="mdi-twitter" @click.stop="onClickTwitter"
+              >Twitter</v-btn
+            >
+          </v-col>
+          <v-col>
+            <v-btn color="red" class="text-capitalize" prepend-icon="mdi-google" @click.stop="onClickGoogle"
+              >Google</v-btn
+            >
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+        </v-row>
+      </v-container>
     </v-responsive>
   </v-container>
 </template>
@@ -45,7 +71,7 @@
   import { firebaseAuth } from "@/firebase/firebase";
   import { firebaseErrorMessage } from "@/firebase/firebaseErrorMessage";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { signInWithEmailAndPassword } from "firebase/auth";
+  import { GoogleAuthProvider, TwitterAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
 
@@ -60,17 +86,38 @@
       showSnackbar("メールアドレスとパスワードを入力してください", "info");
       return;
     }
-
     signInWithEmailAndPassword(firebaseAuth, email.value, password.value)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+      .then(() => {
         showSnackbar("ログインしました", "success");
         router.push("/mypage");
       })
       .catch((error) => {
         const errorMessage = firebaseErrorMessage(error.code);
         showSnackbar(errorMessage, "error");
+      });
+  };
+  const onClickTwitter = () => {
+    const provider = new TwitterAuthProvider();
+    signInWithPopup(firebaseAuth, provider)
+      .then(() => {
+        showSnackbar("アカウントを作成しました", "success");
+        router.push("/mypage");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        showSnackbar(`アカウントを作成できませんでした：${errorMessage}`, "error");
+      });
+  };
+  const onClickGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(firebaseAuth, provider)
+      .then(() => {
+        showSnackbar("ログインしました", "success");
+        router.push("/mypage");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        showSnackbar(`ログインできませんでした：${errorMessage}`, "error");
       });
   };
 </script>
