@@ -33,9 +33,12 @@
 
 <script setup lang="ts">
   import Snackbar from "@/components/parts/Snackbar.vue";
-  import { firebaseAuth } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
+  import { CharacterType, characterConverter } from "@/models/character";
+  import { metadataConverter } from "@/models/metadata";
   import { useSnackbarStore } from "@/store/snackbar";
   import { useThemeStore } from "@/store/theme";
+  import { collection, doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
   import { storeToRefs } from "pinia";
   import { ref } from "vue";
   import { RouterView, useRouter } from "vue-router";
@@ -51,8 +54,71 @@
     router.push("/mypage");
     return;
   };
-  const onClickCreate = () => {
-    router.push("/create");
+  const onClickCreate = async () => {
+    let characterId = -1;
+    // character id
+    const metadataDocRef = doc(
+      collection(firebaseDb, "metadata"),
+      import.meta.env.VITE_METADATA_DOCUMENT_ID
+    ).withConverter(metadataConverter);
+    const metadataDocSnap = await getDoc(metadataDocRef);
+    if (metadataDocSnap.exists()) {
+      characterId = metadataDocSnap.data().characterId + 1;
+      await setDoc(metadataDocRef, { characterId: characterId });
+    } else {
+      showSnackbar("メタデータの取得に失敗しました。管理者にお問い合わせください", "error");
+      return;
+    }
+    // initialize
+    const information = {} as CharacterType;
+    const timeStamp = serverTimestamp();
+    information.id = characterId;
+    information.name = "";
+    information.kana = "";
+    information.title = "";
+    information.age = "";
+    information.gender = "";
+    information.profession = "";
+    information.home = "";
+    information.rank = "";
+    information.family = "";
+    information.skills = [
+      { name: "敏捷", value: 0 },
+      { name: "筋力", value: 0 },
+      { name: "隠密", value: 0 },
+      { name: "射撃", value: 0 },
+      { name: "白兵", value: 0 },
+      { name: "名声", value: 0 },
+      { name: "弁舌", value: 0 },
+      { name: "家格", value: 0 },
+      { name: "信用", value: 0 },
+    ];
+    information.specialities = [
+      { name: "人類学＆民俗学", value: 0 },
+      { name: "考古学＆歴史学", value: 0 },
+      { name: "図書館＆古文書学", value: 0 },
+      { name: "経済学＆法学", value: 0 },
+      { name: "芸術＆工芸", value: 0 },
+      { name: "犯罪学", value: 0 },
+      { name: "医学", value: 0 },
+      { name: "機械工学", value: 0 },
+      { name: "自然科学", value: 0 },
+      { name: "オカルト", value: 0 },
+      { name: "心理学", value: 0 },
+      { name: "言語学", value: 0 },
+    ];
+    information.damage = 0;
+    information.memo = "";
+    information.tags = [];
+    information.userId = firebaseAuth.currentUser?.uid ?? "";
+    information.images = [];
+    information.isPublishing = true;
+    information.createdAt = timeStamp;
+    information.updatedAt = timeStamp;
+    // document
+    const characterDocRef = doc(collection(firebaseDb, "characters")).withConverter(characterConverter);
+    await setDoc(characterDocRef, { ...information });
+    router.push(`/characters/${characterId}/edit`);
     return;
   };
   const onClickAccount = () => {
