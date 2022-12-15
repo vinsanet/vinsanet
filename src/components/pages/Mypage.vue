@@ -165,19 +165,25 @@
           .sort((x, y) => {
             return x.updatedAt < y.updatedAt ? 1 : -1;
           })
-          .forEach((character) => {
-            if (character.images.length === 0) return;
-            const imageRef = storageRef(firebaseStorage, `characters/${character.id}-1.png`);
-            getDownloadURL(imageRef).then((downloadUrl) => {
-              const characterInformation = {} as CharacterInformation;
-              characterInformation.id = character.id;
-              characterInformation.name = character.name;
-              characterInformation.avatar = downloadUrl;
-              characterInformation.tags = character.tags;
-              characterInformation.images = character.images;
-              characterInformation.isPublishing = character.isPublishing;
-              characterInformations.value.push(characterInformation);
-            });
+          .forEach(async (character) => {
+            const characterInformation = {} as CharacterInformation;
+            characterInformation.id = character.id;
+            characterInformation.name = character.name !== "" ? character.name : "（新規キャラクター）";
+            characterInformation.tags = character.tags;
+            characterInformation.images = character.images;
+            characterInformation.isPublishing = character.isPublishing;
+            if (character.images.length !== 0) {
+              const imageRef = storageRef(firebaseStorage, `characters/${character.id}-${character.images[0].id}.png`);
+              await getDownloadURL(imageRef).then((downloadUrl) => {
+                characterInformation.avatar = downloadUrl;
+              });
+            } else {
+              const imageRef = storageRef(firebaseStorage, "characters/undefined.png");
+              await getDownloadURL(imageRef).then((downloadUrl) => {
+                characterInformation.avatar = downloadUrl;
+              });
+            }
+            characterInformations.value.push(characterInformation);
           });
       });
   });
