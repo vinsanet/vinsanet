@@ -450,7 +450,6 @@
         updateDoc(docRef, { images: information.value.images });
       });
   };
-
   const deleteImage = (imageId: number) => {
     const imageRef = storageRef(firebaseStorage, `characters/${id}-${imageId}.png`);
     deleteObject(imageRef).then(() => {
@@ -470,26 +469,21 @@
       newTag.value = "";
       return;
     }
-
     const found = newTag.value.match(/^(.*)\s+/);
     if (found === null) return;
     information.value.tags.push(found[0].trim());
     newTag.value = "";
   };
-
   const onClickTagClose = (index: number) => {
     information.value.tags.splice(index, 1);
   };
-
   const onClickView = () => {
     router.push(`/characters/${id}/view`);
   };
-
   const onClickPublish = () => {
     information.value.isPublishing = publish.value === "公開";
     publishingDialog.value = false;
   };
-
   const onClickSave = () => {
     if (skillPoints.value > 13) {
       showSnackbar(`キャラクターを保存できません：能力値が上限を超えています`, "error");
@@ -545,7 +539,6 @@
       return sum + skill.value;
     }, 0);
   });
-
   const specialityPoints = computed(() => {
     return information?.value?.specialities?.reduce((sum, speciality) => {
       return sum + speciality.value;
