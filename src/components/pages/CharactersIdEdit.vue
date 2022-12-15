@@ -473,8 +473,7 @@
 
     const found = newTag.value.match(/^(.*)\s+/);
     if (found === null) return;
-
-    information.value.tags.push(found[0]);
+    information.value.tags.push(found[0].trim());
     newTag.value = "";
   };
 
