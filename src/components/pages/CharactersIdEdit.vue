@@ -435,7 +435,7 @@
   const publishingDialog = ref(false);
 
   const uploadImage = async () => {
-    const newId = information.value.images.slice(-1)[0].id + 1;
+    const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
     const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
     uploadBytes(imageRef, newImage.value[0])
       .then(() => {
