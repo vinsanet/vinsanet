@@ -118,6 +118,7 @@
     // document
     const characterDocRef = doc(collection(firebaseDb, "characters")).withConverter(characterConverter);
     await setDoc(characterDocRef, { ...information });
+    showSnackbar("新規キャラクターを作成しました", "success");
     router.push(`/characters/${characterId}/edit`);
     return;
   };
