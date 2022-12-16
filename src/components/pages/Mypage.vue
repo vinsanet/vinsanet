@@ -2,55 +2,62 @@
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
       <v-card class="m-auto">
-        <v-list lines="one">
-          <div v-for="(character, index) in characterInformations" :key="character.id" :index="index">
-            <v-list-item :key="character.id" :prepend-avatar="character.avatar">
-              <v-list-item-title>
-                {{ character.name }}
-                <v-chip
-                  v-if="!character.isPublishing"
-                  label
-                  variant="outlined"
-                  :ripple="false"
-                  size="x-small"
-                  prepend-icon="mdi-eye-off"
-                >
-                  非公開
-                </v-chip>
-              </v-list-item-title>
-              <v-chip-group :disabled="true">
-                <div v-for="tag in character.tags" :key="tag" :index="index">
-                  <v-chip label :ripple="false">{{ tag }}</v-chip>
-                </div>
-              </v-chip-group>
-              <template #append>
-                <v-row>
-                  <v-col>
-                    <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
-                      閲覧
-                    </v-btn>
-                  </v-col>
-                  <v-col>
-                    <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit(character.id)">
-                      編集
-                    </v-btn>
-                  </v-col>
-                  <v-col>
-                    <v-btn
-                      color="error"
-                      prepend-icon="mdi-delete"
+        <div v-if="characterInformations.length === 0">
+          <v-card-text>キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。</v-card-text>
+        </div>
+        <div v-else>
+          <v-card-text>
+            <v-list lines="one">
+              <div v-for="(character, index) in characterInformations" :key="character.id" :index="index">
+                <v-list-item :key="character.id" :prepend-avatar="character.avatar">
+                  <v-list-item-title>
+                    {{ character.name }}
+                    <v-chip
+                      v-if="!character.isPublishing"
+                      label
                       variant="outlined"
-                      @click="onClickDelete(character.id)"
+                      :ripple="false"
+                      size="x-small"
+                      prepend-icon="mdi-eye-off"
                     >
-                      削除
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </template>
-            </v-list-item>
-            <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
-          </div>
-        </v-list>
+                      非公開
+                    </v-chip>
+                  </v-list-item-title>
+                  <v-chip-group :disabled="true">
+                    <div v-for="tag in character.tags" :key="tag" :index="index">
+                      <v-chip label :ripple="false">{{ tag }}</v-chip>
+                    </div>
+                  </v-chip-group>
+                  <template #append>
+                    <v-row>
+                      <v-col>
+                        <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
+                          閲覧
+                        </v-btn>
+                      </v-col>
+                      <v-col>
+                        <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit(character.id)">
+                          編集
+                        </v-btn>
+                      </v-col>
+                      <v-col>
+                        <v-btn
+                          color="error"
+                          prepend-icon="mdi-delete"
+                          variant="outlined"
+                          @click="onClickDelete(character.id)"
+                        >
+                          削除
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </template>
+                </v-list-item>
+                <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
+              </div>
+            </v-list>
+          </v-card-text>
+        </div>
       </v-card>
     </v-responsive>
   </v-container>
