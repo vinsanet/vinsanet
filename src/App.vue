@@ -128,7 +128,7 @@
   };
   const onClickLogout = () => {
     firebaseAuth.signOut().then(() => {
-      router.push("/login");
+      router.push("/");
       showSnackbar("ログアウトしました", "success");
     });
     return;
