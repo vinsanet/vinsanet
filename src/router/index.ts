@@ -8,13 +8,13 @@ import Register from "@/components/pages/Register.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  { path: "/", name: "index", component: Index },
-  { path: "/account", name: "account", component: Account },
-  { path: "/characters/:id/edit", name: "characters-id-edit", component: CharactersIdEdit },
-  { path: "/characters/:id/view", name: "characters-id-view", component: CharactersIdView },
-  { path: "/login", name: "login", component: Login },
-  { path: "/mypage", name: "mypage", component: Mypage },
-  { path: "/register", name: "register", component: Register },
+  { path: "/", component: Index },
+  { path: "/account", component: Account },
+  { path: "/characters/:id/edit", component: CharactersIdEdit },
+  { path: "/characters/:id/view", component: CharactersIdView },
+  { path: "/login", component: Login },
+  { path: "/mypage", component: Mypage },
+  { path: "/register", component: Register },
 ];
 
 const router = createRouter({
