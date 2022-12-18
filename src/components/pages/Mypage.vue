@@ -179,17 +179,18 @@
             characterInformation.tags = character.tags;
             characterInformation.images = character.images;
             characterInformation.isPublishing = character.isPublishing;
-            if (character.images.length !== 0) {
-              const imageRef = storageRef(firebaseStorage, `characters/${character.id}-${character.images[0].id}.png`);
-              await getDownloadURL(imageRef).then((downloadUrl) => {
+            const imagePath =
+              character.images.length !== 0
+                ? `characters/${character.id}-${character.images[0].id}.png`
+                : "characters/undefined.png";
+            const imageRef = storageRef(firebaseStorage, imagePath);
+            await getDownloadURL(imageRef)
+              .then((downloadUrl) => {
                 characterInformation.avatar = downloadUrl;
+              })
+              .catch(() => {
+                characterInformation.avatar = "";
               });
-            } else {
-              const imageRef = storageRef(firebaseStorage, "characters/undefined.png");
-              await getDownloadURL(imageRef).then((downloadUrl) => {
-                characterInformation.avatar = downloadUrl;
-              });
-            }
             characterInformations.value.push(characterInformation);
           });
       });
