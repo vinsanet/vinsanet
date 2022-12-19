@@ -46,21 +46,13 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-row>
-          <v-spacer></v-spacer>
-          <v-spacer></v-spacer>
-          <v-col>
-            <v-btn color="light-blue" class="text-capitalize" prepend-icon="mdi-twitter" @click.stop="onClickTwitter"
-              >Twitter</v-btn
-            >
+        <v-row :justify="'center'">
+          <v-col cols="2">
+            <TwitterButton :on-click="onClickTwitter" />
           </v-col>
-          <v-col>
-            <v-btn color="red" class="text-capitalize" prepend-icon="mdi-google" @click.stop="onClickGoogle"
-              >Google</v-btn
-            >
+          <v-col cols="2">
+            <GoogleButton :on-click="onClickGoogle" />
           </v-col>
-          <v-spacer></v-spacer>
-          <v-spacer></v-spacer>
         </v-row>
       </v-container>
     </v-responsive>
@@ -68,6 +60,8 @@
 </template>
 
 <script setup lang="ts">
+  import GoogleButton from "@/components/parts/GoogleButton.vue";
+  import TwitterButton from "@/components/parts/TwitterButton.vue";
   import { firebaseAuth } from "@/firebase/firebase";
   import { firebaseErrorMessage } from "@/firebase/firebaseErrorMessage";
   import { useSnackbarStore } from "@/store/snackbar";
