@@ -64,12 +64,10 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-col><div :class="'text-h4'">能力値</div></v-col>
-              <v-col
+              <v-col cols="2"><div :class="'text-h4'">能力値</div></v-col>
+              <v-col cols="1"
                 ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
               >
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
             </v-row>
           </v-col>
         </v-row>
@@ -93,13 +91,14 @@
             <div v-for="(skill, index) in information.skills" :key="skill.name">
               <div v-if="index <= 4">
                 <v-row>
-                  <v-col>
+                  <v-col cols="1"></v-col>
+                  <v-col cols="3">
                     <div :class="'text-subtitle-1'">{{ skill.name }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <div :class="'text-subtitle-1'">{{ skill.value }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="3">
                     <v-rating
                       v-model="skill.value"
                       length="4"
@@ -110,7 +109,6 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-spacer></v-spacer>
                 </v-row>
               </div>
             </div>
@@ -129,13 +127,14 @@
             <div v-for="(skill, index) in information.skills" :key="skill.name">
               <div v-if="index >= 5">
                 <v-row>
-                  <v-col>
+                  <v-col cols="1"></v-col>
+                  <v-col cols="3">
                     <div :class="'text-subtitle-1'">{{ skill.name }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <div :class="'text-subtitle-1'">{{ skill.value }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="3">
                     <v-rating
                       v-model="skill.value"
                       length="4"
@@ -146,7 +145,6 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-spacer></v-spacer>
                 </v-row>
               </div>
             </div>
@@ -157,14 +155,12 @@
         <v-row>
           <v-col>
             <v-row>
-              <v-col><div :class="'text-h4'">専門分野</div></v-col>
-              <v-col
+              <v-col cols="2"><div :class="'text-h4'">専門分野</div></v-col>
+              <v-col cols="1"
                 ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
                   {{ specialityPoints }}/10
                 </div></v-col
               >
-              <v-spacer></v-spacer>
-              <v-spacer></v-spacer>
             </v-row>
           </v-col>
         </v-row>
@@ -178,13 +174,14 @@
             <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
               <div v-if="index <= 5">
                 <v-row>
-                  <v-col>
+                  <v-col cols="1"></v-col>
+                  <v-col cols="3">
                     <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="3">
                     <v-rating
                       v-model="speciality.value"
                       length="3"
@@ -195,7 +192,6 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-spacer></v-spacer>
                 </v-row>
               </div>
             </div>
@@ -204,13 +200,14 @@
             <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
               <div v-if="index >= 6">
                 <v-row>
-                  <v-col>
+                  <v-col cols="1"></v-col>
+                  <v-col cols="3">
                     <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="2">
                     <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                   </v-col>
-                  <v-col>
+                  <v-col cols="3">
                     <v-rating
                       v-model="speciality.value"
                       length="3"
@@ -221,7 +218,6 @@
                       readonly
                     ></v-rating>
                   </v-col>
-                  <v-spacer></v-spacer>
                 </v-row>
               </div>
             </div>
@@ -338,14 +334,14 @@
     <v-card flat tile width="100%" class="text-center">
       <v-card-text>
         <v-row>
-          <v-spacer></v-spacer>
+          <v-col></v-col>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">出力</v-btn>
           </v-col>
-          <v-spacer></v-spacer>
+          <v-col></v-col>
         </v-row>
       </v-card-text>
     </v-card>
