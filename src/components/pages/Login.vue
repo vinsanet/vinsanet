@@ -65,7 +65,12 @@
   import { firebaseAuth } from "@/firebase/firebase";
   import { firebaseErrorMessage } from "@/firebase/firebaseErrorMessage";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { GoogleAuthProvider, TwitterAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+  import {
+    GoogleAuthProvider,
+    TwitterAuthProvider,
+    signInWithEmailAndPassword,
+    signInWithRedirect,
+  } from "firebase/auth";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
 
@@ -75,6 +80,11 @@
   const password = ref("");
   const router = useRouter();
 
+  firebaseAuth.onAuthStateChanged((user) => {
+    if (!user) return;
+    showSnackbar("ログインしました", "success");
+    router.push("/mypage");
+  });
   const onClickLogin = () => {
     if (email.value === "" || password.value == "") {
       showSnackbar("メールアドレスとパスワードを入力してください", "info");
@@ -92,26 +102,16 @@
   };
   const onClickTwitter = () => {
     const provider = new TwitterAuthProvider();
-    signInWithPopup(firebaseAuth, provider)
-      .then(() => {
-        showSnackbar("アカウントを作成しました", "success");
-        router.push("/mypage");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        showSnackbar(`アカウントを作成できませんでした：${errorMessage}`, "error");
-      });
+    signInWithRedirect(firebaseAuth, provider).catch((error) => {
+      const errorMessage = error.message;
+      showSnackbar(`ログインできませんでした：${errorMessage}`, "error");
+    });
   };
   const onClickGoogle = () => {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(firebaseAuth, provider)
-      .then(() => {
-        showSnackbar("ログインしました", "success");
-        router.push("/mypage");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        showSnackbar(`ログインできませんでした：${errorMessage}`, "error");
-      });
+    signInWithRedirect(firebaseAuth, provider).catch((error) => {
+      const errorMessage = error.message;
+      showSnackbar(`ログインできませんでした：${errorMessage}`, "error");
+    });
   };
 </script>
