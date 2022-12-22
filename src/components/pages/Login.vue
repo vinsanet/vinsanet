@@ -55,6 +55,14 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-container>
+        <v-row :justify="'center'">
+          <v-col>
+            アカウントをお持ちでない場合は
+            <router-link to="/register">新規登録</router-link>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-responsive>
   </v-container>
 </template>
