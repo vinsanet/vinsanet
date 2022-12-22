@@ -9,9 +9,8 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-row>
-          <v-spacer />
-          <v-col>
+        <v-row :justify="'center'">
+          <v-col cols="4">
             <v-form>
               <v-text-field
                 v-model="email"
@@ -29,11 +28,10 @@
               />
             </v-form>
           </v-col>
-          <v-spacer />
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" @click.stop="onClickCreate">登録</v-btn>
+            <v-btn color="primary" @click.stop="onClickCreate">新規登録</v-btn>
           </v-col>
         </v-row>
       </v-container>

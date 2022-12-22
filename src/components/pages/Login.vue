@@ -9,9 +9,8 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-row>
-          <v-spacer />
-          <v-col>
+        <v-row :justify="'center'">
+          <v-col cols="4">
             <v-form>
               <v-text-field
                 v-model="email"
@@ -29,7 +28,6 @@
               />
             </v-form>
           </v-col>
-          <v-spacer />
         </v-row>
         <v-row>
           <v-col>
