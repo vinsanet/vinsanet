@@ -9,15 +9,13 @@
         </v-row>
       </v-container>
       <v-container>
-        <v-row>
-          <v-col></v-col>
-          <v-col>
+        <v-row :justify="'center'">
+          <v-col cols="2">
             <v-btn color="primary" to="/login">ログイン</v-btn>
           </v-col>
-          <v-col>
+          <v-col cols="2">
             <v-btn color="success" to="/register">新規登録</v-btn>
           </v-col>
-          <v-col></v-col>
         </v-row>
       </v-container>
     </v-responsive>
@@ -25,4 +23,5 @@
 </template>
 
 <script setup lang="ts">
+  //
 </script>
