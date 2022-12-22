@@ -47,10 +47,10 @@
       </v-container>
       <v-container>
         <v-row :justify="'center'">
-          <v-col cols="2">
+          <v-col cols="1">
             <TwitterButton :on-click="onClickTwitter" />
           </v-col>
-          <v-col cols="2">
+          <v-col cols="1">
             <GoogleButton :on-click="onClickGoogle" />
           </v-col>
         </v-row>
