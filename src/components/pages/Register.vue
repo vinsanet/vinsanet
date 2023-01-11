@@ -1,15 +1,13 @@
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="d-flex align-center text-center fill-height">
-      <v-container>
-        <v-row>
-          <v-col>
+  <v-container class="d-flex fill-height">
+    <v-row :align="'center'">
+      <v-col>
+        <v-row :justify="'center'" class="pa-2">
+          <v-col class="text-center">
             <div :class="['text-h3']">新規登録</div>
           </v-col>
         </v-row>
-      </v-container>
-      <v-container>
-        <v-row :justify="'center'">
+        <v-row :justify="'center'" class="pa-2">
           <v-col cols="4">
             <v-form>
               <v-text-field
@@ -29,39 +27,35 @@
             </v-form>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
+        <v-row :justify="'center'" class="pa-2">
+          <v-col class="text-center" cols="1">
             <v-btn color="primary" @click.stop="onClickCreate">新規登録</v-btn>
           </v-col>
         </v-row>
-      </v-container>
-      <v-divider></v-divider>
-      <v-container>
-        <v-row>
-          <v-col>
+        <v-row :justify="'center'" class="pa-2">
+          <v-divider></v-divider>
+        </v-row>
+        <v-row :justify="'center'" class="pa-2">
+          <v-col class="text-center">
             <div :class="['text-h5']">SNSで登録する</div>
           </v-col>
         </v-row>
-      </v-container>
-      <v-container>
-        <v-row :justify="'center'">
-          <v-col cols="1">
+        <v-row :justify="'center'" class="pa-2">
+          <v-col class="text-center" cols="1">
             <TwitterButton :on-click="onClickTwitter" />
           </v-col>
-          <v-col cols="1">
+          <v-col class="text-center" cols="1">
             <GoogleButton :on-click="onClickGoogle" />
           </v-col>
         </v-row>
-      </v-container>
-      <v-container>
-        <v-row :justify="'center'">
-          <v-col>
+        <v-row :justify="'center'" class="pa-2">
+          <v-col class="text-center">
             アカウントをお持ちの場合は
             <router-link to="/login">ログイン</router-link>
           </v-col>
         </v-row>
-      </v-container>
-    </v-responsive>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
