@@ -2,7 +2,7 @@
   <v-app-bar hide-on-scroll>
     <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
     <v-toolbar-title style="cursor: pointer" @click="$router.push('/mypage')">
-      Kutulu character sheet
+      Kutulu character sheet <v-chip size="small">Beta</v-chip>
       <div :class="['text-caption']">v{{ version }}</div>
     </v-toolbar-title>
     <v-spacer></v-spacer>

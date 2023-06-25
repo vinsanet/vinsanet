@@ -5,7 +5,9 @@
       <v-row style="height: 100vh" class="align-center text-center">
         <v-col>
           <v-row class="pa-4">
-            <v-col><div :class="['text-h3']">Kutulu character sheet</div></v-col>
+            <v-col
+              ><div :class="['text-h3']">Kutulu character sheet <v-chip>Beta</v-chip></div>
+            </v-col>
           </v-row>
           <v-row class="pa-4">
             <v-col>
