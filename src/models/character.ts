@@ -1,5 +1,7 @@
 import { DocumentSnapshot, FieldValue, SnapshotOptions } from "firebase/firestore";
 
+type Rule = "基本ルール" | "現代日本ソースブック";
+
 export type CharacterType = {
   id: number;
   name: string;
@@ -19,6 +21,7 @@ export type CharacterType = {
   userId: string;
   images: Array<{ id: number; description: string }>;
   isPublishing: boolean;
+  rule: Rule;
   createdAt: FieldValue;
   updatedAt: FieldValue;
 };
@@ -42,6 +45,7 @@ class Character implements CharacterType {
   userId: string;
   images: Array<{ id: number; description: string }>;
   isPublishing: boolean;
+  rule: Rule;
   createdAt: FieldValue;
   updatedAt: FieldValue;
 
@@ -64,6 +68,7 @@ class Character implements CharacterType {
     _userId: string,
     _images: Array<{ id: number; description: string }>,
     _isPublishing: boolean,
+    _rule: Rule,
     _createdAt: FieldValue,
     _updatedAt: FieldValue
   ) {
@@ -85,6 +90,7 @@ class Character implements CharacterType {
     this.userId = _userId;
     this.images = _images;
     this.isPublishing = _isPublishing;
+    this.rule = _rule;
     this.createdAt = _createdAt;
     this.updatedAt = _updatedAt;
   }
@@ -111,6 +117,7 @@ export const characterConverter = {
       userId: character.userId,
       images: character.images,
       isPublishing: character.isPublishing,
+      rule: character.rule,
       createdAt: character.createdAt,
       updatedAt: character.updatedAt,
     };
@@ -136,6 +143,7 @@ export const characterConverter = {
       data?.userId,
       data?.images,
       data?.isPublishing,
+      data?.rule,
       data?.createdAt,
       data?.updatedAt
     );
