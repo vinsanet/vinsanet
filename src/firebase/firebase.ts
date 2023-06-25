@@ -1,9 +1,8 @@
 import { firebaseConfig } from "@/firebase/firebaseConfig";
-import { CharacterType, characterConverter } from "@/models/character";
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { connectAuthEmulator, createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { Timestamp, collection, connectFirestoreEmulator, doc, getFirestore, setDoc } from "firebase/firestore";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebase = initializeApp(firebaseConfig);
@@ -14,10 +13,9 @@ export const firebaseAuth = getAuth();
 export const firebaseStorage = getStorage();
 export const firebaseDb = getFirestore(firebase);
 
+firebaseAuth.useDeviceLanguage();
 if (isEmulating) {
-  connectAuthEmulator(firebaseAuth, "http://localhost:9099", {
-    disableWarnings: true,
-  });
+  connectAuthEmulator(firebaseAuth, "http://localhost:9099", { disableWarnings: true });
   connectStorageEmulator(firebaseStorage, "localhost", 9199);
   connectFirestoreEmulator(firebaseDb, "localhost", 8080);
 }
