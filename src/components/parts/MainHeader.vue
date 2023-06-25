@@ -1,7 +1,10 @@
 <template>
   <v-app-bar hide-on-scroll>
     <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
-    <v-toolbar-title>Kutulu character sheet</v-toolbar-title>
+    <v-toolbar-title style="cursor: pointer" @click="$router.push('/mypage')">
+      Kutulu character sheet
+      <div :class="['text-caption']">v{{ version }}</div>
+    </v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click.stop="toggleTheme"></v-btn>
     <v-btn :icon="'mdi-logout'" @click.stop="onClickLogout"></v-btn>
@@ -17,8 +20,8 @@
 
   type Props = { onClickNavIcon: () => void };
 
+  const version = import.meta.env.VITE_APP_VERSION;
   const props = defineProps<Props>();
-
   const themeStore = useThemeStore();
   const { showSnackbar } = useSnackbarStore();
   const router = useRouter();
