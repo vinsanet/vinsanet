@@ -42,7 +42,7 @@
           <v-card>
             <v-icon size="75">mdi-export</v-icon>
             <v-card-title>CCFOLIAコマ出力</v-card-title>
-            <v-card-text>作成したキャラクターを１クリックでCCFOLIAへ出力できます</v-card-text>
+            <v-card-text>作成したキャラクターをCCFOLIAへ出力できます</v-card-text>
           </v-card>
         </v-col>
       </v-row>
@@ -71,8 +71,7 @@
 
   const links = ref([
     { name: "利用規約", icon: "mdi-file-document", url: "/terms" },
-    { name: "FAQ", icon: "mdi-help-circle", url: "/faq" },
+    { name: "よくある質問", icon: "mdi-help-circle", url: "/faq" },
     { name: "Twitter", icon: "mdi-twitter", url: "https://twitter.com/hnymA" },
-    { name: "お問い合わせ", icon: "mdi-email", url: "/inquiry" },
   ]);
 </script>
