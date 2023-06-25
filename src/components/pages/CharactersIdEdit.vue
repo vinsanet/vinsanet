@@ -637,8 +637,8 @@
         }
         const character = querySnapshot.docs[0].data();
         if (character.userId !== firebaseAuth.currentUser?.uid) {
-          showSnackbar("キャラクターを表示できません", "error");
-          router.push("/mypage");
+          showSnackbar("キャラクターを編集できません", "error");
+          router.push(`/characters/${character.id}/view`);
           return;
         }
         information.value = character;
