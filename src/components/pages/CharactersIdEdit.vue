@@ -1,99 +1,103 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-sheet elevation="2" class="pa-6 ma-2">
-        <v-row>
-          <v-col>
-            <v-row>
-              <v-carousel hide-delimiters show-arrows="hover">
-                <v-carousel-item
-                  v-for="imageUrl in imageUrls"
-                  :key="imageUrl.id"
-                  :src="imageUrl.value"
-                ></v-carousel-item>
-              </v-carousel>
-            </v-row>
-            <v-row class="d-flex align-center justify-center">
-              <v-btn color="indigo" prepend-icon="mdi-image-edit-outline" @click="() => (imageDialog = true)"
-                >画像編集</v-btn
-              >
-            </v-row>
-          </v-col>
-          <v-col>
+      <v-row>
+        <v-col>
+          <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-text-field v-model="information.name" variant="outlined" label="名前" clearable></v-text-field>
+                <v-row>
+                  <v-carousel hide-delimiters show-arrows="hover">
+                    <v-carousel-item
+                      v-for="imageUrl in imageUrls"
+                      :key="imageUrl.id"
+                      :src="imageUrl.value"
+                    ></v-carousel-item>
+                  </v-carousel>
+                </v-row>
+                <v-row class="d-flex align-center justify-center">
+                  <v-btn color="indigo" prepend-icon="mdi-image-edit-outline" @click="() => (imageDialog = true)"
+                    >画像編集</v-btn
+                  >
+                </v-row>
+              </v-col>
+              <v-col>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.name" variant="outlined" label="名前" clearable></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    ><v-text-field
+                      v-model="information.kana"
+                      variant="outlined"
+                      label="読みがな"
+                      clearable
+                    ></v-text-field
+                  ></v-col>
+                </v-row>
+                <v-row>
+                  <v-col
+                    ><v-text-field
+                      v-model="information.title"
+                      variant="outlined"
+                      label="称号 / 肩書"
+                      clearable
+                    ></v-text-field
+                  ></v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.age" variant="outlined" label="年齢" clearable></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.gender" variant="outlined" label="性別" clearable></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field
+                      v-model="information.profession"
+                      variant="outlined"
+                      label="職業"
+                      clearable
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.home" variant="outlined" label="出身" clearable></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.rank" variant="outlined" label="階級" clearable></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-text-field v-model="information.family" variant="outlined" label="家柄" clearable></v-text-field>
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
-            <v-row>
-              <v-col
-                ><v-text-field v-model="information.kana" variant="outlined" label="読みがな" clearable></v-text-field
-              ></v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                ><v-text-field
-                  v-model="information.title"
-                  variant="outlined"
-                  label="称号 / 肩書"
-                  clearable
-                ></v-text-field
-              ></v-col>
-            </v-row>
+          </v-sheet>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-text-field v-model="information.age" variant="outlined" label="年齢" clearable></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field v-model="information.gender" variant="outlined" label="性別" clearable></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field v-model="information.profession" variant="outlined" label="職業" clearable></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field v-model="information.home" variant="outlined" label="出身" clearable></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field v-model="information.rank" variant="outlined" label="階級" clearable></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field v-model="information.family" variant="outlined" label="家柄" clearable></v-text-field>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-sheet>
-      <v-sheet elevation="2" class="pa-6 ma-2">
-        <v-row>
-          <v-col>
-            <v-row>
-              <v-col cols="2"><div :class="'text-h4'">能力値</div></v-col>
-              <v-col cols="1"
-                ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
-              >
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-divider></v-divider>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-row>
-              <v-col>
-                <div :class="'text-h6'">アクティブ能力値</div>
+                <v-row>
+                  <v-col cols="2"><div :class="'text-h4'">能力値</div></v-col>
+                  <v-col cols="1"
+                    ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
+                  >
+                </v-row>
               </v-col>
             </v-row>
             <v-row>
@@ -101,35 +105,96 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <div v-for="(skill, index) in information.skills" :key="skill.name">
-              <div v-if="index <= 4">
-                <v-row>
-                  <v-col cols="1"></v-col>
-                  <v-col cols="3">
-                    <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                  </v-col>
-                  <v-col cols="2">
-                    <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-rating
-                      v-model="skill.value"
-                      length="4"
-                      density="compact"
-                      full-icon="mdi-circle"
-                      empty-icon="mdi-circle-outline"
-                      color="teal"
-                      clearable
-                    ></v-rating>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-col>
-          <v-col>
             <v-row>
               <v-col>
-                <div :class="'text-h6'">パッシブ能力値</div>
+                <v-row>
+                  <v-col>
+                    <div :class="'text-h6'">アクティブ能力値</div>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-divider></v-divider>
+                  </v-col>
+                </v-row>
+                <div v-for="(skill, index) in information.skills" :key="skill.name">
+                  <div v-if="index <= 4">
+                    <v-row>
+                      <v-col cols="1"></v-col>
+                      <v-col cols="3">
+                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-rating
+                          v-model="skill.value"
+                          length="4"
+                          density="compact"
+                          full-icon="mdi-circle"
+                          empty-icon="mdi-circle-outline"
+                          color="teal"
+                          clearable
+                        ></v-rating>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </div>
+              </v-col>
+              <v-col>
+                <v-row>
+                  <v-col>
+                    <div :class="'text-h6'">パッシブ能力値</div>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-divider></v-divider>
+                  </v-col>
+                </v-row>
+                <div v-for="(skill, index) in information.skills" :key="skill.name">
+                  <div v-if="index >= 5">
+                    <v-row>
+                      <v-col cols="1"></v-col>
+                      <v-col cols="3">
+                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-rating
+                          v-model="skill.value"
+                          length="4"
+                          density="compact"
+                          full-icon="mdi-circle"
+                          empty-icon="mdi-circle-outline"
+                          color="teal"
+                          clearable
+                        ></v-rating>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </v-sheet>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-sheet elevation="2" class="pa-6 ma-2">
+            <v-row>
+              <v-col>
+                <v-row>
+                  <v-col cols="2"><div :class="'text-h4'">専門分野</div></v-col>
+                  <v-col cols="1"
+                    ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
+                      {{ specialityPoints }}/10
+                    </div></v-col
+                  >
+                </v-row>
               </v-col>
             </v-row>
             <v-row>
@@ -137,106 +202,63 @@
                 <v-divider></v-divider>
               </v-col>
             </v-row>
-            <div v-for="(skill, index) in information.skills" :key="skill.name">
-              <div v-if="index >= 5">
-                <v-row>
-                  <v-col cols="1"></v-col>
-                  <v-col cols="3">
-                    <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                  </v-col>
-                  <v-col cols="2">
-                    <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-rating
-                      v-model="skill.value"
-                      length="4"
-                      density="compact"
-                      full-icon="mdi-circle"
-                      empty-icon="mdi-circle-outline"
-                      color="teal"
-                      clearable
-                    ></v-rating>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-sheet>
-      <v-sheet elevation="2" class="pa-6 ma-2">
-        <v-row>
-          <v-col>
             <v-row>
-              <v-col cols="2"><div :class="'text-h4'">専門分野</div></v-col>
-              <v-col cols="1"
-                ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
-                  {{ specialityPoints }}/10
-                </div></v-col
-              >
+              <v-col>
+                <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
+                  <div v-if="index <= 5">
+                    <v-row>
+                      <v-col cols="1"></v-col>
+                      <v-col cols="3">
+                        <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-rating
+                          v-model="speciality.value"
+                          length="3"
+                          density="compact"
+                          full-icon="mdi-circle"
+                          empty-icon="mdi-circle-outline"
+                          color="indigo"
+                          clearable
+                        ></v-rating>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </div>
+              </v-col>
+              <v-col>
+                <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
+                  <div v-if="index >= 6">
+                    <v-row>
+                      <v-col cols="1"></v-col>
+                      <v-col cols="3">
+                        <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
+                      </v-col>
+                      <v-col cols="3">
+                        <v-rating
+                          v-model="speciality.value"
+                          length="3"
+                          density="compact"
+                          full-icon="mdi-circle"
+                          empty-icon="mdi-circle-outline"
+                          color="indigo"
+                          clearable
+                        ></v-rating>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </div>
+              </v-col>
             </v-row>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-divider></v-divider>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
-              <div v-if="index <= 5">
-                <v-row>
-                  <v-col cols="1"></v-col>
-                  <v-col cols="3">
-                    <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
-                  </v-col>
-                  <v-col cols="2">
-                    <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-rating
-                      v-model="speciality.value"
-                      length="3"
-                      density="compact"
-                      full-icon="mdi-circle"
-                      empty-icon="mdi-circle-outline"
-                      color="indigo"
-                      clearable
-                    ></v-rating>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-col>
-          <v-col>
-            <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
-              <div v-if="index >= 6">
-                <v-row>
-                  <v-col cols="1"></v-col>
-                  <v-col cols="3">
-                    <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
-                  </v-col>
-                  <v-col cols="2">
-                    <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
-                  </v-col>
-                  <v-col cols="3">
-                    <v-rating
-                      v-model="speciality.value"
-                      length="3"
-                      density="compact"
-                      full-icon="mdi-circle"
-                      empty-icon="mdi-circle-outline"
-                      color="indigo"
-                      clearable
-                    ></v-rating>
-                  </v-col>
-                </v-row>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-sheet>
+          </v-sheet>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
@@ -262,6 +284,8 @@
               </v-col>
             </v-row>
           </v-sheet>
+        </v-col>
+        <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
@@ -290,6 +314,8 @@
             </v-row>
           </v-sheet>
         </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
@@ -370,7 +396,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="publishingDialog" width="30%">
+  <v-dialog v-model="publishingDialog" width="30%" @click:outside="onClickOutsidePublish">
     <v-card>
       <v-card-title>公開設定</v-card-title>
       <v-card-text>
@@ -386,8 +412,29 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="ruleDialog" width="30%" @click:outside="onClickOutsideRule">
+    <v-card>
+      <v-card-title>ルール設定</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col
+            >キャラクター作成に使用するルールを選択してください。<br />
+            ルールを変更すると、一部の情報がリセットされます。ご注意ください。
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col
+            ><v-select v-model="rule" :items="['基本ルール', '現代日本ソースブック']" variant="outlined"></v-select
+          ></v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="onClickRule">OK</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   <v-footer app fixed>
-    <v-card flat tile width="100%" class="text-center">
+    <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
           <v-col></v-col>
@@ -396,6 +443,11 @@
           </v-col>
           <v-col>
             <v-btn color="indigo" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)">公開設定</v-btn>
+          </v-col>
+          <v-col>
+            <v-btn color="indigo" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)"
+              >ルール設定</v-btn
+            >
           </v-col>
           <v-col>
             <v-btn color="success" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
@@ -408,7 +460,7 @@
 </template>
 
 <script setup lang="ts">
-  import { firebaseDb, firebaseStorage } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
@@ -427,8 +479,10 @@
   const newImage = ref([]);
   const newTag = ref("");
   const publish = ref<"公開" | "非公開">("公開");
+  const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
   const publishingDialog = ref(false);
+  const ruleDialog = ref(false);
 
   const uploadImage = async () => {
     const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
@@ -467,6 +521,13 @@
     }
     const found = newTag.value.match(/^(.*)\s+/);
     if (found === null) return;
+    if (information.value.tags.includes(found[0].trim())) {
+      newTag.value = "";
+      return;
+    }
+    if (information.value.tags.length >= 10) {
+      information.value.tags.shift();
+    }
     information.value.tags.push(found[0].trim());
     newTag.value = "";
   };
@@ -479,6 +540,72 @@
   const onClickPublish = () => {
     information.value.isPublishing = publish.value === "公開";
     publishingDialog.value = false;
+  };
+  const onClickOutsidePublish = () => {
+    publish.value = information.value.isPublishing ? "公開" : "非公開";
+  };
+  const onClickOutsideRule = () => {
+    rule.value = information.value.rule;
+  };
+  const onClickRule = () => {
+    information.value.rule = rule.value;
+    switch (rule.value) {
+      case "基本ルール":
+        information.value.skills = [
+          { name: "敏捷", value: information.value.skills[0].value },
+          { name: "筋力", value: information.value.skills[1].value },
+          { name: "隠密", value: information.value.skills[2].value },
+          { name: "射撃", value: information.value.skills[3].value },
+          { name: "白兵", value: information.value.skills[4].value },
+          { name: "名声", value: 0 },
+          { name: "弁舌", value: information.value.skills[6].value },
+          { name: "家格", value: 0 },
+          { name: "信用", value: 0 },
+        ];
+        information.value.specialities = [
+          { name: "人類学＆民俗学", value: 0 },
+          { name: "考古学＆歴史学", value: 0 },
+          { name: "図書館＆古文書学", value: 0 },
+          { name: "経済学＆法学", value: 0 },
+          { name: "芸術＆工芸", value: 0 },
+          { name: "犯罪学", value: information.value.specialities[6].value },
+          { name: "医学", value: 0 },
+          { name: "機械工学", value: 0 },
+          { name: "自然科学", value: 0 },
+          { name: "オカルト", value: 0 },
+          { name: "心理学", value: 0 },
+          { name: "言語学", value: information.value.specialities[3].value },
+        ];
+        break;
+      case "現代日本ソースブック":
+        information.value.skills = [
+          { name: "敏捷", value: information.value.skills[0].value },
+          { name: "筋力", value: information.value.skills[1].value },
+          { name: "隠密", value: information.value.skills[2].value },
+          { name: "射撃", value: information.value.skills[3].value },
+          { name: "白兵", value: information.value.skills[4].value },
+          { name: "知名度", value: 0 },
+          { name: "弁舌", value: information.value.skills[6].value },
+          { name: "資金力", value: 0 },
+          { name: "第六感", value: 0 },
+        ];
+        information.value.specialities = [
+          { name: "文化人類学＆考古学", value: 0 },
+          { name: "歴史学＆古文書学", value: 0 },
+          { name: "民俗学", value: 0 },
+          { name: "言語学", value: information.value.specialities[11].value },
+          { name: "芸術学", value: 0 },
+          { name: "会計学＆法学", value: 0 },
+          { name: "犯罪学", value: information.value.specialities[5].value },
+          { name: "地球科学", value: 0 },
+          { name: "宇宙科学", value: 0 },
+          { name: "医学＆獣医学", value: 0 },
+          { name: "機械工学＆電子工学", value: 0 },
+          { name: "情報工学", value: 0 },
+        ];
+        break;
+    }
+    ruleDialog.value = false;
   };
   const onClickSave = () => {
     if (skillPoints.value > 13) {
@@ -504,14 +631,19 @@
     );
     getDocs(q)
       .then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          const character = querySnapshot.docs[0].data();
-          information.value = character;
-          documentId = querySnapshot.docs[0].id;
-          publish.value = character.isPublishing ? "公開" : "非公開";
-        } else {
+        if (querySnapshot.empty) {
           showSnackbar("キャラクターが存在しません", "error");
+          return;
         }
+        const character = querySnapshot.docs[0].data();
+        if (character.userId !== firebaseAuth.currentUser?.uid) {
+          showSnackbar("キャラクターを表示できません", "error");
+          router.push("/mypage");
+          return;
+        }
+        information.value = character;
+        documentId = querySnapshot.docs[0].id;
+        publish.value = character.isPublishing ? "公開" : "非公開";
       })
       .then(() => {
         information.value.images.forEach((image) => {
@@ -528,6 +660,14 @@
 
   watchEffect(() => {
     onChangeTagValue();
+  });
+
+  firebaseAuth.onAuthStateChanged((user) => {
+    if (!user) {
+      showSnackbar("ログインしてください", "error");
+      router.push("/login");
+      return;
+    }
   });
 
   const skillPoints = computed(() => {
