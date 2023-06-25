@@ -6,7 +6,6 @@ import CharactersIdEdit from "@/components/pages/CharactersIdEdit.vue";
 import CharactersIdView from "@/components/pages/CharactersIdView.vue";
 import Faq from "@/components/pages/Faq.vue";
 import Index from "@/components/pages/Index.vue";
-import Inquiry from "@/components/pages/Inquiry.vue";
 import Login from "@/components/pages/Login.vue";
 import Mypage from "@/components/pages/Mypage.vue";
 import Register from "@/components/pages/Register.vue";
@@ -16,7 +15,6 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   { path: "/", component: Simple, children: [{ path: "", component: Index }] },
   { path: "/faq", component: Document, children: [{ path: "", component: Faq }] },
-  { path: "/inquiry", component: Document, children: [{ path: "", component: Inquiry }] },
   { path: "/terms", component: Document, children: [{ path: "", component: Terms }] },
   { path: "/login", component: Simple, children: [{ path: "", component: Login }] },
   { path: "/register", component: Simple, children: [{ path: "", component: Register }] },
