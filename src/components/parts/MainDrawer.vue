@@ -91,6 +91,7 @@
     information.userId = firebaseAuth.currentUser?.uid ?? "";
     information.images = [];
     information.isPublishing = true;
+    information.rule = "基本ルール";
     information.createdAt = timeStamp;
     information.updatedAt = timeStamp;
     // document
