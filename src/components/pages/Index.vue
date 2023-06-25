@@ -1,6 +1,6 @@
 <template>
   <!-- <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"> -->
-  <v-parallax src="src/assets/index.jpg">
+  <v-parallax :src="imageUrl">
     <v-container class="fill-height">
       <v-row style="height: 100vh" class="align-center text-center">
         <v-col>
@@ -70,6 +70,8 @@
 
 <script setup lang="ts">
   import { ref } from "vue";
+
+  import imageUrl from "/src/assets/index.jpg";
 
   const links = ref([
     { name: "利用規約", icon: "mdi-file-document", url: "/terms" },
