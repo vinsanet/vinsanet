@@ -637,7 +637,7 @@
         }
         const character = querySnapshot.docs[0].data();
         if (character.userId !== firebaseAuth.currentUser?.uid) {
-          showSnackbar("キャラクターを編集できません", "error");
+          showSnackbar("自分のキャラクター以外は編集できません", "error");
           router.push(`/characters/${character.id}/view`);
           return;
         }
@@ -660,14 +660,6 @@
 
   watchEffect(() => {
     onChangeTagValue();
-  });
-
-  firebaseAuth.onAuthStateChanged((user) => {
-    if (!user) {
-      showSnackbar("ログインしてください", "error");
-      router.push("/login");
-      return;
-    }
   });
 
   const skillPoints = computed(() => {
