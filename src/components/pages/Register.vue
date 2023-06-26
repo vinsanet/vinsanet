@@ -19,6 +19,11 @@
                 <GoogleButton :on-click="onClickGoogle" />
               </v-col>
             </v-row>
+            <v-row :justify="'center'" class="pa-2">
+              <v-col class="text-center">
+                <GithubButton :on-click="onClickGithub" />
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
         <v-row :justify="'center'" class="pa-2">
@@ -33,11 +38,12 @@
 </template>
 
 <script setup lang="ts">
+  import GithubButton from "@/components/parts/GithubButton.vue";
   import GoogleButton from "@/components/parts/GoogleButton.vue";
   import TwitterButton from "@/components/parts/TwitterButton.vue";
   import { firebaseAuth } from "@/firebase/firebase";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "@firebase/auth";
+  import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "@firebase/auth";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
@@ -61,6 +67,13 @@
     signInWithRedirect(firebaseAuth, provider).catch((error) => {
       const errorMessage = error.message;
       showSnackbar(`アカウントを作成できませんでした：${errorMessage}`, "error");
+    });
+  };
+  const onClickGithub = () => {
+    const provider = new GithubAuthProvider();
+    signInWithRedirect(firebaseAuth, provider).catch((error) => {
+      const errorMessage = error.message;
+      showSnackbar(`ログインできませんでした：${errorMessage}`, "error");
     });
   };
 </script>
