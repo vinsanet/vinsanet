@@ -10,12 +10,12 @@
         <v-row>
           <v-col>
             <v-row :justify="'center'" class="pa-2">
-              <v-col class="text-center" cols="1">
+              <v-col class="text-center">
                 <TwitterButton :on-click="onClickTwitter" />
               </v-col>
             </v-row>
             <v-row :justify="'center'" class="pa-2">
-              <v-col class="text-center" cols="1">
+              <v-col class="text-center">
                 <GoogleButton :on-click="onClickGoogle" />
               </v-col>
             </v-row>
