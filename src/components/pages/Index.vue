@@ -25,7 +25,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row style="height: 100vh" class="align-center text-center">
+      <v-row style="height: 80vh" class="align-center text-center">
         <v-col>
           <v-card>
             <v-icon size="75">mdi-account-details</v-icon>
@@ -45,6 +45,17 @@
             <v-icon size="75">mdi-export</v-icon>
             <v-card-title>CCFOLIAコマ出力</v-card-title>
             <v-card-text>作成したキャラクターをCCFOLIAへ出力できます</v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row style="height: 20vh" class="align-center text-center">
+        <v-col>
+          <v-card color="blue-grey">
+            <v-card-text class="text-left pa-6">
+              当サイトは、Kutulu日本語版の２次創作ガイドラインに基づく創作物です。オリジナル（スウェーデン語）の利用はCC-BY4.0によります。<br />
+              “Kutulu Japanese Language Version” Is Copyright 2022 By ViviON ; All Rights Reserved. Planning By
+              FrogGames. Published By ViviON.
+            </v-card-text>
           </v-card>
         </v-col>
       </v-row>
