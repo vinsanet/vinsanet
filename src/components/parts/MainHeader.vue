@@ -30,6 +30,9 @@
 
   const onClickLogout = () => {
     firebaseAuth.signOut().then(() => {
+      if (theme.value === "dark") {
+        toggleTheme();
+      }
       router.push("/");
       showSnackbar("ログアウトしました", "success");
     });
