@@ -10,26 +10,32 @@
                 <v-col>現在のアカウントにSNSアカウントを連携することができます。</v-col>
               </v-row>
               <v-row>
-                <v-col cols="1">
-                  <div :class="'text-subtitle-1'"><v-icon color="light-blue">mdi-twitter</v-icon>Twitter</div>
-                </v-col>
-                <v-col cols="1">
-                  <v-btn :color="!twitterAuthorized ? 'primary' : 'error'" @click.stop="onClickTwitter">
-                    <v-icon>{{ !twitterAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
-                    {{ !twitterAuthorized ? "連携する" : "連携解除" }}
-                  </v-btn>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="1">
-                  <div :class="'text-subtitle-1'"><v-icon color="red">mdi-google</v-icon>Google</div>
-                </v-col>
-                <v-col cols="1">
-                  <v-btn :color="!googleAuthorized ? 'primary' : 'error'" @click.stop="onClickGoogle">
-                    <v-icon>{{ !googleAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
-                    {{ !googleAuthorized ? "連携する" : "連携解除" }}
-                  </v-btn>
-                </v-col>
+                <v-table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div :class="'text-subtitle-1'"><v-icon color="light-blue">mdi-twitter</v-icon>Twitter</div>
+                      </td>
+                      <td>
+                        <v-btn :color="!twitterAuthorized ? 'primary' : 'error'" @click.stop="onClickTwitter">
+                          <v-icon>{{ !twitterAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
+                          {{ !twitterAuthorized ? "連携する" : "連携解除" }}
+                        </v-btn>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div :class="'text-subtitle-1'"><v-icon color="red">mdi-google</v-icon>Google</div>
+                      </td>
+                      <td>
+                        <v-btn :color="!googleAuthorized ? 'primary' : 'error'" @click.stop="onClickGoogle">
+                          <v-icon>{{ !googleAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
+                          {{ !googleAuthorized ? "連携する" : "連携解除" }}
+                        </v-btn>
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-table>
               </v-row>
             </v-card-text>
           </v-card>
@@ -37,7 +43,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="twitterDialog" width="40%">
+  <v-dialog v-model="twitterDialog" width="30%" min-width="400px">
     <v-card>
       <v-card-title>Twitter連携解除</v-card-title>
       <v-card-text>
@@ -54,7 +60,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="googleDialog" width="40%">
+  <v-dialog v-model="googleDialog" width="30%" min-width="400px">
     <v-card>
       <v-card-title>Google連携解除</v-card-title>
       <v-card-text>
