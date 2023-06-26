@@ -396,7 +396,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="publishingDialog" width="30%" @click:outside="onClickOutsidePublish">
+  <v-dialog v-model="publishingDialog" width="30%" min-width="400px" @click:outside="onClickOutsidePublish">
     <v-card>
       <v-card-title>公開設定</v-card-title>
       <v-card-text>
@@ -412,7 +412,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="ruleDialog" width="30%" @click:outside="onClickOutsideRule">
+  <v-dialog v-model="ruleDialog" width="30%" min-width="400px" @click:outside="onClickOutsideRule">
     <v-card>
       <v-card-title>ルール設定</v-card-title>
       <v-card-text>

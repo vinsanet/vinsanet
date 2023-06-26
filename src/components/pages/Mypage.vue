@@ -61,7 +61,7 @@
       </v-card>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="deleteDialog" width="30%">
+  <v-dialog v-model="deleteDialog" width="30%" min-width="400px">
     <v-card>
       <v-card-title>キャラクター削除</v-card-title>
       <v-card-text>

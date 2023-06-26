@@ -314,7 +314,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="exportDialog" width="30%">
+  <v-dialog v-model="exportDialog" width="30%" min-width="400px">
     <v-card class="overflow-y-hidden">
       <v-card-title>出力</v-card-title>
       <v-card-text>
