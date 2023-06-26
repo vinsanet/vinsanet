@@ -608,15 +608,6 @@
     ruleDialog.value = false;
   };
   const onClickSave = () => {
-    if (skillPoints.value > 13) {
-      showSnackbar(`キャラクターを保存できません：能力値が上限を超えています`, "error");
-      return;
-    }
-    if (specialityPoints.value > 10) {
-      showSnackbar(`キャラクターを保存できません：専門分野が上限を超えています`, "error");
-      return;
-    }
-
     information.value.updatedAt = serverTimestamp();
     const docRef = doc(collection(firebaseDb, "characters"), documentId).withConverter(characterConverter);
     updateDoc(docRef, { ...information.value }).then(() => {
