@@ -626,9 +626,7 @@
   };
 
   onMounted(() => {
-    const q = query(collection(firebaseDb, "characters"), where("id", "==", parseInt(id as string))).withConverter(
-      characterConverter
-    );
+    const q = query(collection(firebaseDb, "characters"), where("id", "==", id)).withConverter(characterConverter);
     getDocs(q)
       .then((querySnapshot) => {
         if (querySnapshot.empty) {

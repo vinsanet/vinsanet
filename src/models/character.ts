@@ -3,7 +3,7 @@ import { DocumentSnapshot, FieldValue, SnapshotOptions } from "firebase/firestor
 type Rule = "基本ルール" | "現代日本ソースブック";
 
 export type CharacterType = {
-  id: number;
+  id: string;
   name: string;
   kana: string;
   title: string;
@@ -27,7 +27,7 @@ export type CharacterType = {
 };
 
 class Character implements CharacterType {
-  id: number;
+  id: string;
   name: string;
   kana: string;
   title: string;
@@ -50,7 +50,7 @@ class Character implements CharacterType {
   updatedAt: FieldValue;
 
   constructor(
-    _id: number,
+    _id: string,
     _name: string,
     _kana: string,
     _title: string,

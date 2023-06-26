@@ -16,9 +16,9 @@
 <script setup lang="ts">
   import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
-  import { metadataConverter } from "@/models/metadata";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { collection, doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
+  import { collection, doc, serverTimestamp, setDoc } from "@firebase/firestore";
+  import { nanoid } from "nanoid";
   import { useRouter } from "vue-router";
 
   type Props = { drawer: boolean };
@@ -33,21 +33,8 @@
     return;
   };
   const onClickCreate = async () => {
-    let characterId = -1;
-    // character id
-    const metadataDocRef = doc(
-      collection(firebaseDb, "metadata"),
-      import.meta.env.VITE_METADATA_DOCUMENT_ID
-    ).withConverter(metadataConverter);
-    const metadataDocSnap = await getDoc(metadataDocRef);
-    if (metadataDocSnap.exists()) {
-      characterId = metadataDocSnap.data().characterId + 1;
-      await setDoc(metadataDocRef, { characterId: characterId });
-    } else {
-      showSnackbar("メタデータの取得に失敗しました。管理者にお問い合わせください", "error");
-      return;
-    }
     // initialize
+    const characterId = nanoid();
     const information = {} as CharacterType;
     const timeStamp = serverTimestamp();
     information.id = characterId;

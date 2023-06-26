@@ -91,7 +91,7 @@
 
   type CharacterInformation = {
     name: string;
-    id: number;
+    id: string;
     tags: Array<string>;
     avatar: string;
     images: Array<{ id: number; description: string }>;
@@ -105,15 +105,15 @@
   const deleteDialog = ref(false);
   let deleteCharacter = {} as CharacterInformation;
 
-  const onClickView = (id: number) => {
+  const onClickView = (id: string) => {
     router.push(`/characters/${id}/view`);
     return;
   };
-  const onClickEdit = (id: number) => {
+  const onClickEdit = (id: string) => {
     router.push(`/characters/${id}/edit`);
     return;
   };
-  const onClickDelete = (id: number) => {
+  const onClickDelete = (id: string) => {
     deleteDialog.value = true;
     const selectedCharacter = characterInformations.value.find((characterInformation) => {
       return characterInformation.id === id;
