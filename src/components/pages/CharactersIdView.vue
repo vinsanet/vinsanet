@@ -243,9 +243,9 @@
               <v-col>
                 <v-row>
                   <v-col><div :class="'text-h4'">負傷</div></v-col>
-                  <v-col
-                    ><div :class="'text-h6'">{{ information.damage }}/3</div></v-col
-                  >
+                  <v-col>
+                    <div :class="'text-h6'">{{ information.damage }}/3</div>
+                  </v-col>
                   <v-col
                     ><v-rating
                       v-model="information.damage"
@@ -326,6 +326,12 @@
               label="0レベルの能力値を含める"
               hide-details
             ></v-switch>
+            <v-switch
+              v-model="isCommandKutulu"
+              color="primary"
+              label="Kutuluコマンドを使用する"
+              hide-details
+            ></v-switch>
             <v-textarea v-model="chatPallette" variant="outlined" no-resize readonly></v-textarea>
           </v-col>
         </v-row>
@@ -387,6 +393,7 @@
   const imageUrls = ref([] as Array<string>);
   const exportDialog = ref(false);
   const includeZeroValues = ref(false);
+  const isCommandKutulu = ref(false);
 
   const onClickEdit = () => {
     router.push(`/characters/${id}/edit`);
@@ -416,7 +423,11 @@
       if (skill.value !== 0 || includeZeroValues.value) {
         data.data.params.push({ label: `${skill.name}`, value: `${skill.value}` });
         if (index < activeSkillLength) {
-          data.data.commands += `{${skill.name}}B6>=4 【${skill.name}】\n`;
+          if (isCommandKutulu.value) {
+            data.data.commands += `{${skill.name}}KU 【${skill.name}】\n`;
+          } else {
+            data.data.commands += `{${skill.name}}B6>=4 【${skill.name}】\n`;
+          }
         }
       }
     });
@@ -475,7 +486,11 @@
     const activeSkillLength = 5;
     information.value.skills.forEach((skill, index) => {
       if ((skill.value !== 0 || includeZeroValues.value) && index < activeSkillLength) {
-        palette += `${skill.value}B6>=4 【${skill.name}】\n`;
+        if (isCommandKutulu.value) {
+          palette += `${skill.value}KU 【${skill.name}】\n`;
+        } else {
+          palette += `${skill.value}B6>=4 【${skill.name}】\n`;
+        }
       }
     });
     return palette.trim();
