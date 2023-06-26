@@ -358,7 +358,7 @@
                 <template v-for="(image, index) in information.images" :key="index">
                   <tr>
                     <td>
-                      <v-img :src="imageUrls[index].value" max-height="150"></v-img>
+                      <v-img :src="imageUrls[index]?.value" max-height="150"></v-img>
                     </td>
                     <td>
                       <v-text-field v-model="image.description" variant="underlined" clearable></v-text-field>
