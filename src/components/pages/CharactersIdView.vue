@@ -316,8 +316,18 @@
   </v-container>
   <v-dialog v-model="exportDialog" width="30%" min-width="400px">
     <v-card class="overflow-y-hidden">
-      <v-card-title>出力</v-card-title>
+      <v-card-title>キャラクター出力</v-card-title>
       <v-card-text>
+        <v-row v-if="skillPoints > 13">
+          <v-col>
+            <v-alert type="warning" text="能力値が上限を越えています"></v-alert>
+          </v-col>
+        </v-row>
+        <v-row v-if="specialityPoints > 10">
+          <v-col>
+            <v-alert type="warning" text="専門分野が上限を越えています"></v-alert>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col>
             <v-switch
@@ -366,7 +376,7 @@
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
-            <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">出力</v-btn>
+            <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">キャラクター出力</v-btn>
           </v-col>
           <v-col></v-col>
         </v-row>
