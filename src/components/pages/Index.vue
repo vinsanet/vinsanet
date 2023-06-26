@@ -63,7 +63,7 @@
       >
         {{ link.name }}
       </v-btn>
-      <v-col class="text-center" cols="12"> {{ new Date().getFullYear() }} - Kutulu character sheet</v-col>
+      <v-col class="text-center" cols="12">© 2023 - はにーま</v-col>
     </v-row>
   </v-footer>
 </template>
