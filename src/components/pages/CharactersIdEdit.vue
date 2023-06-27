@@ -340,7 +340,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="imageDialog" width="40%">
+  <v-dialog v-model="imageDialog" width="40%" @click:outside="onClickImageClose">
     <v-card>
       <v-card-title>画像編集</v-card-title>
       <v-card-text>
@@ -392,7 +392,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="imageDialog = false">閉じる</v-btn>
+        <v-btn color="primary" block @click="onClickImageClose">閉じる</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -517,6 +517,10 @@
     });
   };
 
+  const onClickImageClose = () => {
+    newImage.value = [];
+    imageDialog.value = false;
+  };
   const onChangeTagValue = () => {
     if (newTag.value.match(/^\s+$/)) {
       newTag.value = "";
@@ -546,9 +550,6 @@
   };
   const onClickOutsidePublish = () => {
     publish.value = information.value.isPublishing ? "公開" : "非公開";
-  };
-  const onClickOutsideRule = () => {
-    rule.value = information.value.rule;
   };
   const onClickRule = () => {
     information.value.rule = rule.value;
@@ -609,6 +610,9 @@
         break;
     }
     ruleDialog.value = false;
+  };
+  const onClickOutsideRule = () => {
+    rule.value = information.value.rule;
   };
   const onClickSave = () => {
     information.value.updatedAt = serverTimestamp();
