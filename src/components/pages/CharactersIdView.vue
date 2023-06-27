@@ -6,7 +6,7 @@
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-carousel hide-delimiters show-arrows="hover">
+                <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
                   <v-carousel-item v-for="imageUrl in imageUrls" :key="imageUrl" :src="imageUrl"></v-carousel-item>
                 </v-carousel>
               </v-col>
@@ -401,6 +401,7 @@
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
+  const imagePage = ref(0);
   const exportDialog = ref(false);
   const includeZeroValues = ref(false);
   const isCommandKutulu = ref(false);

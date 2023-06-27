@@ -7,7 +7,7 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-carousel hide-delimiters show-arrows="hover">
+                  <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
                     <v-carousel-item
                       v-for="imageUrl in imageUrls"
                       :key="imageUrl.id"
@@ -476,6 +476,7 @@
 
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
+  const imagePage = ref(0);
   const newImage = ref([]);
   const newTag = ref("");
   const publish = ref<"公開" | "非公開">("公開");
@@ -492,6 +493,7 @@
         const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
         getDownloadURL(imageRef).then((downloadUrl) => {
           imageUrls.value.push({ id: `${id}-${newId}`, value: downloadUrl });
+          imagePage.value = imageUrls.value.length - 1;
         });
       })
       .then(() => {
@@ -506,6 +508,7 @@
       imageUrls.value = imageUrls.value.filter((imageUrl) => {
         return imageUrl.id !== `${id}-${imageId}`;
       });
+      imagePage.value = Math.max(0, imageUrls.value.length - 1);
       information.value.images = information.value.images.filter((image) => {
         return image.id !== imageId;
       });
