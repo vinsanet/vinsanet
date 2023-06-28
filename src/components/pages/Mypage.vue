@@ -16,7 +16,6 @@
                       v-if="!character.isPublishing"
                       label
                       variant="outlined"
-                      :ripple="false"
                       size="x-small"
                       prepend-icon="mdi-eye-off"
                     >
@@ -25,7 +24,7 @@
                   </v-list-item-title>
                   <v-chip-group :disabled="true">
                     <div v-for="tag in character.tags" :key="tag" :index="index">
-                      <v-chip label :ripple="false">{{ tag }}</v-chip>
+                      <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
                     </div>
                   </v-chip-group>
                   <template #append>
