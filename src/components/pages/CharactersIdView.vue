@@ -13,12 +13,12 @@
               <v-col>
                 <v-row>
                   <v-col>
-                    <div :class="'text-h3'">{{ information.kana }}</div>
+                    <div :class="'text-h5'">{{ information.kana }}</div>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col>
-                    <div :class="'text-h1'">{{ information.name }}</div>
+                    <div :class="'text-h3'">{{ information.name }}</div>
                   </v-col>
                 </v-row>
                 <v-row>
