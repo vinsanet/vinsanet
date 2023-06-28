@@ -6,8 +6,14 @@
       <div :class="['text-caption']">v{{ version }}</div>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn :icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'" @click.stop="toggleTheme"></v-btn>
-    <v-btn :icon="'mdi-logout'" @click.stop="onClickLogout"></v-btn>
+    <v-btn icon @click.stop="toggleTheme">
+      <v-icon>{{ theme === "light" ? "mdi-weather-sunny" : "mdi-weather-night" }}</v-icon>
+      <v-tooltip activator="parent" location="bottom">テーマ変更</v-tooltip>
+    </v-btn>
+    <v-btn icon @click.stop="onClickLogout">
+      <v-icon>mdi-logout</v-icon>
+      <v-tooltip activator="parent" location="bottom">ログアウト</v-tooltip>
+    </v-btn>
   </v-app-bar>
 </template>
 
