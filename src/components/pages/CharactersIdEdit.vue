@@ -7,18 +7,22 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
-                    <v-carousel-item
-                      v-for="imageUrl in imageUrls"
-                      :key="imageUrl.id"
-                      :src="imageUrl.value"
-                    ></v-carousel-item>
-                  </v-carousel>
+                  <v-col>
+                    <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
+                      <v-carousel-item
+                        v-for="imageUrl in imageUrls"
+                        :key="imageUrl.id"
+                        :src="imageUrl.value"
+                      ></v-carousel-item>
+                    </v-carousel>
+                  </v-col>
                 </v-row>
-                <v-row class="d-flex align-center justify-center">
-                  <v-btn color="indigo" prepend-icon="mdi-image-edit-outline" @click="() => (imageDialog = true)"
-                    >画像編集</v-btn
-                  >
+                <v-row>
+                  <v-col class="d-flex align-center justify-center">
+                    <v-btn color="indigo" prepend-icon="mdi-image-edit-outline" @click="() => (imageDialog = true)"
+                      >画像編集</v-btn
+                    >
+                  </v-col>
                 </v-row>
               </v-col>
               <v-col>
