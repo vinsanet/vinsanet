@@ -41,8 +41,10 @@
   import GithubButton from "@/components/parts/GithubButton.vue";
   import GoogleButton from "@/components/parts/GoogleButton.vue";
   import TwitterButton from "@/components/parts/TwitterButton.vue";
-  import { firebaseAuth } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
+  import { accountConverter } from "@/models/account";
   import { useSnackbarStore } from "@/store/snackbar";
+  import { collection, doc, setDoc } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "firebase/auth";
   import { useRouter } from "vue-router";
 
@@ -50,9 +52,16 @@
 
   const router = useRouter();
 
-  firebaseAuth.onAuthStateChanged((user) => {
+  firebaseAuth.onAuthStateChanged(async (user) => {
     if (!user) return;
-    showSnackbar("ログインしました", "success");
+    if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+      const accountDocRef = doc(collection(firebaseDb, "accounts")).withConverter(accountConverter);
+      const data = { id: user.uid, name: user.displayName };
+      await setDoc(accountDocRef, { ...data });
+      showSnackbar("アカウントを作成しました", "success");
+    } else {
+      showSnackbar("ログインしました", "success");
+    }
     router.push("/mypage");
   });
   const onClickTwitter = () => {

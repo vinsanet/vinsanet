@@ -1,13 +1,40 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-row>
-        <v-col>
-          <v-card>
+      <v-card>
+        <v-row>
+          <v-col>
+            <v-card-title>アカウント名設定</v-card-title>
+            <v-card-text>
+              <v-row
+                ><v-col><div :class="'text-caption'">アカウント名は他のユーザーに表示されません</div></v-col></v-row
+              >
+              <v-row>
+                <v-col>
+                  <v-text-field v-model="accountName" variant="outlined">
+                    <template #append>
+                      <v-btn color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName"
+                        >保存</v-btn
+                      >
+                    </template>
+                  </v-text-field>
+                </v-col>
+                <v-spacer></v-spacer>
+              </v-row>
+            </v-card-text>
+          </v-col>
+        </v-row>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col>
             <v-card-title>ログイン連携</v-card-title>
             <v-card-text>
               <v-row>
-                <v-col>現在のアカウントに他サービスのアカウントを連携することができます。</v-col>
+                <v-col
+                  ><div :class="'text-caption'">
+                    現在のアカウントに他サービスのアカウントを連携することができます。
+                  </div></v-col
+                >
               </v-row>
               <v-row>
                 <v-table>
@@ -49,9 +76,9 @@
                 </v-table>
               </v-row>
             </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-responsive>
   </v-container>
   <v-dialog v-model="twitterDialog" width="30%" min-width="400px">
@@ -108,15 +135,21 @@
 </template>
 
 <script setup lang="ts">
-  import { firebaseAuth } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
+  import { accountConverter } from "@/models/account";
+  import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
+  import { collection, doc, getDocs, query, updateDoc, where } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, linkWithRedirect, unlink } from "firebase/auth";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
 
   const router = useRouter();
+  const { setAccountName } = useAccountNameStore();
   const { showSnackbar } = useSnackbarStore();
+  let documentId = "";
 
+  const accountName = ref("");
   const twitterAuthorized = ref(false);
   const googleAuthorized = ref(false);
   const githubAuthoized = ref(false);
@@ -130,6 +163,19 @@
       router.push("/login");
       return;
     }
+
+    const q = query(collection(firebaseDb, "accounts"), where("id", "==", user.uid)).withConverter(accountConverter);
+    getDocs(q).then((querySnapshot) => {
+      if (querySnapshot.empty) {
+        showSnackbar("アカウントが存在しません", "error");
+        router.push("/login");
+        return;
+      }
+      const account = querySnapshot.docs[0].data();
+      accountName.value = account.name;
+      documentId = querySnapshot.docs[0].id;
+    });
+
     user.providerData.forEach((provider) => {
       if (provider.providerId === "twitter.com") {
         twitterAuthorized.value = true;
@@ -140,6 +186,13 @@
       }
     });
   });
+  const onClickSaveAccountName = () => {
+    const docRef = doc(collection(firebaseDb, "accounts"), documentId).withConverter(accountConverter);
+    updateDoc(docRef, { name: accountName.value }).then(() => {
+      showSnackbar("アカウント名を更新しました", "success");
+      setAccountName(accountName.value);
+    });
+  };
   const onClickTwitter = () => {
     const provider = new TwitterAuthProvider();
     if (!firebaseAuth.currentUser) {
