@@ -11,7 +11,18 @@
               >
               <v-row>
                 <v-col>
-                  <v-text-field v-model="accountName" variant="outlined">
+                  <v-text-field
+                    v-model="accountName"
+                    variant="outlined"
+                    :rules="[
+                      (value: string) => {
+                        return !!value || 'アカウント名を入力してください';
+                      },
+                      (value: string) => {
+                        return value.length <= 50 || '50文字以内で入力してください';
+                      },
+                    ]"
+                  >
                     <template #append>
                       <v-btn color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName"
                         >保存</v-btn
@@ -187,6 +198,14 @@
     });
   });
   const onClickSaveAccountName = () => {
+    if (accountName.value.length === 0) {
+      showSnackbar("アカウント名を入力してください", "error");
+      return;
+    }
+    if (accountName.value.length > 50) {
+      showSnackbar("アカウント名は50文字以内で入力してください", "error");
+      return;
+    }
     const docRef = doc(collection(firebaseDb, "accounts"), documentId).withConverter(accountConverter);
     updateDoc(docRef, { name: accountName.value }).then(() => {
       showSnackbar("アカウント名を更新しました", "success");
