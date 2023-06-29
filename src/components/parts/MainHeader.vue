@@ -6,21 +6,34 @@
       <div :class="['text-caption']">v{{ version }}</div>
     </v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon @click.stop="toggleTheme">
-      <v-icon>{{ theme === "light" ? "mdi-weather-sunny" : "mdi-weather-night" }}</v-icon>
-      <v-tooltip activator="parent" location="bottom">テーマ変更</v-tooltip>
-    </v-btn>
-    <v-btn icon @click.stop="onClickLogout">
-      <v-icon>mdi-logout</v-icon>
-      <v-tooltip activator="parent" location="bottom">ログアウト</v-tooltip>
+    {{ accountName }}
+    <v-btn icon class="ml-4">
+      <v-icon>mdi-cog</v-icon>
+      <v-menu activator="parent" :close-on-content-click="false">
+        <v-list>
+          <v-list-item>
+            <v-switch
+              :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+              hide-details="auto"
+              @change="toggleTheme"
+            ></v-switch>
+          </v-list-item>
+          <v-list-item>
+            <v-btn :prepend-icon="'mdi-logout'" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-btn>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
-  import { firebaseAuth } from "@/firebase/firebase";
+  import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
+  import { accountConverter } from "@/models/account";
+  import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
   import { useThemeStore } from "@/store/theme";
+  import { collection, getDocs, query, where } from "@firebase/firestore";
   import { storeToRefs } from "pinia";
   import { useRouter } from "vue-router";
 
@@ -28,11 +41,23 @@
 
   const version = import.meta.env.VITE_APP_VERSION;
   const props = defineProps<Props>();
-  const themeStore = useThemeStore();
+  const accountNamestore = useAccountNameStore();
+  const { accountName } = storeToRefs(accountNamestore);
+  const { setAccountName } = accountNamestore;
   const { showSnackbar } = useSnackbarStore();
-  const router = useRouter();
+  const themeStore = useThemeStore();
   const { theme } = storeToRefs(themeStore);
   const { toggleTheme } = themeStore;
+  const router = useRouter();
+
+  firebaseAuth.onAuthStateChanged(async (user) => {
+    if (!user) return;
+    const q = query(collection(firebaseDb, "accounts"), where("id", "==", user.uid)).withConverter(accountConverter);
+    getDocs(q).then((querySnapshot) => {
+      const account = querySnapshot.docs[0].data();
+      setAccountName(account.name ?? "");
+    });
+  });
 
   const onClickLogout = () => {
     firebaseAuth.signOut().then(() => {
