@@ -45,7 +45,7 @@
   import { accountConverter } from "@/models/account";
   import { useSnackbarStore } from "@/store/snackbar";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "@firebase/auth";
-  import { collection, doc, setDoc } from "@firebase/firestore";
+  import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
@@ -54,14 +54,18 @@
 
   firebaseAuth.onAuthStateChanged(async (user) => {
     if (!user) return;
-    if (user.metadata.creationTime === user.metadata.lastSignInTime) {
-      const accountDocRef = doc(collection(firebaseDb, "accounts")).withConverter(accountConverter);
-      const data = { id: user.uid, name: user.displayName };
-      await setDoc(accountDocRef, { ...data });
-      showSnackbar("アカウントを作成しました", "success");
-    } else {
-      showSnackbar("ログインしました", "success");
-    }
+    const accountsCollection = collection(firebaseDb, "accounts");
+    const q = query(accountsCollection, where("id", "==", user.uid)).withConverter(accountConverter);
+    getDocs(q).then(async (querySnapshot) => {
+      if (querySnapshot.empty) {
+        const accountDocRef = doc(accountsCollection).withConverter(accountConverter);
+        const data = { id: user.uid, name: user.displayName };
+        await setDoc(accountDocRef, { ...data });
+        showSnackbar("アカウントを作成しました", "success");
+      } else {
+        showSnackbar("ログインしました", "success");
+      }
+    });
     router.push("/mypage");
   });
   const onClickTwitter = () => {
