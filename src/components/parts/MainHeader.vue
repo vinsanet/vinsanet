@@ -54,8 +54,8 @@
     if (!user) return;
     const q = query(collection(firebaseDb, "accounts"), where("id", "==", user.uid)).withConverter(accountConverter);
     getDocs(q).then((querySnapshot) => {
-      const account = querySnapshot.docs[0].data();
-      setAccountName(account.name ?? "");
+      const account = querySnapshot.docs[0]?.data();
+      setAccountName(account?.name ?? user.displayName);
     });
   });
 
