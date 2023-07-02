@@ -22,7 +22,10 @@
                 @change="toggleTheme"
               ></v-switch>
             </v-list-item>
-            <v-list-item>
+            <v-list-item v-if="!isLoggedIn">
+              <v-btn :prepend-icon="'mdi-login'" variant="plain" @click.stop="onClickLogin">ログイン</v-btn>
+            </v-list-item>
+            <v-list-item v-if="isLoggedIn">
               <v-btn :prepend-icon="'mdi-logout'" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
             </v-list-item>
           </v-list>
@@ -40,12 +43,15 @@
   import { useThemeStore } from "@/store/theme";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { storeToRefs } from "pinia";
+  import { ref } from "vue";
   import { useRouter } from "vue-router";
 
   type Props = { onClickNavIcon: () => void };
 
   const version = import.meta.env.VITE_APP_VERSION;
   const props = defineProps<Props>();
+  const isLoggedIn = ref(false);
+
   const accountNamestore = useAccountNameStore();
   const { accountName } = storeToRefs(accountNamestore);
   const { setAccountName } = accountNamestore;
@@ -56,7 +62,11 @@
   const router = useRouter();
 
   firebaseAuth.onAuthStateChanged(async (user) => {
-    if (!user) return;
+    if (!user) {
+      isLoggedIn.value = false;
+      return;
+    }
+    isLoggedIn.value = true;
     const q = query(collection(firebaseDb, "accounts"), where("id", "==", user.uid)).withConverter(accountConverter);
     getDocs(q).then((querySnapshot) => {
       const account = querySnapshot.docs[0]?.data();
@@ -64,6 +74,10 @@
     });
   });
 
+  const onClickLogin = () => {
+    router.push("/login");
+    return;
+  };
   const onClickLogout = () => {
     firebaseAuth.signOut().then(() => {
       if (theme.value === "dark") {
