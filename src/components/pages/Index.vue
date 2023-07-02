@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"> -->
   <v-parallax :src="imageUrl">
     <v-container class="fill-height">
       <v-row style="height: 100vh" class="align-center text-center">
@@ -12,20 +11,21 @@
           <v-row class="pa-4">
             <v-col>
               Kutulu character sheetは、Kutulu
-              TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。<br />
-              キャラクター画像のアップロードも可能です。
+              TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。
             </v-col>
           </v-row>
-          <v-row :justify="'center'" class="pt-4">
-            <v-col cols="2"><v-btn color="primary" to="/login">ログイン</v-btn></v-col>
-            <v-col cols="2"><v-btn color="success" to="/register">新規登録</v-btn></v-col>
+          <v-row :justify="'center'">
+            <v-spacer></v-spacer>
+            <v-col><v-btn color="primary" to="/login">ログイン</v-btn></v-col>
+            <v-col><v-btn color="success" to="/register">新規登録</v-btn></v-col>
+            <v-spacer></v-spacer>
           </v-row>
           <v-row :justify="'center'">
             <v-col>ご利用にはアカウント登録が必要です。</v-col>
           </v-row>
         </v-col>
       </v-row>
-      <v-row style="height: 80vh" class="align-center text-center">
+      <v-row class="align-center text-center align-stretch">
         <v-col>
           <v-card>
             <v-icon size="75">mdi-account-details</v-icon>
@@ -48,7 +48,7 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row style="height: 20vh" class="align-center text-center">
+      <v-row class="align-center text-center">
         <v-col>
           <v-card color="blue-grey">
             <v-card-text class="text-left pa-6">
@@ -62,18 +62,18 @@
     </v-container>
   </v-parallax>
   <v-footer color="primary">
-    <v-row justify="center" no-gutters>
-      <v-btn
-        v-for="link in links"
-        :key="link.name"
-        color="white"
-        variant="text"
-        class="px-8 my-2 text-capitalize"
-        :prepend-icon="link.icon"
-        :href="link.url"
-      >
-        {{ link.name }}
-      </v-btn>
+    <v-row no-gutters>
+      <v-col v-for="link in links" :key="link.name" class="text-center">
+        <v-btn
+          color="white"
+          variant="text"
+          class="px-8 my-2 text-capitalize"
+          :prepend-icon="link.icon"
+          :href="link.url"
+        >
+          {{ link.name }}
+        </v-btn>
+      </v-col>
       <v-col class="text-center" cols="12">© 2023 - はにーま</v-col>
     </v-row>
   </v-footer>
