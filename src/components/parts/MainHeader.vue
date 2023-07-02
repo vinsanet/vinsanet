@@ -1,29 +1,34 @@
 <template>
   <v-app-bar hide-on-scroll>
-    <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
-    <v-toolbar-title style="cursor: pointer" @click="$router.push('/mypage')">
-      Kutulu character sheet <v-chip size="small">Beta</v-chip>
-      <div :class="['text-caption']">v{{ version }}</div>
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-    {{ accountName }}
-    <v-btn icon class="ml-4">
-      <v-icon>mdi-cog</v-icon>
-      <v-menu activator="parent" :close-on-content-click="false">
-        <v-list>
-          <v-list-item>
-            <v-switch
-              :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-              hide-details="auto"
-              @change="toggleTheme"
-            ></v-switch>
-          </v-list-item>
-          <v-list-item>
-            <v-btn :prepend-icon="'mdi-logout'" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-btn>
+    <template #prepend>
+      <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
+    </template>
+    <v-app-bar-title style="cursor: pointer" class="text-subtitle-1" @click="$router.push('/mypage')">
+      Kutulu character sheet
+      <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
+    </v-app-bar-title>
+    <div class="text-subtitle-2" style="max-width: 30vw; overflow: hidden; text-overflow: ellipsis">
+      {{ accountName }}
+    </div>
+    <template #append>
+      <v-btn icon class="ml-2">
+        <v-icon>mdi-cog</v-icon>
+        <v-menu activator="parent" :close-on-content-click="false">
+          <v-list>
+            <v-list-item>
+              <v-switch
+                :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
+                hide-details="auto"
+                @change="toggleTheme"
+              ></v-switch>
+            </v-list-item>
+            <v-list-item>
+              <v-btn :prepend-icon="'mdi-logout'" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-btn>
+    </template>
   </v-app-bar>
 </template>
 
