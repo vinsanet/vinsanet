@@ -22,13 +22,13 @@
                       非公開
                     </v-chip>
                   </v-list-item-title>
-                  <v-chip-group :disabled="true">
+                  <v-chip-group v-if="smAndUp" :disabled="true" column>
                     <div v-for="tag in character.tags" :key="tag" :index="index">
                       <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
                     </div>
                   </v-chip-group>
                   <template #append>
-                    <v-row>
+                    <v-row v-if="smAndUp">
                       <v-col>
                         <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
                           閲覧
@@ -50,6 +50,23 @@
                         </v-btn>
                       </v-col>
                     </v-row>
+                    <v-row v-if="xs">
+                      <v-btn icon variant="plain">
+                        <v-icon>mdi-dots-vertical</v-icon>
+                        <v-menu activator="parent">
+                          <v-list>
+                            <v-list-item title="閲覧" @click="onClickView(character.id)"></v-list-item>
+                            <v-list-item title="編集" @click="onClickEdit(character.id)"></v-list-item>
+                            <v-divider></v-divider>
+                            <v-list-item
+                              title="削除"
+                              class="text-error"
+                              @click="onClickDelete(character.id)"
+                            ></v-list-item>
+                          </v-list>
+                        </v-menu>
+                      </v-btn>
+                    </v-row>
                   </template>
                 </v-list-item>
                 <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
@@ -60,12 +77,15 @@
       </v-card>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="deleteDialog" width="30%" min-width="400px">
+  <v-dialog v-model="deleteDialog" width="auto">
     <v-card>
       <v-card-title>キャラクター削除</v-card-title>
       <v-card-text>
-        {{ deleteCharacter.name !== "" ? `キャラクター名：${deleteCharacter.name}` : "" }}<br />
-        一度削除すると元に戻すことはできません。本当に削除しますか？
+        <div>
+          <span class="text-decoration-underline">{{ deleteCharacter.name }}</span>
+          を削除しようとしています。
+        </div>
+        <div>一度削除すると、元に戻すことはできません。本当に削除しますか？</div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -87,6 +107,7 @@
   import { ref as storageRef } from "firebase/storage";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
+  import { useDisplay } from "vuetify";
 
   type CharacterInformation = {
     name: string;
@@ -99,6 +120,7 @@
 
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
+  const { xs, smAndUp } = useDisplay();
 
   const characterInformations = ref([] as Array<CharacterInformation>);
   const deleteDialog = ref(false);
