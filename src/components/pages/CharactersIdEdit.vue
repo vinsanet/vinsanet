@@ -5,7 +5,7 @@
         <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
                     <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
@@ -18,38 +18,38 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col class="d-flex align-center justify-center">
-                    <v-btn color="indigo" prepend-icon="mdi-image-edit-outline" @click="() => (imageDialog = true)"
-                      >画像編集</v-btn
-                    >
+                  <v-col class="d-flex justify-center">
+                    <v-btn color="indigo" prepend-icon="mdi-image-edit" @click="() => (imageDialog = true)">
+                      画像編集
+                    </v-btn>
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
                     <v-text-field v-model="information.name" variant="outlined" label="名前" clearable></v-text-field>
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col
-                    ><v-text-field
+                  <v-col>
+                    <v-text-field
                       v-model="information.kana"
                       variant="outlined"
                       label="読みがな"
                       clearable
-                    ></v-text-field
-                  ></v-col>
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
                 <v-row>
-                  <v-col
-                    ><v-text-field
+                  <v-col>
+                    <v-text-field
                       v-model="information.title"
                       variant="outlined"
                       label="称号 / 肩書"
                       clearable
-                    ></v-text-field
-                  ></v-col>
+                    ></v-text-field>
+                  </v-col>
                 </v-row>
                 <v-row>
                   <v-col>
@@ -97,10 +97,12 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col cols="2"><div :class="'text-h4'">能力値</div></v-col>
-                  <v-col cols="1"
-                    ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
-                  >
+                  <v-col :cols="mobile ? '6' : '3'"><div :class="['text-h5', 'text-lg-h4']">能力値</div></v-col>
+                  <v-col :cols="mobile ? '6' : '3'">
+                    <div :class="['text-body', 'text-lg-h6', skillPoints > 13 ? 'text-red' : '']">
+                      {{ skillPoints }}/13
+                    </div>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -110,10 +112,10 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
-                    <div :class="'text-h6'">アクティブ能力値</div>
+                    <div :class="['text-body', 'text-lg-h6', 'font-weight-bold']">アクティブ能力値</div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -123,22 +125,17 @@
                 </v-row>
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index <= 4">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
-                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                      </v-col>
-                      <v-col cols="2">
-                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                      </v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">{{ skill.name }}</v-col>
+                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col>
                         <v-rating
                           v-model="skill.value"
                           length="4"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="teal"
+                          color="green"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -146,10 +143,10 @@
                   </div>
                 </div>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
-                    <div :class="'text-h6'">パッシブ能力値</div>
+                    <div :class="['text-body', 'text-lg-h6', 'font-weight-bold']">パッシブ能力値</div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -159,22 +156,17 @@
                 </v-row>
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index >= 5">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
-                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                      </v-col>
-                      <v-col cols="2">
-                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                      </v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">{{ skill.name }}</v-col>
+                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col>
                         <v-rating
                           v-model="skill.value"
                           length="4"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="teal"
+                          color="green"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -192,12 +184,12 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col cols="2"><div :class="'text-h4'">専門分野</div></v-col>
-                  <v-col cols="1"
-                    ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
+                  <v-col :cols="mobile ? '6' : '3'"><div :class="['text-h5', 'text-lg-h4']">専門分野</div></v-col>
+                  <v-col :cols="mobile ? '6' : '3'">
+                    <div :class="['text-body', 'text-lg-h6', specialityPoints > 10 ? 'text-red' : '']">
                       {{ specialityPoints }}/10
-                    </div></v-col
-                  >
+                    </div>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -207,25 +199,24 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
                   <div v-if="index <= 5">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">
                         <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                       </v-col>
                       <v-col cols="2">
                         <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                       </v-col>
-                      <v-col cols="3">
+                      <v-col>
                         <v-rating
                           v-model="speciality.value"
                           length="3"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="indigo"
+                          color="blue"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -233,25 +224,24 @@
                   </div>
                 </div>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
                   <div v-if="index >= 6">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">
                         <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                       </v-col>
                       <v-col cols="2">
                         <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                       </v-col>
-                      <v-col cols="3">
+                      <v-col>
                         <v-rating
                           v-model="speciality.value"
                           length="3"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="indigo"
+                          color="blue"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -264,17 +254,17 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col :cols="mobile ? '12' : '6'">
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-row>
-                  <v-col><div :class="'text-h4'">負傷</div></v-col>
-                  <v-col
-                    ><div :class="'text-h6'">{{ information.damage }}/3</div></v-col
-                  >
-                  <v-col
-                    ><v-rating
+                <v-row class="px-2">
+                  <v-col cols="4"><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
+                  <v-col cols="2">
+                    <div :class="['text-body', 'text-lg-h6']">{{ information.damage }}/3</div>
+                  </v-col>
+                  <v-col>
+                    <v-rating
                       v-model="information.damage"
                       length="3"
                       density="compact"
@@ -282,19 +272,19 @@
                       empty-icon="mdi-circle-outline"
                       color="red"
                       clearable
-                    ></v-rating
-                  ></v-col>
+                    ></v-rating>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
           </v-sheet>
         </v-col>
-        <v-col>
+        <v-col :cols="mobile ? '12' : '6'">
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col><div :class="'text-h4'">タグ</div></v-col>
+                  <v-col><div :class="['text-h5', 'text-lg-h4']">タグ</div></v-col>
                 </v-row>
                 <v-row>
                   <v-col>
@@ -303,15 +293,14 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-text-field v-model="newTag" variant="outlined">
-                      <v-chip-group>
-                        <div v-for="(tag, index) in information.tags" :key="tag">
-                          <v-chip label :ripple="false" closable @click:close="onClickTagClose(index)">{{
-                            tag
-                          }}</v-chip>
-                        </div>
-                      </v-chip-group>
-                    </v-text-field>
+                    <v-chip-group column>
+                      <div v-for="(tag, index) in information.tags" :key="tag">
+                        <v-chip label :ripple="false" closable @click:close="onClickTagClose(index)">
+                          {{ tag }}
+                        </v-chip>
+                      </div>
+                    </v-chip-group>
+                    <v-text-field v-model="newTag" variant="outlined" @keyup.enter="onEnterTag()"></v-text-field>
                   </v-col>
                 </v-row>
               </v-col>
@@ -325,7 +314,7 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col><div :class="'text-h4'">メモ</div> </v-col>
+                  <v-col><div :class="['text-h5', 'text-lg-h4']">メモ</div></v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -336,7 +325,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.memo" variant="outlined" auto-grow counter></v-textarea>
+                <v-textarea v-model="information.memo" variant="outlined" counter></v-textarea>
               </v-col>
             </v-row>
           </v-sheet>
@@ -344,7 +333,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="imageDialog" width="40%" @click:outside="onClickImageClose">
+  <v-dialog v-model="imageDialog" width="500px" max-width="90%" @click:outside="onClickImageClose">
     <v-card>
       <v-card-title>画像編集</v-card-title>
       <v-card-text>
@@ -353,23 +342,23 @@
             <v-table>
               <thead>
                 <tr>
-                  <th>画像</th>
-                  <th>説明</th>
-                  <th>操作</th>
+                  <th width="25%">画像</th>
+                  <th width="60%">説明</th>
+                  <th width="15%">削除</th>
                 </tr>
               </thead>
               <tbody>
                 <template v-for="(image, index) in information.images" :key="index">
                   <tr>
                     <td>
-                      <v-img :src="imageUrls[index]?.value" max-height="150"></v-img>
+                      <v-img :src="imageUrls[index]?.value" max-width="150px" max-height="150px"></v-img>
                     </td>
                     <td>
-                      <v-text-field v-model="image.description" variant="underlined" clearable></v-text-field>
+                      <v-text-field v-model="image.description" variant="underlined"></v-text-field>
                     </td>
                     <td>
-                      <v-btn color="error" prepend-icon="mdi-delete" variant="outlined" @click="deleteImage(image.id)">
-                        削除
+                      <v-btn icon color="error" variant="text" @click="deleteImage(image.id)">
+                        <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </td>
                   </tr>
@@ -400,7 +389,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="publishingDialog" width="30%" min-width="400px" @click:outside="onClickOutsidePublish">
+  <v-dialog v-model="publishingDialog" width="auto" @click:outside="onClickOutsidePublish">
     <v-card>
       <v-card-title>公開設定</v-card-title>
       <v-card-text>
@@ -416,7 +405,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="ruleDialog" width="30%" min-width="400px" @click:outside="onClickOutsideRule">
+  <v-dialog v-model="ruleDialog" width="auto" @click:outside="onClickOutsideRule">
     <v-card>
       <v-card-title>ルール設定</v-card-title>
       <v-card-text>
@@ -441,7 +430,6 @@
     <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
-          <v-col></v-col>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView">閲覧画面</v-btn>
           </v-col>
@@ -456,7 +444,6 @@
           <v-col>
             <v-btn color="success" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
           </v-col>
-          <v-col></v-col>
         </v-row>
       </v-card-text>
     </v-card>
@@ -469,13 +456,15 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
-  import { computed, onMounted, ref, watchEffect } from "vue";
+  import { computed, onMounted, ref } from "vue";
   import { useRoute, useRouter } from "vue-router";
+  import { useDisplay } from "vuetify";
 
   const route = useRoute();
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
   const { id } = route.params;
+  const { mobile } = useDisplay();
   let documentId = "";
 
   let information = ref({} as CharacterType);
@@ -504,6 +493,7 @@
         information.value.images.push({ id: newId, description: "" });
         const docRef = doc(collection(firebaseDb, "characters"), `${documentId}`).withConverter(characterConverter);
         updateDoc(docRef, { images: information.value.images });
+        newImage.value = [];
       });
   };
   const deleteImage = (imageId: number) => {
@@ -525,21 +515,20 @@
     newImage.value = [];
     imageDialog.value = false;
   };
-  const onChangeTagValue = () => {
-    if (newTag.value.match(/^\s+$/)) {
+  const onEnterTag = () => {
+    const trimedValue = newTag.value.trim();
+    if (trimedValue === "") {
       newTag.value = "";
       return;
     }
-    const found = newTag.value.match(/^(.*)\s+/);
-    if (found === null) return;
-    if (information.value.tags.includes(found[0].trim())) {
+    if (information.value.tags.includes(trimedValue)) {
       newTag.value = "";
       return;
     }
     if (information.value.tags.length >= 10) {
       information.value.tags.shift();
     }
-    information.value.tags.push(found[0].trim());
+    information.value.tags.push(trimedValue);
     newTag.value = "";
   };
   const onClickTagClose = (index: number) => {
@@ -556,6 +545,10 @@
     publish.value = information.value.isPublishing ? "公開" : "非公開";
   };
   const onClickRule = () => {
+    if (information.value.rule === rule.value) {
+      ruleDialog.value = false;
+      return;
+    }
     information.value.rule = rule.value;
     switch (rule.value) {
       case "基本ルール":
@@ -656,10 +649,6 @@
           });
         });
       });
-  });
-
-  watchEffect(() => {
-    onChangeTagValue();
   });
 
   const skillPoints = computed(() => {

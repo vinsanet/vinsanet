@@ -5,20 +5,20 @@
         <v-col>
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
                   <v-carousel-item v-for="imageUrl in imageUrls" :key="imageUrl" :src="imageUrl"></v-carousel-item>
                 </v-carousel>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
-                    <div :class="'text-h5'">{{ information.kana }}</div>
+                    <div :class="['text-body', 'text-lg-h6']">{{ information.kana }}</div>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col>
-                    <div :class="'text-h3'">{{ information.name }}</div>
+                    <div :class="['text-h5', 'text-lg-h4']">{{ information.name }}</div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -27,32 +27,32 @@
                       <v-table>
                         <tbody>
                           <tr>
-                            <th>称号 / 肩書</th>
-                            <td>{{ information.title }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">称号 / 肩書</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.title }}</td>
                           </tr>
                           <tr>
-                            <th>年齢</th>
-                            <td>{{ information.age }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">年齢</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.age }}</td>
                           </tr>
                           <tr>
-                            <th>性別</th>
-                            <td>{{ information.gender }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">性別</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.gender }}</td>
                           </tr>
                           <tr>
-                            <th>職業</th>
-                            <td>{{ information.profession }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">職業</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.profession }}</td>
                           </tr>
                           <tr>
-                            <th>出身</th>
-                            <td>{{ information.home }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">出身</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.home }}</td>
                           </tr>
                           <tr>
-                            <th>階級</th>
-                            <td>{{ information.rank }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">階級</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.rank }}</td>
                           </tr>
                           <tr>
-                            <th>家柄</th>
-                            <td>{{ information.family }}</td>
+                            <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">家柄</th>
+                            <td :class="['text-body', 'text-lg-subtitle-1']">{{ information.family }}</td>
                           </tr>
                         </tbody>
                       </v-table>
@@ -70,10 +70,12 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col cols="2"><div :class="'text-h4'">能力値</div></v-col>
-                  <v-col cols="1"
-                    ><div :class="['text-h6', skillPoints > 13 ? 'text-red' : '']">{{ skillPoints }}/13</div></v-col
-                  >
+                  <v-col :cols="mobile ? '6' : '3'"><div :class="['text-h5', 'text-lg-h4']">能力値</div></v-col>
+                  <v-col :cols="mobile ? '6' : '3'">
+                    <div :class="['text-body', 'text-lg-h6', skillPoints > 13 ? 'text-red' : '']">
+                      {{ skillPoints }}/13
+                    </div>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -83,10 +85,10 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
-                    <div :class="'text-h6'">アクティブ能力値</div>
+                    <div :class="['text-body', 'text-lg-h6', 'font-weight-bold']">アクティブ能力値</div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -96,22 +98,17 @@
                 </v-row>
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index <= 4">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
-                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                      </v-col>
-                      <v-col cols="2">
-                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                      </v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">{{ skill.name }}</v-col>
+                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col>
                         <v-rating
                           v-model="skill.value"
                           length="4"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="teal"
+                          color="green"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -119,10 +116,10 @@
                   </div>
                 </div>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <v-row>
                   <v-col>
-                    <div :class="'text-h6'">パッシブ能力値</div>
+                    <div :class="['text-body', 'text-lg-h6', 'font-weight-bold']">パッシブ能力値</div>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -132,22 +129,17 @@
                 </v-row>
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index >= 5">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
-                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
-                      </v-col>
-                      <v-col cols="2">
-                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
-                      </v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">{{ skill.name }}</v-col>
+                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col>
                         <v-rating
                           v-model="skill.value"
                           length="4"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="teal"
+                          color="green"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -165,12 +157,12 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col cols="2"><div :class="'text-h4'">専門分野</div></v-col>
-                  <v-col cols="1"
-                    ><div :class="['text-h6', specialityPoints > 10 ? 'text-red' : '']">
+                  <v-col :cols="mobile ? '6' : '3'"><div :class="['text-h5', 'text-lg-h4']">専門分野</div></v-col>
+                  <v-col :cols="mobile ? '6' : '3'">
+                    <div :class="['text-body', 'text-lg-h6', specialityPoints > 10 ? 'text-red' : '']">
                       {{ specialityPoints }}/10
-                    </div></v-col
-                  >
+                    </div>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -180,25 +172,24 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
                   <div v-if="index <= 5">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">
                         <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                       </v-col>
                       <v-col cols="2">
                         <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                       </v-col>
-                      <v-col cols="3">
+                      <v-col>
                         <v-rating
                           v-model="speciality.value"
                           length="3"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="indigo"
+                          color="blue"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -206,25 +197,24 @@
                   </div>
                 </div>
               </v-col>
-              <v-col>
+              <v-col :cols="mobile ? '12' : '6'">
                 <div v-for="(speciality, index) in information.specialities" :key="speciality.name">
                   <div v-if="index >= 6">
-                    <v-row>
-                      <v-col cols="1"></v-col>
-                      <v-col cols="3">
+                    <v-row class="px-2">
+                      <v-col cols="4">
                         <div :class="'text-subtitle-1'">{{ speciality.name }}</div>
                       </v-col>
                       <v-col cols="2">
                         <div :class="'text-subtitle-1'">{{ speciality.value }}</div>
                       </v-col>
-                      <v-col cols="3">
+                      <v-col>
                         <v-rating
                           v-model="speciality.value"
                           length="3"
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="indigo"
+                          color="blue"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -237,17 +227,17 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col :cols="mobile ? '12' : '6'">
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-row>
-                  <v-col><div :class="'text-h4'">負傷</div></v-col>
-                  <v-col>
-                    <div :class="'text-h6'">{{ information.damage }}/3</div>
+                <v-row class="px-2">
+                  <v-col cols="4"><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
+                  <v-col cols="2">
+                    <div :class="['text-body', 'text-lg-h6']">{{ information.damage }}/3</div>
                   </v-col>
-                  <v-col
-                    ><v-rating
+                  <v-col>
+                    <v-rating
                       v-model="information.damage"
                       length="3"
                       density="compact"
@@ -255,19 +245,19 @@
                       empty-icon="mdi-circle-outline"
                       color="red"
                       readonly
-                    ></v-rating
-                  ></v-col>
+                    ></v-rating>
+                  </v-col>
                 </v-row>
               </v-col>
             </v-row>
           </v-sheet>
         </v-col>
-        <v-col>
+        <v-col :cols="mobile ? '12' : '6'">
           <v-sheet elevation="2" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col><div :class="'text-h4'">タグ</div> </v-col>
+                  <v-col><div :class="['text-h5', 'text-lg-h4']">タグ</div></v-col>
                 </v-row>
                 <v-row>
                   <v-col>
@@ -276,7 +266,7 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-chip-group :disabled="true">
+                    <v-chip-group :disabled="true" column>
                       <div v-if="information?.tags?.length === 0">設定なし</div>
                       <div v-for="tag in information.tags" v-else :key="tag">
                         <v-chip label :ripple="false">{{ tag }}</v-chip>
@@ -295,7 +285,7 @@
             <v-row>
               <v-col>
                 <v-row>
-                  <v-col><div :class="'text-h4'">メモ</div> </v-col>
+                  <v-col><div :class="['text-h5', 'text-lg-h4']">メモ</div> </v-col>
                 </v-row>
               </v-col>
             </v-row>
@@ -306,7 +296,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.memo" variant="outlined" auto-grow counter readonly></v-textarea>
+                <v-textarea v-model="information.memo" variant="outlined" counter readonly></v-textarea>
               </v-col>
             </v-row>
           </v-sheet>
@@ -314,18 +304,13 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="exportDialog" width="30%" min-width="400px">
+  <v-dialog v-model="exportDialog" width="auto">
     <v-card class="overflow-y-hidden">
       <v-card-title>キャラクター出力</v-card-title>
       <v-card-text>
-        <v-row v-if="skillPoints > 13">
+        <v-row v-if="alertMessage !== ''">
           <v-col>
-            <v-alert type="warning" text="能力値が上限を越えています"></v-alert>
-          </v-col>
-        </v-row>
-        <v-row v-if="specialityPoints > 10">
-          <v-col>
-            <v-alert type="warning" text="専門分野が上限を越えています"></v-alert>
+            <v-alert type="warning" density="compact" :text="alertMessage"></v-alert>
           </v-col>
         </v-row>
         <v-row>
@@ -334,12 +319,14 @@
               v-model="includeZeroValues"
               color="primary"
               label="0レベルの能力値を含める"
+              density="comfortable"
               hide-details
             ></v-switch>
             <v-switch
               v-model="isCommandKutulu"
               color="primary"
               label="Kutuluコマンドを使用する"
+              density="comfortable"
               hide-details
             ></v-switch>
             <v-textarea v-model="chatPallette" variant="outlined" no-resize readonly></v-textarea>
@@ -371,14 +358,12 @@
     <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
-          <v-col></v-col>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">キャラクター出力</v-btn>
           </v-col>
-          <v-col></v-col>
         </v-row>
       </v-card-text>
     </v-card>
@@ -393,11 +378,13 @@
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
   import { computed, onMounted, ref } from "vue";
   import { useRoute, useRouter } from "vue-router";
+  import { useDisplay } from "vuetify";
 
   const route = useRoute();
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
   const { id } = route.params;
+  const { mobile } = useDisplay();
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
@@ -489,6 +476,17 @@
     return information?.value?.specialities?.reduce((sum, speciality) => {
       return sum + speciality.value;
     }, 0);
+  });
+  const alertMessage = computed(() => {
+    if (skillPoints.value > 13 && specialityPoints.value > 10) {
+      return "能力値と専門分野が上限を越えています";
+    } else if (skillPoints.value > 13) {
+      return "能力値が上限を越えています";
+    } else if (specialityPoints.value > 10) {
+      return "専門分野が上限を越えています";
+    } else {
+      return "";
+    }
   });
   const chatPallette = computed(() => {
     let palette = "";
