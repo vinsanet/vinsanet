@@ -7,7 +7,7 @@
       Kutulu character sheet
       <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
     </v-app-bar-title>
-    <div class="text-subtitle-2" style="max-width: 30vw; overflow: hidden; text-overflow: ellipsis">
+    <div class="text-subtitle-2" style="max-width: 30%; overflow: hidden; text-overflow: ellipsis">
       {{ accountName }}
     </div>
     <template #append>
