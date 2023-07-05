@@ -20,7 +20,7 @@
                 <v-row>
                   <v-col class="d-flex justify-center">
                     <v-btn color="indigo" prepend-icon="mdi-image-edit" @click="() => (imageDialog = true)">
-                      画像編集
+                      画像追加・削除
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -335,7 +335,7 @@
   </v-container>
   <v-dialog v-model="imageDialog" width="500px" max-width="90%" @click:outside="onClickImageClose">
     <v-card>
-      <v-card-title>画像編集</v-card-title>
+      <v-card-title>画像追加・削除</v-card-title>
       <v-card-text>
         <v-row>
           <v-col>
@@ -374,9 +374,22 @@
         </v-row>
         <v-row>
           <v-col>
+            <v-btn
+              color="primary"
+              variant="outlined"
+              width="100%"
+              prepend-icon="mdi-image-plus"
+              @click="onClickImageAdd"
+            >
+              画像を追加
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row class="d-none">
+          <v-col>
             <v-file-input
+              id="fileInput"
               v-model="newImage"
-              label="新規画像"
               variant="underlined"
               accept="image/*"
               @change="uploadImage"
@@ -529,6 +542,12 @@
     });
   };
 
+  const onClickImageAdd = () => {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput !== null) {
+      fileInput.click();
+    }
+  };
   const onClickImageClose = () => {
     newImage.value = [];
     imageDialog.value = false;
