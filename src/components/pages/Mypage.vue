@@ -1,80 +1,102 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-card class="m-auto">
-        <div v-if="characterInformations.length === 0">
-          <v-card-text>キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。</v-card-text>
-        </div>
-        <div v-else>
-          <v-card-text>
-            <v-list lines="one">
-              <div v-for="(character, index) in characterInformations" :key="character.id" :index="index">
-                <v-list-item :key="character.id" :prepend-avatar="character.avatar">
-                  <v-list-item-title>
-                    {{ character.name }}
-                    <v-chip
-                      v-if="!character.isPublishing"
-                      label
-                      variant="outlined"
-                      size="x-small"
-                      prepend-icon="mdi-eye-off"
-                    >
-                      非公開
-                    </v-chip>
-                  </v-list-item-title>
-                  <v-chip-group v-if="smAndUp" :disabled="true" column>
-                    <div v-for="tag in character.tags" :key="tag" :index="index">
-                      <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
-                    </div>
-                  </v-chip-group>
-                  <template #append>
-                    <v-row v-if="smAndUp">
-                      <v-col>
-                        <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
-                          閲覧
-                        </v-btn>
-                      </v-col>
-                      <v-col>
-                        <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit(character.id)">
-                          編集
-                        </v-btn>
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                          color="error"
-                          prepend-icon="mdi-delete"
+      <v-row>
+        <v-col>
+          <v-btn color="primary" variant="outlined" prepend-icon="mdi-swap-vertical">
+            表示順
+            <v-menu activator="parent" :close-on-content-click="false">
+              <v-card class="pa-2">
+                <v-radio-group v-model="displayOrder" hide-details class="pr-2">
+                  <v-radio label="更新順" value="更新順"></v-radio>
+                  <v-radio label="作成順" value="作成順"></v-radio>
+                  <v-radio label="名前順" value="名前順"></v-radio>
+                </v-radio-group>
+              </v-card>
+            </v-menu>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card class="m-auto">
+            <div v-if="characterInformations.length === 0">
+              <v-card-text
+                >キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。</v-card-text
+              >
+            </div>
+            <div v-else>
+              <v-card-text>
+                <v-list lines="one">
+                  <div v-for="(character, index) in sortedCharacterInformations" :key="character.id" :index="index">
+                    <v-list-item :key="character.id" :prepend-avatar="character.avatar">
+                      <v-list-item-title>
+                        {{ character.name }}
+                        <v-chip
+                          v-if="!character.isPublishing"
+                          label
                           variant="outlined"
-                          @click="onClickDelete(character.id)"
+                          size="x-small"
+                          prepend-icon="mdi-eye-off"
                         >
-                          削除
-                        </v-btn>
-                      </v-col>
-                    </v-row>
-                    <v-row v-if="xs">
-                      <v-btn icon variant="plain">
-                        <v-icon>mdi-dots-vertical</v-icon>
-                        <v-menu activator="parent">
-                          <v-list>
-                            <v-list-item title="閲覧" @click="onClickView(character.id)"></v-list-item>
-                            <v-list-item title="編集" @click="onClickEdit(character.id)"></v-list-item>
-                            <v-divider></v-divider>
-                            <v-list-item
-                              title="削除"
-                              class="text-error"
+                          非公開
+                        </v-chip>
+                      </v-list-item-title>
+                      <v-chip-group v-if="smAndUp" :disabled="true" column>
+                        <div v-for="tag in character.tags" :key="tag" :index="index">
+                          <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
+                        </div>
+                      </v-chip-group>
+                      <template #append>
+                        <v-row v-if="smAndUp">
+                          <v-col>
+                            <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
+                              閲覧
+                            </v-btn>
+                          </v-col>
+                          <v-col>
+                            <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit(character.id)">
+                              編集
+                            </v-btn>
+                          </v-col>
+                          <v-col>
+                            <v-btn
+                              color="error"
+                              prepend-icon="mdi-delete"
+                              variant="outlined"
                               @click="onClickDelete(character.id)"
-                            ></v-list-item>
-                          </v-list>
-                        </v-menu>
-                      </v-btn>
-                    </v-row>
-                  </template>
-                </v-list-item>
-                <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
-              </div>
-            </v-list>
-          </v-card-text>
-        </div>
-      </v-card>
+                            >
+                              削除
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                        <v-row v-if="xs">
+                          <v-btn icon variant="plain">
+                            <v-icon>mdi-dots-vertical</v-icon>
+                            <v-menu activator="parent">
+                              <v-list>
+                                <v-list-item title="閲覧" @click="onClickView(character.id)"></v-list-item>
+                                <v-list-item title="編集" @click="onClickEdit(character.id)"></v-list-item>
+                                <v-divider></v-divider>
+                                <v-list-item
+                                  title="削除"
+                                  class="text-error"
+                                  @click="onClickDelete(character.id)"
+                                ></v-list-item>
+                              </v-list>
+                            </v-menu>
+                          </v-btn>
+                        </v-row>
+                      </template>
+                    </v-list-item>
+                    <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
+                  </div>
+                </v-list>
+              </v-card-text>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-responsive>
   </v-container>
   <v-dialog v-model="deleteDialog" width="auto">
@@ -102,10 +124,10 @@
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
+  import { FieldValue, collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL } from "@firebase/storage";
   import { ref as storageRef } from "firebase/storage";
-  import { ref } from "vue";
+  import { computed, ref } from "vue";
   import { useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
 
@@ -116,7 +138,10 @@
     avatar: string;
     images: Array<{ id: number; description: string }>;
     isPublishing: boolean;
+    createdAt: FieldValue;
+    updatedAt: FieldValue;
   };
+  type DisplayOrder = "更新順" | "作成順" | "名前順";
 
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
@@ -124,6 +149,7 @@
 
   const characterInformations = ref([] as Array<CharacterInformation>);
   const deleteDialog = ref(false);
+  const displayOrder = ref<DisplayOrder>("更新順");
   let deleteCharacter = {} as CharacterInformation;
 
   const onClickView = (id: string) => {
@@ -200,6 +226,8 @@
             characterInformation.tags = character.tags;
             characterInformation.images = character.images;
             characterInformation.isPublishing = character.isPublishing;
+            characterInformation.createdAt = character.createdAt;
+            characterInformation.updatedAt = character.updatedAt;
             const imagePath =
               character.images.length !== 0
                 ? `characters/${character.id}-${character.images[0].id}.png`
@@ -215,5 +243,27 @@
             characterInformations.value.push(characterInformation);
           });
       });
+  });
+
+  const sortedCharacterInformations = computed(() => {
+    const returnInformations = characterInformations.value;
+    switch (displayOrder.value) {
+      case "更新順":
+        returnInformations.sort((a, b) => {
+          return a.updatedAt < b.updatedAt ? 1 : -1;
+        });
+        break;
+      case "作成順":
+        returnInformations.sort((a, b) => {
+          return a.createdAt > b.createdAt ? 1 : -1;
+        });
+        break;
+      case "名前順":
+        returnInformations.sort((a, b) => {
+          return a.name > b.name ? 1 : -1;
+        });
+        break;
+    }
+    return returnInformations;
   });
 </script>
