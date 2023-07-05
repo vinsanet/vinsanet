@@ -426,12 +426,28 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="unsavedDialog" width="auto">
+    <v-card>
+      <v-card-text>
+        <v-row>
+          <v-col>未保存の変更があります。閲覧画面に移動しますか？</v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="unsavedDialog = false">キャンセル</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="error" @click="onClickView(true)">OK</v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   <v-footer app fixed>
     <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
           <v-col>
-            <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView">閲覧画面</v-btn>
+            <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(false)">閲覧画面</v-btn>
           </v-col>
           <v-col>
             <v-btn color="indigo" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)">公開設定</v-btn>
@@ -456,7 +472,7 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
-  import { computed, onMounted, ref } from "vue";
+  import { computed, onMounted, ref, watch } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
 
@@ -466,6 +482,7 @@
   const { id } = route.params;
   const { mobile } = useDisplay();
   let documentId = "";
+  let isDirty = false;
 
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
@@ -477,6 +494,7 @@
   const imageDialog = ref(false);
   const publishingDialog = ref(false);
   const ruleDialog = ref(false);
+  const unsavedDialog = ref(false);
 
   const uploadImage = async () => {
     const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
@@ -534,8 +552,13 @@
   const onClickTagClose = (index: number) => {
     information.value.tags.splice(index, 1);
   };
-  const onClickView = () => {
-    router.push(`/characters/${id}/view`);
+  const onClickView = (isForceMove: boolean) => {
+    if (isDirty && !isForceMove) {
+      unsavedDialog.value = true;
+      router.push(`/characters/${id}/edit`);
+    } else {
+      router.push(`/characters/${id}/view`);
+    }
   };
   const onClickPublish = () => {
     information.value.isPublishing = publish.value === "公開";
@@ -618,6 +641,7 @@
       showSnackbar("キャラクターを更新しました", "success");
       router.push(`/characters/${id}/view`);
     });
+    isDirty = false;
   };
 
   onMounted(() => {
@@ -648,7 +672,17 @@
             });
           });
         });
+        watch(
+          information,
+          () => {
+            isDirty = true;
+          },
+          { deep: true }
+        );
       });
+    window.onpopstate = () => {
+      onClickView(false);
+    };
   });
 
   const skillPoints = computed(() => {
