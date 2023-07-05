@@ -16,11 +16,13 @@
         <v-menu activator="parent" :close-on-content-click="false">
           <v-list>
             <v-list-item>
-              <v-switch
-                :prepend-icon="theme === 'light' ? 'mdi-weather-sunny' : 'mdi-weather-night'"
-                hide-details="auto"
-                @change="toggleTheme"
-              ></v-switch>
+              <v-row justify="center" class="align-center">
+                <v-col class="text-center"><v-icon>mdi-weather-sunny</v-icon></v-col>
+                <v-col class="text-center pl-0">
+                  <v-switch hide-details="auto" inset @change="toggleTheme"></v-switch>
+                </v-col>
+                <v-col class="text-center"><v-icon>mdi-weather-night</v-icon></v-col>
+              </v-row>
             </v-list-item>
             <v-list-item v-if="!isLoggedIn">
               <v-btn :prepend-icon="'mdi-login'" variant="plain" @click.stop="onClickLogin">ログイン</v-btn>
