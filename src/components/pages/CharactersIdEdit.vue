@@ -381,7 +381,7 @@
               prepend-icon="mdi-image-plus"
               @click="onClickImageAdd"
             >
-              画像を追加
+              画像追加
             </v-btn>
           </v-col>
         </v-row>
