@@ -4,7 +4,12 @@
       <v-col>
         <v-row :justify="'center'" class="pa-2">
           <v-col class="text-center">
-            <div :class="['text-h3']">ログイン</div>
+            <div :class="['text-h4']">ログイン</div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-divider></v-divider>
           </v-col>
         </v-row>
         <v-row>
