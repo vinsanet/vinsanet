@@ -52,9 +52,17 @@
         <v-col>
           <v-card color="blue-grey">
             <v-card-text class="text-left pa-6">
-              当サイトは、Kutulu日本語版の２次創作ガイドラインに基づく創作物です。オリジナル（スウェーデン語）の利用はCC-BY4.0によります。<br />
-              “Kutulu Japanese Language Version” Is Copyright 2022 By ViviON ; All Rights Reserved. Planning By
-              FrogGames. Published By ViviON.
+              <p>
+                本サイトは、株式会社viviONより発売された、Kutulu日本語版の２次創作ガイドラインに基づく創作物です。オリジナル（スウェーデン語）の利用はCC-BY4.0によります。
+              </p>
+              <p>
+                "Kutulu" is available under the CC-BY 4.0 International license; therefore, anyone is free to create,
+                copy and add to it as long as they follow the legal norms of that license.
+              </p>
+              <p>
+                "Kutulu Japanese Language Version" is Copyright 2022 By ViviON ; All Rights Reserved. Planning By
+                FrogGames. Published By ViviON.
+              </p>
             </v-card-text>
           </v-card>
         </v-col>
