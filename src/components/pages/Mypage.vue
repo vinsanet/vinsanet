@@ -47,6 +47,9 @@
                           <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
                         </div>
                       </v-chip-group>
+                      <v-list-item-subtitle>
+                        更新：{{ character.updatedAt.toDate().toLocaleString() }}
+                      </v-list-item-subtitle>
                       <template #append>
                         <v-row v-if="smAndUp">
                           <v-col>
@@ -124,7 +127,7 @@
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { FieldValue, collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
+  import { Timestamp, collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL } from "@firebase/storage";
   import { ref as storageRef } from "firebase/storage";
   import { computed, ref } from "vue";
@@ -138,8 +141,8 @@
     avatar: string;
     images: Array<{ id: number; description: string }>;
     isPublishing: boolean;
-    createdAt: FieldValue;
-    updatedAt: FieldValue;
+    createdAt: Timestamp;
+    updatedAt: Timestamp;
   };
   type DisplayOrder = "更新順" | "作成順" | "名前順";
 
@@ -226,8 +229,8 @@
             characterInformation.tags = character.tags;
             characterInformation.images = character.images;
             characterInformation.isPublishing = character.isPublishing;
-            characterInformation.createdAt = character.createdAt;
-            characterInformation.updatedAt = character.updatedAt;
+            characterInformation.createdAt = character.createdAt as Timestamp;
+            characterInformation.updatedAt = character.updatedAt as Timestamp;
             const imagePath =
               character.images.length !== 0
                 ? `characters/${character.id}-${character.images[0].id}.png`
