@@ -40,6 +40,9 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-overlay v-model="overlay" class="align-center justify-center">
+    <v-progress-circular color="primary" indeterminate size="64" width="6"></v-progress-circular>
+  </v-overlay>
 </template>
 
 <script setup lang="ts">
@@ -49,30 +52,34 @@
   import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
   import { accountConverter } from "@/models/account";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
+  import { collection, getDocs, query, where } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "firebase/auth";
+  import { ref } from "vue";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
 
   const router = useRouter();
+  const overlay = ref(true);
 
   firebaseAuth.onAuthStateChanged(async (user) => {
-    if (!user) return;
+    if (!user) {
+      overlay.value = false;
+      return;
+    }
     const accountsCollection = collection(firebaseDb, "accounts");
     const q = query(accountsCollection, where("id", "==", user.uid)).withConverter(accountConverter);
     getDocs(q).then(async (querySnapshot) => {
       if (querySnapshot.empty) {
-        const accountDocRef = doc(accountsCollection).withConverter(accountConverter);
-        const data = { id: user.uid, name: user.displayName };
-        await setDoc(accountDocRef, { ...data });
-        showSnackbar("アカウントを作成しました", "success");
+        showSnackbar("アカウントが登録されていません", "error");
+        firebaseAuth.signOut();
       } else {
         showSnackbar("ログインしました", "success");
+        router.push("/mypage");
       }
     });
-    router.push("/mypage");
   });
+
   const onClickTwitter = () => {
     const provider = new TwitterAuthProvider();
     signInWithRedirect(firebaseAuth, provider).catch((error) => {

@@ -40,6 +40,9 @@
       </v-col>
     </v-row>
   </v-container>
+  <v-overlay v-model="overlay" class="align-center justify-center">
+    <v-progress-circular color="primary" indeterminate size="64" width="6"></v-progress-circular>
+  </v-overlay>
 </template>
 
 <script setup lang="ts">
@@ -51,14 +54,19 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "@firebase/auth";
   import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
+  import { ref } from "vue";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
 
   const router = useRouter();
+  const overlay = ref(true);
 
   firebaseAuth.onAuthStateChanged(async (user) => {
-    if (!user) return;
+    if (!user) {
+      overlay.value = false;
+      return;
+    }
     const accountsCollection = collection(firebaseDb, "accounts");
     const q = query(accountsCollection, where("id", "==", user.uid)).withConverter(accountConverter);
     getDocs(q).then(async (querySnapshot) => {
@@ -68,11 +76,12 @@
         await setDoc(accountDocRef, { ...data });
         showSnackbar("アカウントを作成しました", "success");
       } else {
-        showSnackbar("ログインしました", "success");
+        showSnackbar("作成済みのアカウントにログインしました", "success");
       }
     });
     router.push("/mypage");
   });
+
   const onClickTwitter = () => {
     const provider = new TwitterAuthProvider();
     signInWithRedirect(firebaseAuth, provider).catch((error) => {
@@ -81,6 +90,7 @@
     });
   };
   const onClickGoogle = () => {
+    overlay.value = true;
     const provider = new GoogleAuthProvider();
     signInWithRedirect(firebaseAuth, provider).catch((error) => {
       const errorMessage = error.message;
@@ -88,6 +98,7 @@
     });
   };
   const onClickGithub = () => {
+    overlay.value = true;
     const provider = new GithubAuthProvider();
     signInWithRedirect(firebaseAuth, provider).catch((error) => {
       const errorMessage = error.message;
