@@ -673,7 +673,6 @@
     const docRef = doc(collection(firebaseDb, "characters"), documentId).withConverter(characterConverter);
     updateDoc(docRef, { ...information.value }).then(() => {
       showSnackbar("キャラクターを更新しました", "success");
-      router.push(`/characters/${id}/view`);
     });
     isDirty = false;
   };
