@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-btn color="primary" variant="outlined" prepend-icon="mdi-swap-vertical">
-            表示順
+            表示順：{{ displayOrder }}
             <v-menu activator="parent" :close-on-content-click="false">
               <v-card class="pa-2">
                 <v-radio-group v-model="displayOrder" hide-details class="pr-2">
