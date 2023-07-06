@@ -1,11 +1,11 @@
 <template>
   <v-app-bar hide-on-scroll>
-    <template #prepend>
-      <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
-    </template>
-    <v-app-bar-title style="cursor: pointer" class="text-subtitle-1" @click="$router.push('/mypage')">
-      Kutulu character sheet
-      <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
+    <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
+    <v-app-bar-title class="text-subtitle-1">
+      <div style="cursor: pointer" @click="$router.push('/mypage')">
+        Kutulu character sheet
+        <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
+      </div>
     </v-app-bar-title>
     <div class="text-subtitle-2" style="max-width: 30%; overflow: hidden; text-overflow: ellipsis">
       {{ accountName }}
