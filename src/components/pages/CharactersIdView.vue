@@ -458,12 +458,19 @@
         information.value = character;
       })
       .then(() => {
-        information.value.images.forEach((image) => {
-          const imageRef = storageRef(firebaseStorage, `characters/${id}-${image.id}.png`);
+        if (information.value.images.length === 0) {
+          const imageRef = storageRef(firebaseStorage, "characters/undefined.png");
           getDownloadURL(imageRef).then((downloadUrl) => {
             imageUrls.value.push(downloadUrl);
           });
-        });
+        } else {
+          information.value.images.forEach((image) => {
+            const imageRef = storageRef(firebaseStorage, `characters/${id}-${image.id}.png`);
+            getDownloadURL(imageRef).then((downloadUrl) => {
+              imageUrls.value.push(downloadUrl);
+            });
+          });
+        }
       });
   });
 
