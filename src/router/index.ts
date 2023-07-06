@@ -1,6 +1,7 @@
-import Document from "@/components/layouts/Document.vue";
-import Main from "@/components/layouts/Main.vue";
-import Simple from "@/components/layouts/Simple.vue";
+import DocumentLayout from "@/components/layouts/Document.vue";
+import LoginLayout from "@/components/layouts/Login.vue";
+import MainLayout from "@/components/layouts/Main.vue";
+import SimpleLayout from "@/components/layouts/Simple.vue";
 import Account from "@/components/pages/Account.vue";
 import CharactersIdEdit from "@/components/pages/CharactersIdEdit.vue";
 import CharactersIdView from "@/components/pages/CharactersIdView.vue";
@@ -13,21 +14,21 @@ import Terms from "@/components/pages/Terms.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-  { path: "/", component: Simple, children: [{ path: "", component: Index }] },
-  { path: "/faq", component: Document, children: [{ path: "", component: Faq }] },
-  { path: "/terms", component: Document, children: [{ path: "", component: Terms }] },
-  { path: "/login", component: Simple, children: [{ path: "", component: Login }] },
-  { path: "/register", component: Simple, children: [{ path: "", component: Register }] },
-  { path: "/account", component: Main, children: [{ path: "", component: Account }] },
+  { path: "/", component: SimpleLayout, children: [{ path: "", component: Index }] },
+  { path: "/faq", component: DocumentLayout, children: [{ path: "", component: Faq }] },
+  { path: "/terms", component: DocumentLayout, children: [{ path: "", component: Terms }] },
+  { path: "/login", component: LoginLayout, children: [{ path: "", component: Login }] },
+  { path: "/register", component: LoginLayout, children: [{ path: "", component: Register }] },
+  { path: "/account", component: MainLayout, children: [{ path: "", component: Account }] },
   {
     path: "/characters/:id",
-    component: Main,
+    component: MainLayout,
     children: [
       { path: "edit", component: CharactersIdEdit },
       { path: "view", component: CharactersIdView },
     ],
   },
-  { path: "/mypage", component: Main, children: [{ path: "", component: Mypage }] },
+  { path: "/mypage", component: MainLayout, children: [{ path: "", component: Mypage }] },
 ];
 
 const router = createRouter({
