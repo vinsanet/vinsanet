@@ -372,7 +372,7 @@
             <v-divider></v-divider>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="mobile">
           <v-col>
             <v-btn
               color="primary"
@@ -395,6 +395,48 @@
               @change="uploadImage"
             ></v-file-input>
           </v-col>
+        </v-row>
+        <v-row v-if="!mobile">
+          <v-card
+            width="100%"
+            :color="imageDragging ? 'info' : ''"
+            class="ma-2"
+            variant="tonal"
+            style="user-select: none"
+            :image="'mdi-image-plus'"
+            @drop.prevent="onDropImage"
+            @dragover.prevent="imageDragging = true"
+            @dragenter.prevent="imageDragging = true"
+            @dragleave.prevent="imageDragging = false"
+            @click.prevent="onClickImageAdd"
+          >
+            <v-card-text v-if="!imageDragging">
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">
+                  <v-icon size="10vh">mdi-image-plus</v-icon>
+                </v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">ここに画像をドラッグするか、</v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">クリックして画像をアップロード</v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-text v-if="imageDragging">
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">
+                  <v-icon size="10vh">mdi-image-plus</v-icon>
+                </v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">ここに画像をドロップして</v-col>
+              </v-row>
+              <v-row cclass="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">アップロード</v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
         </v-row>
       </v-card-text>
       <v-card-actions>
@@ -515,6 +557,7 @@
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
   const imagePage = ref(0);
+  const imageDragging = ref(false);
   const newImage = ref([]);
   const newTag = ref("");
   const publish = ref<"公開" | "非公開">("公開");
@@ -555,6 +598,28 @@
       const docRef = doc(collection(firebaseDb, "characters"), `${documentId}`).withConverter(characterConverter);
       updateDoc(docRef, { images: information.value.images });
     });
+  };
+  const onDropImage = (event: DragEvent) => {
+    imageDragging.value = false;
+    if (!event || !event.dataTransfer || event.dataTransfer.files.length === 0) {
+      return;
+    }
+    const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
+    const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+    uploadBytes(imageRef, event.dataTransfer.files[0])
+      .then(() => {
+        const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+        getDownloadURL(imageRef).then((downloadUrl) => {
+          imageUrls.value.push({ id: `${id}-${newId}`, value: downloadUrl });
+          imagePage.value = imageUrls.value.length - 1;
+        });
+      })
+      .then(() => {
+        information.value.images.push({ id: newId, description: "" });
+        const docRef = doc(collection(firebaseDb, "characters"), `${documentId}`).withConverter(characterConverter);
+        updateDoc(docRef, { images: information.value.images });
+        newImage.value = [];
+      });
   };
 
   const onClickImageAdd = () => {
