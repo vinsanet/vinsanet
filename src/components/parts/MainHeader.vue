@@ -19,7 +19,7 @@
               <v-row justify="center" class="align-center">
                 <v-col class="text-center"><v-icon>mdi-weather-sunny</v-icon></v-col>
                 <v-col class="text-center pl-0">
-                  <v-switch hide-details="auto" inset @change="toggleTheme"></v-switch>
+                  <v-switch hide-details="auto" :model-value="theme === 'dark'" inset @change="toggleTheme"></v-switch>
                 </v-col>
                 <v-col class="text-center"><v-icon>mdi-weather-night</v-icon></v-col>
               </v-row>
