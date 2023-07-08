@@ -6,8 +6,8 @@
           <v-btn color="primary" variant="outlined" prepend-icon="mdi-swap-vertical">
             表示順：{{ displayOrder }}
             <v-menu activator="parent" :close-on-content-click="false">
-              <v-card class="pa-2">
-                <v-radio-group v-model="displayOrder" hide-details class="pr-2">
+              <v-card>
+                <v-radio-group v-model="displayOrder" hide-details>
                   <v-radio label="更新順" value="更新順"></v-radio>
                   <v-radio label="作成順" value="作成順"></v-radio>
                   <v-radio label="名前順" value="名前順"></v-radio>
