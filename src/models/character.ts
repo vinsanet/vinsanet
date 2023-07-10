@@ -39,8 +39,8 @@ class Character implements CharacterType {
   family: string;
   skills: Array<{ name: string; value: number }>;
   specialities: Array<{ name: string; value: number }>;
-  damage: number;
-  memo: string;
+  injury: number;
+  remarks: string;
   tags: Array<string>;
   userId: string;
   images: Array<{ id: number; description: string }>;
@@ -62,8 +62,8 @@ class Character implements CharacterType {
     _family: string,
     _skills: Array<{ name: string; value: number }>,
     _specialities: Array<{ name: string; value: number }>,
-    _damage: number,
-    _memo: string,
+    _injury: number,
+    _remarks: string,
     _tags: Array<string>,
     _userId: string,
     _images: Array<{ id: number; description: string }>,
@@ -84,8 +84,8 @@ class Character implements CharacterType {
     this.family = _family;
     this.skills = _skills;
     this.specialities = _specialities;
-    this.damage = _damage;
-    this.memo = _memo;
+    this.injury = _injury;
+    this.remarks = _remarks;
     this.tags = _tags;
     this.userId = _userId;
     this.images = _images;
@@ -111,8 +111,8 @@ export const characterConverter = {
       family: character.family,
       skills: character.skills,
       specialities: character.specialities,
-      damage: character.damage,
-      memo: character.memo,
+      injury: character.injury,
+      remarks: character.remarks,
       tags: character.tags,
       userId: character.userId,
       images: character.images,
@@ -137,8 +137,8 @@ export const characterConverter = {
       data?.family,
       data?.skills,
       data?.specialities,
-      data?.damage,
-      data?.memo,
+      data?.injury,
+      data?.remarks,
       data?.tags,
       data?.userId,
       data?.images,
