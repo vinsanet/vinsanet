@@ -72,8 +72,8 @@
       { name: "心理学", value: 0 },
       { name: "言語学", value: 0 },
     ];
-    information.damage = 0;
-    information.memo = "";
+    information.injury = 0;
+    information.remarks = "";
     information.tags = [];
     information.userId = firebaseAuth.currentUser?.uid ?? "";
     information.images = [];

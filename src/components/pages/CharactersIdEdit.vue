@@ -261,11 +261,11 @@
                 <v-row class="px-2">
                   <v-col cols="4"><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
                   <v-col cols="2">
-                    <div :class="['text-body', 'text-lg-h6']">{{ information.damage }}/3</div>
+                    <div :class="['text-body', 'text-lg-h6']">{{ information.injury }}/3</div>
                   </v-col>
                   <v-col>
                     <v-rating
-                      v-model="information.damage"
+                      v-model="information.injury"
                       length="3"
                       density="compact"
                       full-icon="mdi-circle"
@@ -325,7 +325,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.memo" variant="outlined" counter></v-textarea>
+                <v-textarea v-model="information.remarks" variant="outlined" counter></v-textarea>
               </v-col>
             </v-row>
           </v-sheet>
@@ -385,17 +385,6 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row class="d-none">
-          <v-col>
-            <v-file-input
-              id="fileInput"
-              v-model="newImage"
-              variant="underlined"
-              accept="image/*"
-              @change="uploadImage"
-            ></v-file-input>
-          </v-col>
-        </v-row>
         <v-row v-if="!mobile">
           <v-card
             width="100%"
@@ -403,7 +392,6 @@
             class="ma-2"
             variant="tonal"
             style="user-select: none"
-            :image="'mdi-image-plus'"
             @drop.prevent="onDropImage"
             @dragover.prevent="imageDragging = true"
             @dragenter.prevent="imageDragging = true"
@@ -438,6 +426,17 @@
             </v-card-text>
           </v-card>
         </v-row>
+        <v-row class="d-none">
+          <v-col>
+            <v-file-input
+              id="imageInput"
+              v-model="newImage"
+              variant="underlined"
+              accept="image/*"
+              @change="uploadImage"
+            ></v-file-input>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="onClickImageClose">閉じる</v-btn>
@@ -465,15 +464,15 @@
       <v-card-title>ルール設定</v-card-title>
       <v-card-text>
         <v-row>
-          <v-col
-            >キャラクター作成に使用するルールを選択してください。<br />
-            ルールを変更すると、一部の情報がリセットされます。ご注意ください。
+          <v-col>
+            <p>キャラクター作成に使用するルールを選択してください。</p>
+            <p>ルールを変更すると、一部の情報がリセットされます。ご注意ください。</p>
           </v-col>
         </v-row>
         <v-row>
-          <v-col
-            ><v-select v-model="rule" :items="['基本ルール', '現代日本ソースブック']" variant="outlined"></v-select
-          ></v-col>
+          <v-col>
+            <v-select v-model="rule" :items="['基本ルール', '現代日本ソースブック']" variant="outlined"></v-select>
+          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>

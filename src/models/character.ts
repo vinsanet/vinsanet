@@ -15,8 +15,8 @@ export type CharacterType = {
   family: string;
   skills: Array<{ name: string; value: number }>;
   specialities: Array<{ name: string; value: number }>;
-  damage: number;
-  memo: string;
+  injury: number;
+  remarks: string;
   tags: Array<string>;
   userId: string;
   images: Array<{ id: number; description: string }>;

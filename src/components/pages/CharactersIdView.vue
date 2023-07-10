@@ -234,11 +234,11 @@
                 <v-row class="px-2">
                   <v-col cols="4"><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
                   <v-col cols="2">
-                    <div :class="['text-body', 'text-lg-h6']">{{ information.damage }}/3</div>
+                    <div :class="['text-body', 'text-lg-h6']">{{ information.injury }}/3</div>
                   </v-col>
                   <v-col>
                     <v-rating
-                      v-model="information.damage"
+                      v-model="information.injury"
                       length="3"
                       density="compact"
                       full-icon="mdi-circle"
@@ -296,7 +296,7 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.memo" variant="outlined" counter readonly></v-textarea>
+                <v-textarea v-model="information.remarks" variant="outlined" counter readonly></v-textarea>
               </v-col>
             </v-row>
           </v-sheet>
@@ -334,9 +334,9 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" block @click="onClickCopyPalette"
-              ><v-icon>mdi-clipboard-text</v-icon>クリップボードにコピー</v-btn
-            >
+            <v-btn color="primary" block @click="onClickCopyPalette">
+              <v-icon>mdi-clipboard-text</v-icon> クリップボードにコピー
+            </v-btn>
           </v-col>
         </v-row>
         <v-row>
