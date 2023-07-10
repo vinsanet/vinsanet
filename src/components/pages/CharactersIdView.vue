@@ -341,10 +341,22 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" variant="outlined" block @click="onClickCopyCharacter"
-              ><v-icon>mdi-face-man</v-icon>CCFOLIA形式でコピー</v-btn
-            ></v-col
-          >
+            <v-btn color="primary" block @click="onClickCopyCharacter">
+              <v-icon>mdi-face-man</v-icon> CCFOLIA形式でコピー
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-divider></v-divider>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-btn color="primary" variant="outlined" block @click="onClickDownloadCharacter">
+              <v-icon>mdi-download</v-icon> ファイルにダウンロード
+            </v-btn>
+          </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
@@ -373,8 +385,8 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
-          <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
+          <v-list-item @click="onClickEdit"><v-icon>mdi-account-edit</v-icon>編集画面</v-list-item>
+          <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon>キャラクター出力</v-list-item>
         </v-list>
       </v-menu>
     </v-btn>
@@ -384,9 +396,11 @@
 <script setup lang="ts">
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
+  import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
+  import { storeToRefs } from "pinia";
   import { computed, onMounted, ref } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
@@ -396,6 +410,8 @@
   const { showSnackbar } = useSnackbarStore();
   const { id } = route.params;
   const { mobile, xs, smAndUp } = useDisplay();
+  const accountNamestore = useAccountNameStore();
+  const { accountName } = storeToRefs(accountNamestore);
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
@@ -446,11 +462,73 @@
       }
     });
     data.data.commands = data.data.commands.trim();
-    data.data.status.push({ label: "負傷", value: `${information.value.damage}`, max: 3 });
-    data.data.memo = `${information.value.name}\n${information.value.memo}`.trim();
+    data.data.status.push({ label: "負傷", value: `${information.value.injury}`, max: 3 });
+    data.data.memo = `${information.value.name}\n${information.value.remarks}`.trim();
     data.data.externalUrl = location.href;
     navigator.clipboard.writeText(JSON.stringify(data));
     showSnackbar("キャラクターをコピーしました", "success");
+  };
+  const onClickDownloadCharacter = () => {
+    const activeSkillLength = 5;
+    const data = {
+      kind: "character",
+      data: {
+        rule: information.value.rule,
+        name: information.value.name,
+        kana: information.value.kana,
+        title: information.value.title,
+        age: information.value.age,
+        gender: information.value.gender,
+        profession: information.value.profession,
+        home: information.value.home,
+        rank: information.value.rank,
+        family: information.value.family,
+        owner: accountName.value,
+        tags: information.value.tags,
+        remarks: information.value.remarks,
+        memo: "",
+        initiative: 0,
+        params: new Array<{ label: string; value: number }>(),
+        status: new Array<{ label: string; value: number; max?: number }>(),
+        commands: "",
+      },
+    };
+    information.value.skills.forEach((skill, index) => {
+      if (skill.value > 0 || includeZeroValues.value) {
+        data.data.params.push({
+          label: skill.name,
+          value: skill.value,
+        });
+        if (index < activeSkillLength) {
+          data.data.commands += isCommandKutulu.value
+            ? `{${skill.name}}KU 【${skill.name}】\n`
+            : `{${skill.name}}B6>=4 【${skill.name}】\n`;
+        }
+      }
+    });
+    information.value.specialities.forEach((speciality) => {
+      if (speciality.value > 0 || includeZeroValues.value) {
+        data.data.params.push({
+          label: speciality.name,
+          value: speciality.value,
+        });
+      }
+    });
+    data.data.commands = data.data.commands.trim();
+    data.data.status.push({
+      label: "負傷",
+      value: information.value.injury,
+      max: 3,
+    });
+    data.data.memo = `${information.value.name}\n${information.value.remarks}`.trim();
+    const jsonValue = JSON.stringify(data);
+    const blob = new Blob([jsonValue], {
+      type: "text/plain",
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${information.value.name}.json`;
+    link.click();
   };
 
   onMounted(() => {

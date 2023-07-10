@@ -480,6 +480,84 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="uploadDialog" width="auto">
+    <v-card>
+      <v-card-title>アップロード</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col>出力済みのファイルをアップロードし、現在のキャラクターに反映させることができます。</v-col>
+        </v-row>
+        <v-row v-if="mobile">
+          <v-col>
+            <v-btn
+              color="primary"
+              variant="outlined"
+              width="100%"
+              prepend-icon="mdi-file-account"
+              @click="onClickFileUpload"
+            >
+              ファイル選択
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row v-if="!mobile">
+          <v-card
+            width="100%"
+            :color="fileDragging ? 'info' : ''"
+            class="ma-2"
+            variant="tonal"
+            style="user-select: none"
+            @drop.prevent="onDropFile"
+            @dragover.prevent="fileDragging = true"
+            @dragenter.prevent="fileDragging = true"
+            @dragleave.prevent="fileDragging = false"
+            @click.prevent="onClickFileUpload"
+          >
+            <v-card-text v-if="!fileDragging">
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">
+                  <v-icon size="10vh">mdi-file-account</v-icon>
+                </v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">ここにファイルをドラッグするか、</v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">クリックしてファイルをアップロード</v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-text v-if="fileDragging">
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">
+                  <v-icon size="10vh">mdi-file-account</v-icon>
+                </v-col>
+              </v-row>
+              <v-row class="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">ここにファイルをドロップして</v-col>
+              </v-row>
+              <v-row cclass="d-flex flex-column" justify="center" dense>
+                <v-col class="text-center">アップロード</v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-row>
+        <v-row class="d-none">
+          <v-col>
+            <v-file-input
+              id="fileInput"
+              v-model="newFile"
+              variant="underlined"
+              accept="application/json"
+              @change="uploadFile"
+            ></v-file-input>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="() => (uploadDialog = false)">閉じる</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   <v-dialog v-model="unsavedDialog" width="auto">
     <v-card>
       <v-card-text>
@@ -507,9 +585,12 @@
             <v-btn color="indigo" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)">公開設定</v-btn>
           </v-col>
           <v-col>
-            <v-btn color="indigo" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)"
-              >ルール設定</v-btn
-            >
+            <v-btn color="indigo" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)">
+              ルール設定
+            </v-btn>
+          </v-col>
+          <v-col>
+            <v-btn color="indigo" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)">アップロード </v-btn>
           </v-col>
           <v-col>
             <v-btn color="success" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
@@ -528,6 +609,7 @@
           <v-list-item @click="() => (ruleDialog = true)">
             <v-icon>mdi-checkbox-multiple-marked</v-icon> ルール設定
           </v-list-item>
+          <v-list-item @click="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
           <v-list-item @click="onClickSave"><v-icon>mdi-content-save</v-icon> 保存</v-list-item>
         </v-list>
       </v-menu>
@@ -557,13 +639,16 @@
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
   const imagePage = ref(0);
   const imageDragging = ref(false);
+  const fileDragging = ref(false);
   const newImage = ref([]);
+  const newFile = ref([]);
   const newTag = ref("");
   const publish = ref<"公開" | "非公開">("公開");
   const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
   const publishingDialog = ref(false);
   const ruleDialog = ref(false);
+  const uploadDialog = ref(false);
   const unsavedDialog = ref(false);
 
   const uploadImage = async () => {
@@ -620,11 +705,119 @@
         newImage.value = [];
       });
   };
+  const uploadFile = () => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(newFile.value[0]);
+    fileReader.onload = () => {
+      const data = JSON.parse(fileReader.result?.toString() ?? "");
+      information.value.name = data.data.name;
+      information.value.kana = data.data.kana;
+      information.value.title = data.data.title;
+      information.value.age = data.data.age;
+      information.value.gender = data.data.gender;
+      information.value.profession = data.data.profession;
+      information.value.home = data.data.home;
+      information.value.rank = data.data.rank;
+      information.value.family = data.data.family;
+      information.value.tags = data.data.tags;
+      information.value.remarks = data.data.remarks;
+      information.value.skills.forEach((skill) => {
+        const found = data.data.params.find(
+          (element: { label: string; value: string }) => element.label === skill.name
+        );
+        if (found !== undefined) {
+          skill.value = parseInt(found.value);
+        } else {
+          skill.value = 0;
+        }
+      });
+      information.value.specialities.forEach((speciality) => {
+        const found = data.data.params.find(
+          (element: { label: string; value: string }) => element.label === speciality.name
+        );
+        if (found !== undefined) {
+          speciality.value = parseInt(found.value);
+        } else {
+          speciality.value = 0;
+        }
+      });
+      information.value.injury =
+        data.data.status.find((item: { label: string; value: string; max: number }) => {
+          return item.label === "負傷";
+        }).value ?? 0;
+      if (rule.value !== data.data.rule) {
+        showSnackbar(
+          "ファイルを読み込みましたが、アップロードされたキャラクターのルールと現在選択中のルールが異なるため、一部正しく反映できませんでした",
+          "info"
+        );
+      } else {
+        showSnackbar("ファイルを読み込みました", "success");
+      }
+    };
+    newFile.value = [];
+    uploadDialog.value = false;
+  };
+  const onDropFile = (event: DragEvent) => {
+    fileDragging.value = false;
+    if (!event || !event.dataTransfer || event.dataTransfer.files.length === 0) {
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.readAsText(event.dataTransfer.files[0]);
+    fileReader.onload = () => {
+      const data = JSON.parse(fileReader.result?.toString() ?? "");
+      information.value.name = data.data.name;
+      information.value.kana = data.data.kana;
+      information.value.title = data.data.title;
+      information.value.age = data.data.age;
+      information.value.gender = data.data.gender;
+      information.value.profession = data.data.profession;
+      information.value.home = data.data.home;
+      information.value.rank = data.data.rank;
+      information.value.family = data.data.family;
+      information.value.tags = data.data.tags;
+      information.value.remarks = data.data.remarks;
+      information.value.skills.forEach((skill) => {
+        const found = data.data.params.find(
+          (element: { label: string; value: string }) => element.label === skill.name
+        );
+        if (found !== undefined) {
+          skill.value = parseInt(found.value);
+        } else {
+          skill.value = 0;
+        }
+      });
+      information.value.specialities.forEach((speciality) => {
+        const found = data.data.params.find(
+          (element: { label: string; value: string }) => element.label === speciality.name
+        );
+        if (found !== undefined) {
+          speciality.value = parseInt(found.value);
+        } else {
+          speciality.value = 0;
+        }
+      });
+      information.value.injury =
+        data.data.status.find((item: { label: string; value: string; max: number }) => {
+          return item.label === "負傷";
+        }).value ?? 0;
+      if (rule.value !== data.data.rule) {
+        showSnackbar(
+          "ファイルを読み込みましたが、アップロードされたキャラクターのルールと現在選択中のルールが異なるため、一部正しく反映できませんでした",
+          "info"
+        );
+      } else {
+        showSnackbar("ファイルを読み込みました", "success");
+      }
+    };
+    newFile.value = [];
+    uploadDialog.value = false;
+  };
 
   const onClickImageAdd = () => {
-    const fileInput = document.getElementById("fileInput");
-    if (fileInput !== null) {
-      fileInput.click();
+    const imageInput = document.getElementById("imageInput");
+    if (imageInput !== null) {
+      imageInput.click();
     }
   };
   const onClickImageClose = () => {
@@ -731,6 +924,12 @@
   };
   const onClickOutsideRule = () => {
     rule.value = information.value.rule;
+  };
+  const onClickFileUpload = () => {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput !== null) {
+      fileInput.click();
+    }
   };
   const onClickSave = () => {
     information.value.updatedAt = serverTimestamp();
