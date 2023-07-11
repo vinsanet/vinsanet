@@ -354,7 +354,7 @@
         <v-row>
           <v-col>
             <v-btn color="primary" variant="outlined" block @click="onClickDownloadCharacter">
-              <v-icon>mdi-download</v-icon> ファイルにダウンロード
+              <v-icon>mdi-download</v-icon> ファイルダウンロード
             </v-btn>
           </v-col>
         </v-row>
