@@ -943,6 +943,7 @@
     const docRef = doc(collection(firebaseDb, "characters"), documentId).withConverter(characterConverter);
     updateDoc(docRef, { ...information.value })
       .then(() => {
+        isDirty = false;
         showSnackbar("キャラクターを更新しました", "success");
       })
       .finally(() => {
