@@ -199,7 +199,7 @@
     });
   });
   const onClickSaveAccountName = () => {
-    if (accountName.value.length === 0) {
+    if (accountName.value === null || accountName.value.length === 0) {
       showSnackbar("アカウント名を入力してください", "error");
       return;
     }
