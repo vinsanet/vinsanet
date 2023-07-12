@@ -376,8 +376,8 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
-          <v-divider></v-divider>
+          <v-list-item v-if="canEdit" @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
+          <v-divider v-if="canEdit"></v-divider>
           <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
         </v-list>
       </v-menu>
@@ -387,7 +387,7 @@
     <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
-          <v-col>
+          <v-col v-if="canEdit">
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
@@ -578,6 +578,11 @@
     return information?.value?.specialities?.reduce((sum, speciality) => {
       return sum + speciality.value;
     }, 0);
+  });
+  const canEdit = computed(() => {
+    if (firebaseAuth.currentUser === null) return false;
+    if (information.value.userId !== firebaseAuth.currentUser.uid) return false;
+    return true;
   });
   const alertMessage = computed(() => {
     if (skillPoints.value > 13 && specialityPoints.value > 10) {
