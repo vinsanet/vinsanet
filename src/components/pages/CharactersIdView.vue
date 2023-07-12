@@ -366,8 +366,20 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-layout-item v-if="xs" class="text-end" model-value position="bottom" size="80">
+    <v-btn class="ma-4 text-white" color="info" icon>
+      <v-icon>mdi-dots-vertical</v-icon>
+      <v-menu activator="parent">
+        <v-list>
+          <v-list-item @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
+        </v-list>
+      </v-menu>
+    </v-btn>
+  </v-layout-item>
   <v-footer v-if="smAndUp" app fixed>
-    <v-card width="100%" class="text-center" color="grey-lighten-1">
+    <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
       <v-card-text>
         <v-row>
           <v-col>
@@ -380,17 +392,6 @@
       </v-card-text>
     </v-card>
   </v-footer>
-  <v-layout-item v-if="xs" class="text-end" model-value position="bottom" size="80">
-    <v-btn class="ma-4 text-white" color="info" icon>
-      <v-icon>mdi-dots-vertical</v-icon>
-      <v-menu activator="parent">
-        <v-list>
-          <v-list-item @click="onClickEdit"><v-icon>mdi-account-edit</v-icon>編集画面</v-list-item>
-          <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon>キャラクター出力</v-list-item>
-        </v-list>
-      </v-menu>
-    </v-btn>
-  </v-layout-item>
 </template>
 
 <script setup lang="ts">
