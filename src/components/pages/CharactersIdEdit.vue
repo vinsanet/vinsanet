@@ -949,7 +949,6 @@
       .finally(() => {
         overlay.value = false;
       });
-    isDirty = false;
   };
 
   onMounted(() => {
