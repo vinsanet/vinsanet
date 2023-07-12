@@ -580,8 +580,7 @@
     }, 0);
   });
   const canEdit = computed(() => {
-    if (firebaseAuth.currentUser === null) return false;
-    if (information.value.userId !== firebaseAuth.currentUser.uid) return false;
+    if (information.value.userId !== firebaseAuth.currentUser?.uid) return false;
     return true;
   });
   const alertMessage = computed(() => {
