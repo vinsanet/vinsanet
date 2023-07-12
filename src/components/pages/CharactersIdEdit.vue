@@ -710,17 +710,17 @@
     fileReader.readAsText(newFile.value[0]);
     fileReader.onload = () => {
       const data = JSON.parse(fileReader.result?.toString() ?? "");
-      information.value.name = data.data.name;
-      information.value.kana = data.data.kana;
-      information.value.title = data.data.title;
-      information.value.age = data.data.age;
-      information.value.gender = data.data.gender;
-      information.value.profession = data.data.profession;
-      information.value.home = data.data.home;
-      information.value.rank = data.data.rank;
-      information.value.family = data.data.family;
-      information.value.tags = data.data.tags;
-      information.value.remarks = data.data.remarks;
+      information.value.name = data.data.name ?? "";
+      information.value.kana = data.data.kana ?? "";
+      information.value.title = data.data.title ?? "";
+      information.value.age = data.data.age ?? "";
+      information.value.gender = data.data.gender ?? "";
+      information.value.profession = data.data.profession ?? "";
+      information.value.home = data.data.home ?? "";
+      information.value.rank = data.data.rank ?? "";
+      information.value.family = data.data.family ?? "";
+      information.value.tags = data.data.tags ?? [];
+      information.value.remarks = data.data.remarks ?? "";
       information.value.skills.forEach((skill) => {
         const found = data.data.params.find(
           (element: { label: string; value: string }) => element.label === skill.name
