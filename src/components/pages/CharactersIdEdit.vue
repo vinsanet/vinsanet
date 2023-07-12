@@ -331,6 +331,9 @@
       </v-row>
     </v-responsive>
   </v-container>
+  <v-overlay v-model="overlay" class="align-center justify-center">
+    <v-progress-circular color="primary" indeterminate size="64" width="6"></v-progress-circular>
+  </v-overlay>
   <v-dialog v-model="imageDialog" width="500px" max-width="90%" @click:outside="onClickImageClose">
     <v-card>
       <v-card-title>画像追加・削除</v-card-title>
@@ -645,6 +648,7 @@
   const newImage = ref([]);
   const newFile = ref([]);
   const newTag = ref("");
+  const overlay = ref(false);
   const publish = ref<"公開" | "非公開">("公開");
   const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
@@ -934,11 +938,16 @@
     }
   };
   const onClickSave = () => {
+    overlay.value = true;
     information.value.updatedAt = serverTimestamp();
     const docRef = doc(collection(firebaseDb, "characters"), documentId).withConverter(characterConverter);
-    updateDoc(docRef, { ...information.value }).then(() => {
-      showSnackbar("キャラクターを更新しました", "success");
-    });
+    updateDoc(docRef, { ...information.value })
+      .then(() => {
+        showSnackbar("キャラクターを更新しました", "success");
+      })
+      .finally(() => {
+        overlay.value = false;
+      });
     isDirty = false;
   };
 
