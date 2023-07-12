@@ -605,11 +605,15 @@
       <v-menu activator="parent">
         <v-list>
           <v-list-item @click="onClickView(false)"><v-icon>mdi-account-eye</v-icon> 閲覧画面</v-list-item>
+          <v-divider></v-divider>
           <v-list-item @click="() => (publishingDialog = true)"><v-icon>mdi-file-find</v-icon> 公開設定</v-list-item>
+          <v-divider></v-divider>
           <v-list-item @click="() => (ruleDialog = true)">
             <v-icon>mdi-checkbox-multiple-marked</v-icon> ルール設定
           </v-list-item>
+          <v-divider></v-divider>
           <v-list-item @click="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
+          <v-divider></v-divider>
           <v-list-item @click="onClickSave"><v-icon>mdi-content-save</v-icon> 保存</v-list-item>
         </v-list>
       </v-menu>
