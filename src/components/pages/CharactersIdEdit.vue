@@ -313,9 +313,7 @@
           <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
-                <v-row>
-                  <v-col><div :class="['text-h5', 'text-lg-h4']">メモ</div></v-col>
-                </v-row>
+                <div :class="['text-h5', 'text-lg-h4']">メモ</div>
               </v-col>
             </v-row>
             <v-row>
