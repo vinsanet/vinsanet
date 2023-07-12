@@ -19,12 +19,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": [
-    "**/*.d.ts",
-    "**/*.js",
-    "**/*.js",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.vue"
-  ]
+  "include": ["**/*.d.ts", "**/*.js", "**/*.js", "**/*.ts", "**/*.tsx", "**/*.vue"]
 }
