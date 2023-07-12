@@ -12,10 +12,9 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col style="max-width: 500px">
+                <v-col style="max-width: 500px" class="d-flex align-center">
                   <v-text-field
                     v-model="accountName"
-                    variant="outlined"
                     :rules="[
                       (value: string) => {
                         return !!value || 'アカウント名を入力してください';
@@ -24,13 +23,13 @@
                         return value.length <= 50 || '50文字以内で入力してください';
                       },
                     ]"
+                    hide-details="auto"
+                    density="comfortable"
                   >
-                    <template #append>
-                      <v-btn color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName">
-                        保存
-                      </v-btn>
-                    </template>
                   </v-text-field>
+                  <v-btn class="ml-4" color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName">
+                    保存
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-card-text>
