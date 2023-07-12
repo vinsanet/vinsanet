@@ -957,6 +957,7 @@
         information.value = character;
         documentId = querySnapshot.docs[0].id;
         publish.value = character.isPublishing ? "公開" : "非公開";
+        rule.value = character.rule;
       })
       .then(() => {
         information.value.images.forEach((image) => {
