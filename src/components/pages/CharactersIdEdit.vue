@@ -946,6 +946,10 @@
         isDirty = false;
         showSnackbar("キャラクターを更新しました", "success");
       })
+      .catch((error) => {
+        const errorMessage = error.message;
+        showSnackbar(`キャラクターを更新できませんでした：${errorMessage}`, "error");
+      })
       .finally(() => {
         overlay.value = false;
       });
