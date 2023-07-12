@@ -294,7 +294,14 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.remarks" variant="outlined" counter readonly></v-textarea>
+                <v-textarea
+                  v-model="information.remarks"
+                  variant="plain"
+                  counter
+                  readonly
+                  hide-details
+                  class="px-4"
+                ></v-textarea>
               </v-col>
             </v-row>
           </v-card>
