@@ -232,8 +232,8 @@
             <v-row>
               <v-col>
                 <v-row class="px-2">
-                  <v-col cols="4"><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
-                  <v-col cols="2">
+                  <v-col><div :class="['text-h5', 'text-lg-h4']">負傷</div></v-col>
+                  <v-col>
                     <div :class="['text-body', 'text-lg-h6']">{{ information.injury }}/3</div>
                   </v-col>
                   <v-col>
