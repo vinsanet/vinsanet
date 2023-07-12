@@ -1,14 +1,16 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-card>
+      <v-card variant="outlined">
         <v-row>
           <v-col>
             <v-card-title>アカウント名設定</v-card-title>
             <v-card-text>
-              <v-row
-                ><v-col><div :class="'text-caption'">アカウント名は他のユーザーに表示されません</div></v-col></v-row
-              >
+              <v-row>
+                <v-col>
+                  <div :class="'text-caption'">アカウント名は他のユーザーに表示されません</div>
+                </v-col>
+              </v-row>
               <v-row>
                 <v-col style="max-width: 500px">
                   <v-text-field
@@ -24,9 +26,9 @@
                     ]"
                   >
                     <template #append>
-                      <v-btn color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName"
-                        >保存</v-btn
-                      >
+                      <v-btn color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName">
+                        保存
+                      </v-btn>
                     </template>
                   </v-text-field>
                 </v-col>
@@ -40,11 +42,9 @@
             <v-card-title>ログイン連携</v-card-title>
             <v-card-text>
               <v-row>
-                <v-col
-                  ><div :class="'text-caption'">
-                    現在のアカウントに他サービスのアカウントを連携することができます。
-                  </div></v-col
-                >
+                <v-col>
+                  <div :class="'text-caption'">現在のアカウントに他サービスのアカウントを連携することができます。</div>
+                </v-col>
               </v-row>
               <v-row>
                 <v-col style="max-width: 500px">

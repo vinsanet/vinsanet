@@ -3,7 +3,7 @@
     <v-responsive class="d-flex fill-height">
       <v-row>
         <v-col>
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col :cols="mobile ? '12' : '6'">
                 <v-carousel v-model="imagePage" hide-delimiters show-arrows="hover">
@@ -23,7 +23,7 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-sheet elevation="2">
+                    <v-card flat>
                       <v-table>
                         <tbody>
                           <tr>
@@ -56,17 +56,17 @@
                           </tr>
                         </tbody>
                       </v-table>
-                    </v-sheet>
+                    </v-card>
                   </v-col>
                 </v-row>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
@@ -148,12 +148,12 @@
                 </div>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
@@ -223,12 +223,12 @@
                 </div>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col :cols="mobile ? '12' : '6'">
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row class="px-2">
@@ -250,10 +250,10 @@
                 </v-row>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
         <v-col :cols="mobile ? '12' : '6'">
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
@@ -276,12 +276,12 @@
                 </v-row>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-sheet elevation="2" class="pa-6 ma-2">
+          <v-card variant="outlined" class="pa-6 ma-2">
             <v-row>
               <v-col>
                 <v-row>
@@ -299,7 +299,7 @@
                 <v-textarea v-model="information.remarks" variant="outlined" counter readonly></v-textarea>
               </v-col>
             </v-row>
-          </v-sheet>
+          </v-card>
         </v-col>
       </v-row>
     </v-responsive>
