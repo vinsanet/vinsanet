@@ -148,6 +148,7 @@
 
   type CharacterInformation = {
     name: string;
+    kana: string;
     id: string;
     tags: Array<string>;
     avatar: string;
@@ -239,6 +240,7 @@
             const characterInformation = {} as CharacterInformation;
             characterInformation.id = character.id;
             characterInformation.name = character.name !== "" ? character.name : "（新規キャラクター）";
+            characterInformation.kana = character.kana;
             characterInformation.tags = character.tags;
             characterInformation.images = character.images;
             characterInformation.isPublishing = character.isPublishing;
@@ -266,7 +268,8 @@
     if (searchText.value !== "") {
       returnInformations = returnInformations.filter((information) => {
         return (
-          information.name.includes(searchText.value) ||
+          information.name.toLowerCase().includes(searchText.value.toLowerCase()) ||
+          information.kana.includes(searchText.value) ||
           information.tags.filter((tag) => {
             return tag.includes(searchText.value);
           }).length > 0
