@@ -1,12 +1,21 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-row>
+      <v-row class="align-center">
         <v-col>
+          <v-text-field
+            v-model="searchText"
+            variant="underlined"
+            prepend-icon="mdi-account-search"
+            placeholder="検索"
+            hide-details
+          ></v-text-field>
+        </v-col>
+        <v-col class="d-flex justify-end">
           <v-btn color="primary" variant="outlined" prepend-icon="mdi-swap-vertical">
             表示順：{{ displayOrder }}
             <v-menu activator="parent" :close-on-content-click="false">
-              <v-card>
+              <v-card class="pa-2">
                 <v-radio-group v-model="displayOrder" hide-details>
                   <v-radio label="更新順" value="更新順"></v-radio>
                   <v-radio label="作成順" value="作成順"></v-radio>
@@ -19,16 +28,19 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card class="m-auto">
+          <v-card variant="outlined">
             <div v-if="characterInformations.length === 0">
-              <v-card-text
-                >キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。</v-card-text
-              >
+              <v-card-text>
+                キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。
+              </v-card-text>
+            </div>
+            <div v-else-if="shapedCharacterInformations.length === 0">
+              <v-card-text>条件に一致するキャラクターが存在しません。</v-card-text>
             </div>
             <div v-else>
               <v-card-text>
                 <v-list lines="one">
-                  <div v-for="(character, index) in sortedCharacterInformations" :key="character.id" :index="index">
+                  <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
                     <v-list-item :key="character.id" :prepend-avatar="character.avatar">
                       <v-list-item-title>
                         {{ character.name }}
@@ -92,7 +104,7 @@
                         </v-row>
                       </template>
                     </v-list-item>
-                    <v-divider v-if="index !== characterInformations.length - 1"></v-divider>
+                    <v-divider v-if="index !== shapedCharacterInformations.length - 1"></v-divider>
                   </div>
                 </v-list>
               </v-card-text>
@@ -151,6 +163,7 @@
   const { xs, smAndUp } = useDisplay();
 
   const characterInformations = ref([] as Array<CharacterInformation>);
+  const searchText = ref("");
   const deleteDialog = ref(false);
   const displayOrder = ref<DisplayOrder>("更新順");
   let deleteCharacter = {} as CharacterInformation;
@@ -248,8 +261,18 @@
       });
   });
 
-  const sortedCharacterInformations = computed(() => {
-    const returnInformations = characterInformations.value;
+  const shapedCharacterInformations = computed(() => {
+    let returnInformations = characterInformations.value;
+    if (searchText.value !== "") {
+      returnInformations = returnInformations.filter((information) => {
+        return (
+          information.name.includes(searchText.value) ||
+          information.tags.filter((tag) => {
+            return tag.includes(searchText.value);
+          }).length > 0
+        );
+      });
+    }
     switch (displayOrder.value) {
       case "更新順":
         returnInformations.sort((a, b) => {
