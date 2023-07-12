@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :model-value="props.drawer" expand-on-hover rail>
+  <v-navigation-drawer :model-value="props.drawer" expand-on-hover :rail="!mobile">
     <v-list nav>
       <v-list-item
         prepend-icon="mdi-format-list-text"
@@ -20,6 +20,7 @@
   import { collection, doc, serverTimestamp, setDoc } from "@firebase/firestore";
   import { nanoid } from "nanoid";
   import { useRouter } from "vue-router";
+  import { useDisplay } from "vuetify";
 
   type Props = { drawer: boolean };
 
@@ -27,6 +28,7 @@
 
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
+  const { mobile } = useDisplay();
 
   const onClickMypage = () => {
     router.push("/mypage");
