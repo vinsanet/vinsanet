@@ -56,7 +56,7 @@
                           </v-chip>
                         </span>
                       </v-list-item-title>
-                      <v-chip-group v-if="smAndUp" :disabled="true" column>
+                      <v-chip-group v-if="character.tags.length > 0" :disabled="true" class="mr-2 mb-2">
                         <div v-for="tag in character.tags" :key="tag" :index="index">
                           <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
                         </div>
