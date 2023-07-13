@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar hide-on-scroll>
+  <v-app-bar elevation="1">
     <v-app-bar-title class="text-subtitle-1">
       <div style="cursor: pointer" @click="$router.push('/')">
         Kutulu character sheet <v-chip size="small">Beta</v-chip>
