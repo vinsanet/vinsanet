@@ -43,16 +43,18 @@
                   <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
                     <v-list-item :key="character.id" :prepend-avatar="character.avatar">
                       <v-list-item-title>
-                        {{ character.name }}
-                        <v-chip
-                          v-if="!character.isPublishing"
-                          label
-                          variant="outlined"
-                          size="x-small"
-                          prepend-icon="mdi-eye-off"
-                        >
-                          非公開
-                        </v-chip>
+                        <span style="cursor: pointer" @click="onClickView(character.id)">
+                          {{ character.name }}
+                          <v-chip
+                            v-if="!character.isPublishing"
+                            label
+                            variant="outlined"
+                            size="x-small"
+                            prepend-icon="mdi-eye-off"
+                          >
+                            非公開
+                          </v-chip>
+                        </span>
                       </v-list-item-title>
                       <v-chip-group v-if="smAndUp" :disabled="true" column>
                         <div v-for="tag in character.tags" :key="tag" :index="index">
