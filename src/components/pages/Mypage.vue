@@ -28,7 +28,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card variant="outlined">
+          <v-card variant="outlined" class="pa-2">
             <div v-if="characterInformations.length === 0">
               <v-card-text color="background">
                 キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。
@@ -38,10 +38,10 @@
               <v-card-text color="background">条件に一致するキャラクターが存在しません。</v-card-text>
             </div>
             <div v-else>
-              <v-card-text>
-                <v-list lines="one" bg-color="background">
+              <v-card-text class="pa-0">
+                <v-list lines="one" bg-color="background" class="pa-0">
                   <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
-                    <v-list-item :key="character.id" :prepend-avatar="character.avatar">
+                    <v-list-item :key="character.id" :prepend-avatar="character.avatar" class="my-2">
                       <v-list-item-title>
                         <span style="cursor: pointer" @click="onClickView(character.id)">
                           {{ character.name }}
@@ -56,7 +56,7 @@
                           </v-chip>
                         </span>
                       </v-list-item-title>
-                      <v-chip-group v-if="character.tags.length > 0" :disabled="true" class="mr-2 mb-2">
+                      <v-chip-group v-if="character.tags.length > 0" :disabled="true" class="mr-2">
                         <div v-for="tag in character.tags" :key="tag" :index="index">
                           <v-chip label :ripple="false" size="small">{{ tag }}</v-chip>
                         </div>
