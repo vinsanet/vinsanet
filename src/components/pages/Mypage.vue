@@ -12,7 +12,7 @@
           ></v-text-field>
         </v-col>
         <v-col class="d-flex justify-end">
-          <v-btn color="primary" variant="tonal" prepend-icon="mdi-swap-vertical">
+          <v-btn color="secondary" prepend-icon="mdi-swap-vertical">
             表示順：{{ displayOrder }}
             <v-menu activator="parent" :close-on-content-click="false">
               <v-card class="pa-2">
@@ -30,16 +30,16 @@
         <v-col>
           <v-card variant="outlined">
             <div v-if="characterInformations.length === 0">
-              <v-card-text>
+              <v-card-text color="background">
                 キャラクターをまだ作成していません。「新規作成」よりキャラクターを作成できます。
               </v-card-text>
             </div>
             <div v-else-if="shapedCharacterInformations.length === 0">
-              <v-card-text>条件に一致するキャラクターが存在しません。</v-card-text>
+              <v-card-text color="background">条件に一致するキャラクターが存在しません。</v-card-text>
             </div>
             <div v-else>
               <v-card-text>
-                <v-list lines="one">
+                <v-list lines="one" bg-color="background">
                   <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
                     <v-list-item :key="character.id" :prepend-avatar="character.avatar">
                       <v-list-item-title>

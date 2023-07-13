@@ -23,8 +23,8 @@
                 </v-row>
                 <v-row>
                   <v-col>
-                    <v-card flat>
-                      <v-table>
+                    <v-card flat color="background">
+                      <v-table style="background-color: transparent">
                         <tbody>
                           <tr>
                             <th :class="['text-body', 'text-lg-subtitle-1', 'font-weight-bold']">称号 / 肩書</th>
@@ -108,7 +108,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="green"
+                          color="skill"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -139,7 +139,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="green"
+                          color="skill"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -189,7 +189,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="blue"
+                          color="speciality"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -214,7 +214,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="blue"
+                          color="speciality"
                           readonly
                         ></v-rating>
                       </v-col>
@@ -243,7 +243,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
-                      color="red"
+                      color="injury"
                       readonly
                     ></v-rating>
                   </v-col>
@@ -339,14 +339,14 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" block @click="onClickCopyPalette">
+            <v-btn color="secondary" block @click="onClickCopyPalette">
               <v-icon>mdi-clipboard-text</v-icon> クリップボードにコピー
             </v-btn>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" block @click="onClickCopyCharacter">
+            <v-btn color="secondary" block @click="onClickCopyCharacter">
               <v-icon>mdi-face-man</v-icon> CCFOLIA形式でコピー
             </v-btn>
           </v-col>
@@ -358,7 +358,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="primary" variant="outlined" block @click="onClickDownloadCharacter">
+            <v-btn color="secondary" variant="outlined" block @click="onClickDownloadCharacter">
               <v-icon>mdi-download</v-icon> ファイルダウンロード
             </v-btn>
           </v-col>
@@ -372,7 +372,7 @@
     </v-card>
   </v-dialog>
   <v-layout-item v-if="xs" class="text-end" model-value position="bottom" size="80">
-    <v-btn class="ma-4 text-white" color="info" icon>
+    <v-btn class="ma-4 text-white" color="primary" icon>
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
@@ -383,15 +383,15 @@
       </v-menu>
     </v-btn>
   </v-layout-item>
-  <v-footer v-if="smAndUp" app fixed>
-    <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
+  <v-footer v-if="smAndUp" app fixed color="background">
+    <v-card flat tile width="100%" class="text-center" :color="theme === 'light' ? 'grey-lighten-1' : 'grey-darken-3'">
       <v-card-text>
         <v-row>
           <v-col v-if="canEdit">
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
-            <v-btn color="primary" prepend-icon="mdi-export-variant" @click="onClickExport">キャラクター出力</v-btn>
+            <v-btn color="secondary" prepend-icon="mdi-export-variant" @click="onClickExport">キャラクター出力</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -404,6 +404,7 @@
   import { CharacterType, characterConverter } from "@/models/character";
   import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
+  import { useThemeStore } from "@/store/theme";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
   import { storeToRefs } from "pinia";
@@ -418,6 +419,8 @@
   const { mobile, xs, smAndUp } = useDisplay();
   const accountNamestore = useAccountNameStore();
   const { accountName } = storeToRefs(accountNamestore);
+  const themeStore = useThemeStore();
+  const { theme } = storeToRefs(themeStore);
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);

@@ -19,7 +19,7 @@
                 </v-row>
                 <v-row>
                   <v-col class="d-flex justify-center">
-                    <v-btn color="indigo" prepend-icon="mdi-image-edit" @click="() => (imageDialog = true)">
+                    <v-btn color="secondary" prepend-icon="mdi-image-edit" @click="() => (imageDialog = true)">
                       画像追加・削除
                     </v-btn>
                   </v-col>
@@ -135,7 +135,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="green"
+                          color="skill"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -166,7 +166,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="green"
+                          color="skill"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -216,7 +216,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="blue"
+                          color="speciality"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -241,7 +241,7 @@
                           density="compact"
                           full-icon="mdi-circle"
                           empty-icon="mdi-circle-outline"
-                          color="blue"
+                          color="speciality"
                           clearable
                         ></v-rating>
                       </v-col>
@@ -270,7 +270,7 @@
                       density="compact"
                       full-icon="mdi-circle"
                       empty-icon="mdi-circle-outline"
-                      color="red"
+                      color="injury"
                       clearable
                     ></v-rating>
                   </v-col>
@@ -389,7 +389,7 @@
         <v-row v-if="!mobile">
           <v-card
             width="100%"
-            :color="imageDragging ? 'info' : ''"
+            :color="imageDragging ? 'primary' : ''"
             class="ma-2"
             variant="tonal"
             style="user-select: none"
@@ -504,7 +504,7 @@
         <v-row v-if="!mobile">
           <v-card
             width="100%"
-            :color="fileDragging ? 'info' : ''"
+            :color="fileDragging ? 'primary' : ''"
             class="ma-2"
             variant="tonal"
             style="user-select: none"
@@ -575,23 +575,27 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-footer v-if="smAndUp" app fixed>
-    <v-card flat tile width="100%" class="text-center" color="grey-lighten-1">
+  <v-footer v-if="smAndUp" app fixed color="background">
+    <v-card flat tile width="100%" class="text-center" :color="theme === 'light' ? 'grey-lighten-1' : 'grey-darken-3'">
       <v-card-text>
         <v-row>
           <v-col>
             <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(false)">閲覧画面</v-btn>
           </v-col>
           <v-col>
-            <v-btn color="indigo" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)">公開設定</v-btn>
+            <v-btn color="secondary" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)"
+              >公開設定</v-btn
+            >
           </v-col>
           <v-col>
-            <v-btn color="indigo" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)">
+            <v-btn color="secondary" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)">
               ルール設定
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="indigo" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)">アップロード </v-btn>
+            <v-btn color="secondary" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)"
+              >アップロード
+            </v-btn>
           </v-col>
           <v-col>
             <v-btn color="success" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
@@ -601,7 +605,7 @@
     </v-card>
   </v-footer>
   <v-layout-item v-if="xs" class="text-end" model-value position="bottom" size="80">
-    <v-btn class="ma-4 text-white" color="info" icon>
+    <v-btn class="ma-4 text-white" color="primary" icon>
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
@@ -626,8 +630,10 @@
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
+  import { useThemeStore } from "@/store/theme";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
+  import { storeToRefs } from "pinia";
   import { computed, onMounted, ref, watch } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
@@ -639,6 +645,8 @@
   const { mobile, xs, smAndUp } = useDisplay();
   let documentId = "";
   let isDirty = false;
+  const themeStore = useThemeStore();
+  const { theme } = storeToRefs(themeStore);
 
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
