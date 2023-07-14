@@ -16,17 +16,17 @@
           <v-col>
             <v-row :justify="'center'" class="pa-2">
               <v-col class="text-center">
-                <TwitterButton :on-click="onClickTwitter" />
+                <TwitterButton :on-click="onClickTwitter" :text="'Twitterでログイン'" />
               </v-col>
             </v-row>
             <v-row :justify="'center'" class="pa-2">
               <v-col class="text-center">
-                <GoogleButton :on-click="onClickGoogle" />
+                <GoogleButton :on-click="onClickGoogle" :text="'Googleでログイン'" />
               </v-col>
             </v-row>
             <v-row :justify="'center'" class="pa-2">
               <v-col class="text-center">
-                <GithubButton :on-click="onClickGithub" />
+                <GithubButton :on-click="onClickGithub" :text="'GitHubでログイン'" />
               </v-col>
             </v-row>
           </v-col>
