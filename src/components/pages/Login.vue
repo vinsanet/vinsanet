@@ -34,7 +34,7 @@
         <v-row :justify="'center'" class="pa-2">
           <v-col class="text-center">
             アカウントをお持ちでない場合は
-            <router-link to="/register">新規登録</router-link>
+            <router-link to="/register" class="text-decoration-none">新規登録</router-link>
           </v-col>
         </v-row>
       </v-col>
@@ -102,3 +102,26 @@
     });
   };
 </script>
+
+<style scoped>
+  a {
+    position: relative;
+    border-bottom: solid 1px rgb(var(--v-theme-primary));
+    color: rgb(var(--v-theme-body));
+  }
+
+  a::after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    content: "";
+    width: 0;
+    height: 2px;
+    background-color: rgb(var(--v-theme-primary));
+    transition: 0.5s;
+  }
+
+  a:hover::after {
+    width: 100%;
+  }
+</style>
