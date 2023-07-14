@@ -12,7 +12,7 @@ export default createVuetify({
           secondary: "#3e62ad", // 杜若色
           success: "#007b43", // 常磐色
           error: "#c9171e", // 深緋
-          skill: "#38b48b", // 翡翠色
+          skill: "#00a381", // 花緑青
           speciality: "#007bbb", // 紺碧
           injury: "#d9333f", // 紅赤
         },
