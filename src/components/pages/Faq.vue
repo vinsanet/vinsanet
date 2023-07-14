@@ -71,7 +71,9 @@
                     <div :class="['pa-2', 'answer', 'd-flex', 'align-center']">
                       <span :class="['text-h4', 'text-lg-h3', 'mr-4']">A</span>
                       <div>
-                        <p class="font-weight-bold">本サービスがまだベータ版であることを意味しています。</p>
+                        <p class="font-weight-bold">
+                          本サービスがまだ正式リリース前のベータ版であることを意味しています。
+                        </p>
                         <p>
                           ベータ版とは、正式版を公開する前にユーザーに試用してもらうサンプルのバージョンです。ベータ版期間中は、以下の点にご留意頂きますようお願いします。
                         </p>
