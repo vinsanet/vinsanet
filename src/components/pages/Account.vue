@@ -51,7 +51,10 @@
                     <tbody>
                       <tr>
                         <td>
-                          <div :class="'text-subtitle-1'"><v-icon color="light-blue">mdi-twitter</v-icon> Twitter</div>
+                          <div class="d-flex align-center">
+                            <v-img max-width="1.5rem" class="mr-2" :src="twitterIconUrl"></v-img>
+                            <div :class="'text-subtitle-1'">Twitter</div>
+                          </div>
                         </td>
                         <td>
                           <v-btn :color="!twitterAuthorized ? 'primary' : 'error'" @click.stop="onClickTwitter">
@@ -62,7 +65,10 @@
                       </tr>
                       <tr>
                         <td>
-                          <div :class="'text-subtitle-1'"><v-icon color="red">mdi-google</v-icon> Google</div>
+                          <div class="d-flex align-center">
+                            <v-img max-width="1.5rem" class="mr-2" :src="googleIconUrl"></v-img>
+                            <div :class="'text-subtitle-1'">Google</div>
+                          </div>
                         </td>
                         <td>
                           <v-btn :color="!googleAuthorized ? 'primary' : 'error'" @click.stop="onClickGoogle">
@@ -73,7 +79,10 @@
                       </tr>
                       <tr>
                         <td>
-                          <div :class="'text-subtitle-1'"><v-icon>mdi-github</v-icon> GitHub</div>
+                          <div class="d-flex align-center">
+                            <v-img max-width="1.5rem" class="mr-2" :src="githubIconUrl"></v-img>
+                            <div :class="'text-subtitle-1'">GitHub</div>
+                          </div>
                         </td>
                         <td>
                           <v-btn :color="!githubAuthoized ? 'primary' : 'error'" @click.stop="onClickGithub">
@@ -146,6 +155,9 @@
 </template>
 
 <script setup lang="ts">
+  import githubIconUrl from "@/assets/github-black.svg";
+  import googleIconUrl from "@/assets/google.svg";
+  import twitterIconUrl from "@/assets/twitter-blue.svg";
   import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
   import { accountConverter } from "@/models/account";
   import { useAccountNameStore } from "@/store/account";
