@@ -88,9 +88,8 @@
 </template>
 
 <script setup lang="ts">
+  import imageUrl from "@/assets/index.jpg";
   import { ref } from "vue";
-
-  import imageUrl from "/src/assets/index.jpg";
 
   const links = ref([
     { name: "利用規約", icon: "mdi-file-document", url: "/terms" },
