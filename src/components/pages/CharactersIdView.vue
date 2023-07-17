@@ -563,7 +563,7 @@
           });
         } else {
           information.value.images.forEach((image) => {
-            const imageRef = storageRef(firebaseStorage, `characters/${id}-${image.id}.png`);
+            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.png`);
             getDownloadURL(imageRef).then((downloadUrl) => {
               imageUrls.value.push(downloadUrl);
             });

@@ -633,6 +633,7 @@
   import { useThemeStore } from "@/store/theme";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
+  import { nanoid } from "nanoid";
   import { storeToRefs } from "pinia";
   import { computed, onMounted, ref, watch } from "vue";
   import { useRoute, useRouter } from "vue-router";
@@ -666,13 +667,13 @@
   const unsavedDialog = ref(false);
 
   const uploadImage = async () => {
-    const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
-    const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+    const newId = nanoid();
+    const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
     uploadBytes(imageRef, newImage.value[0])
       .then(() => {
-        const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+        const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
         getDownloadURL(imageRef).then((downloadUrl) => {
-          imageUrls.value.push({ id: `${id}-${newId}`, value: downloadUrl });
+          imageUrls.value.push({ id: `${newId}`, value: downloadUrl });
           imagePage.value = imageUrls.value.length - 1;
         });
       })
@@ -683,11 +684,11 @@
         newImage.value = [];
       });
   };
-  const deleteImage = (imageId: number) => {
-    const imageRef = storageRef(firebaseStorage, `characters/${id}-${imageId}.png`);
+  const deleteImage = (imageId: string) => {
+    const imageRef = storageRef(firebaseStorage, `characters/${imageId}.png`);
     deleteObject(imageRef).then(() => {
       imageUrls.value = imageUrls.value.filter((imageUrl) => {
-        return imageUrl.id !== `${id}-${imageId}`;
+        return imageUrl.id !== `${imageId}`;
       });
       imagePage.value = Math.max(0, imageUrls.value.length - 1);
       information.value.images = information.value.images.filter((image) => {
@@ -702,13 +703,13 @@
     if (!event || !event.dataTransfer || event.dataTransfer.files.length === 0) {
       return;
     }
-    const newId = information.value.images.length === 0 ? 1 : information.value.images.slice(-1)[0].id + 1;
-    const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+    const newId = nanoid();
+    const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
     uploadBytes(imageRef, event.dataTransfer.files[0])
       .then(() => {
-        const imageRef = storageRef(firebaseStorage, `characters/${id}-${newId}.png`);
+        const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
         getDownloadURL(imageRef).then((downloadUrl) => {
-          imageUrls.value.push({ id: `${id}-${newId}`, value: downloadUrl });
+          imageUrls.value.push({ id: `${newId}`, value: downloadUrl });
           imagePage.value = imageUrls.value.length - 1;
         });
       })
@@ -984,7 +985,7 @@
       })
       .then(() => {
         information.value.images.forEach((image) => {
-          const imageRef = storageRef(firebaseStorage, `characters/${id}-${image.id}.png`);
+          const imageRef = storageRef(firebaseStorage, `characters/${image.id}.png`);
           getDownloadURL(imageRef).then((downloadUrl) => {
             imageUrls.value.push({
               id: `${id}-${image.id}`,
