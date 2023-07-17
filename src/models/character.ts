@@ -1,6 +1,9 @@
 import { DocumentSnapshot, FieldValue, SnapshotOptions } from "firebase/firestore";
 
 type Rule = "基本ルール" | "現代日本ソースブック";
+type Skill = { name: string; value: number };
+type Speciality = { name: string; value: number };
+type Image = { id: string; description: string };
 
 export type CharacterType = {
   id: string;
@@ -13,13 +16,13 @@ export type CharacterType = {
   home: string;
   rank: string;
   family: string;
-  skills: Array<{ name: string; value: number }>;
-  specialities: Array<{ name: string; value: number }>;
+  skills: Array<Skill>;
+  specialities: Array<Speciality>;
   injury: number;
   remarks: string;
   tags: Array<string>;
   userId: string;
-  images: Array<{ id: number; description: string }>;
+  images: Array<Image>;
   isPublishing: boolean;
   rule: Rule;
   createdAt: FieldValue;
@@ -37,13 +40,13 @@ class Character implements CharacterType {
   home: string;
   rank: string;
   family: string;
-  skills: Array<{ name: string; value: number }>;
-  specialities: Array<{ name: string; value: number }>;
+  skills: Array<Skill>;
+  specialities: Array<Speciality>;
   injury: number;
   remarks: string;
   tags: Array<string>;
   userId: string;
-  images: Array<{ id: number; description: string }>;
+  images: Array<Image>;
   isPublishing: boolean;
   rule: Rule;
   createdAt: FieldValue;
@@ -60,13 +63,13 @@ class Character implements CharacterType {
     _home: string,
     _rank: string,
     _family: string,
-    _skills: Array<{ name: string; value: number }>,
-    _specialities: Array<{ name: string; value: number }>,
+    _skills: Array<Skill>,
+    _specialities: Array<Speciality>,
     _injury: number,
     _remarks: string,
     _tags: Array<string>,
     _userId: string,
-    _images: Array<{ id: number; description: string }>,
+    _images: Array<Image>,
     _isPublishing: boolean,
     _rule: Rule,
     _createdAt: FieldValue,
