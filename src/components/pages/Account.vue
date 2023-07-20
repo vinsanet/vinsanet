@@ -1,14 +1,14 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-card variant="outlined">
+      <v-card variant="outlined" class="mb-8">
         <v-row>
           <v-col>
             <v-card-title>アカウント名設定</v-card-title>
             <v-card-text>
               <v-row>
                 <v-col>
-                  <div :class="'text-caption'">アカウント名は他のユーザーに表示されません</div>
+                  <div :class="'text-caption'">アカウント名は他のユーザーに表示されません。</div>
                 </v-col>
               </v-row>
               <v-row>
@@ -99,6 +99,36 @@
           </v-col>
         </v-row>
       </v-card>
+      <v-card variant="outlined" color="error">
+        <v-row>
+          <v-col>
+            <v-card-title>アカウント削除</v-card-title>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <div :class="'text-caption'">
+                    現在のアカウントを削除するには、事前にすべてのキャラクターを削除する必要があります。
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col style="max-width: 500px">
+                  <v-btn
+                    class="ml-4"
+                    color="error"
+                    prepend-icon="mdi-delete"
+                    variant="outlined"
+                    :disabled="!isAccountDeletable"
+                    @click="() => (deleteDialog = true)"
+                  >
+                    アカウントを削除する
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card>
     </v-responsive>
   </v-container>
   <v-dialog v-model="twitterDialog" width="30%" min-width="400px">
@@ -152,6 +182,23 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="deleteDialog" width="30%" min-width="400px">
+    <v-card>
+      <v-card-title>アカウント削除</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col>アカウントを削除すると、元に戻すことはできません。よろしいですか？</v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="deleteDialog = false"> キャンセル </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="error" @click="onClickDeleteAccount">OK</v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
@@ -162,7 +209,16 @@
   import { accountConverter } from "@/models/account";
   import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { collection, doc, getDocs, query, updateDoc, where } from "@firebase/firestore";
+  import {
+    collection,
+    deleteDoc,
+    doc,
+    getCountFromServer,
+    getDocs,
+    query,
+    updateDoc,
+    where,
+  } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, linkWithRedirect, unlink } from "firebase/auth";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
@@ -176,9 +232,11 @@
   const twitterAuthorized = ref(false);
   const googleAuthorized = ref(false);
   const githubAuthoized = ref(false);
+  const isAccountDeletable = ref(false);
   const twitterDialog = ref(false);
   const googleDialog = ref(false);
   const githubDialog = ref(false);
+  const deleteDialog = ref(false);
 
   firebaseAuth.onAuthStateChanged((user) => {
     if (!user) {
@@ -188,7 +246,7 @@
     }
 
     const q = query(collection(firebaseDb, "accounts"), where("id", "==", user.uid)).withConverter(accountConverter);
-    getDocs(q).then((querySnapshot) => {
+    getDocs(q).then(async (querySnapshot) => {
       if (querySnapshot.empty) {
         showSnackbar("アカウントが存在しません", "error");
         router.push("/login");
@@ -197,6 +255,10 @@
       const account = querySnapshot.docs[0].data();
       accountName.value = account.name;
       documentId = querySnapshot.docs[0].id;
+
+      const q = query(collection(firebaseDb, "characters"), where("userId", "==", account.id));
+      const snapshot = await getCountFromServer(q);
+      isAccountDeletable.value = snapshot.data().count === 0;
     });
 
     user.providerData.forEach((provider) => {
@@ -325,5 +387,23 @@
         showSnackbar(`GitHubアカウントの連携を解除できませんでした：${errorMessage}`, "error");
       });
     githubDialog.value = false;
+  };
+  const onClickDeleteAccount = () => {
+    const userId = firebaseAuth.currentUser?.uid;
+    firebaseAuth.currentUser
+      ?.delete()
+      .then(() => {
+        const q = query(collection(firebaseDb, "accounts"), where("id", "==", userId)).withConverter(accountConverter);
+        getDocs(q).then((querySnapshot) => {
+          if (querySnapshot.empty) return;
+          deleteDoc(doc(firebaseDb, "accounts", querySnapshot.docs[0].id));
+        });
+        showSnackbar("アカウントを削除しました", "success");
+        router.push("/");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        showSnackbar(`アカウントを削除できませんでした：${errorMessage}`, "error");
+      });
   };
 </script>
