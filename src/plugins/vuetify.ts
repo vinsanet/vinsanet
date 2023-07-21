@@ -15,6 +15,7 @@ export default createVuetify({
           skill: "#00a381", // 花緑青
           speciality: "#007bbb", // 紺碧
           injury: "#d9333f", // 紅赤
+          grey: "#adadad", // 薄鈍
         },
       },
       dark: {
@@ -27,6 +28,7 @@ export default createVuetify({
           skill: "#6db59d",
           speciality: "#70a0ba",
           injury: "#d98288",
+          grey: "#383c3c", // 羊羹色
         },
       },
     },
