@@ -384,7 +384,7 @@
     </v-btn>
   </v-layout-item>
   <v-footer v-if="smAndUp" app fixed color="background">
-    <v-card flat tile width="100%" class="text-center" :color="theme === 'light' ? 'grey-lighten-1' : 'grey-darken-3'">
+    <v-card flat tile width="100%" class="text-center" color="grey">
       <v-card-text>
         <v-row>
           <v-col v-if="canEdit">
@@ -404,7 +404,6 @@
   import { CharacterType, characterConverter } from "@/models/character";
   import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { useThemeStore } from "@/store/theme";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { getDownloadURL, ref as storageRef } from "firebase/storage";
   import { storeToRefs } from "pinia";
@@ -419,8 +418,6 @@
   const { mobile, xs, smAndUp } = useDisplay();
   const accountNamestore = useAccountNameStore();
   const { accountName } = storeToRefs(accountNamestore);
-  const themeStore = useThemeStore();
-  const { theme } = storeToRefs(themeStore);
 
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);

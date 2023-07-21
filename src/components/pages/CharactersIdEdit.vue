@@ -576,7 +576,7 @@
     </v-card>
   </v-dialog>
   <v-footer v-if="smAndUp" app fixed color="background">
-    <v-card flat tile width="100%" class="text-center" :color="theme === 'light' ? 'grey-lighten-1' : 'grey-darken-3'">
+    <v-card flat tile width="100%" class="text-center" color="grey">
       <v-card-text>
         <v-row>
           <v-col>
@@ -630,11 +630,9 @@
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
   import { CharacterType, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { useThemeStore } from "@/store/theme";
   import { collection, doc, getDocs, query, serverTimestamp, updateDoc, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
   import { nanoid } from "nanoid";
-  import { storeToRefs } from "pinia";
   import { computed, onMounted, ref, watch } from "vue";
   import { useRoute, useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
@@ -646,8 +644,6 @@
   const { mobile, xs, smAndUp } = useDisplay();
   let documentId = "";
   let isDirty = false;
-  const themeStore = useThemeStore();
-  const { theme } = storeToRefs(themeStore);
 
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
