@@ -25,8 +25,7 @@
                     ]"
                     hide-details="auto"
                     density="comfortable"
-                  >
-                  </v-text-field>
+                  ></v-text-field>
                   <v-btn class="ml-4" color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName">
                     保存
                   </v-btn>
