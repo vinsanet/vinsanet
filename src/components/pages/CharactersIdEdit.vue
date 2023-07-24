@@ -369,7 +369,7 @@
                       </template>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
-                      <v-textarea v-model="remark.body" counter hide-details></v-textarea>
+                      <v-textarea v-model="remark.body" variant="outlined" counter hide-details></v-textarea>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
