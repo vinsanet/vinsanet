@@ -36,7 +36,7 @@
     return;
   };
   const onClickTwitter = () => {
-    window.location.href = "https://twitter.com/hnymA";
+    window.location.href = "https://twitter.com/vinsanet_trpg";
     return;
   };
 </script>
