@@ -530,7 +530,6 @@
     });
     data.data.commands = data.data.commands.trim();
     data.data.status.push({ label: "負傷", value: `${information.value.injury}`, max: 3 });
-    data.data.memo = `${information.value.name}\n${information.value.remarks}`.trim();
     data.data.externalUrl = location.href;
     navigator.clipboard.writeText(JSON.stringify(data));
     showSnackbar("キャラクターをコピーしました", "success");
@@ -587,7 +586,6 @@
       value: information.value.injury,
       max: 3,
     });
-    data.data.memo = `${information.value.name}\n${information.value.remarks}`.trim();
     const jsonValue = JSON.stringify(data);
     const blob = new Blob([jsonValue], {
       type: "text/plain",
