@@ -94,6 +94,7 @@
   const links = ref([
     { name: "利用規約", icon: "mdi-file-document", url: "/terms" },
     { name: "よくある質問", icon: "mdi-help-circle", url: "/faq" },
-    { name: "Twitter", icon: "mdi-twitter", url: "https://twitter.com/hnymA" },
+    { name: "開発支援", icon: "mdi-hand-coin", url: "/support" },
+    { name: "Twitter", icon: "mdi-twitter", url: "https://twitter.com/vinsanet_trpg" },
   ]);
 </script>

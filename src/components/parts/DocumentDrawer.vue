@@ -31,6 +31,10 @@
     router.push("/faq");
     return;
   };
+  const onClickSupport = () => {
+    router.push("/support");
+    return;
+  };
   const onClickTwitter = () => {
     window.location.href = "https://twitter.com/hnymA";
     return;
