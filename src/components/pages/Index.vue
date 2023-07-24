@@ -16,8 +16,8 @@
           </v-row>
           <v-row :justify="'center'">
             <v-spacer></v-spacer>
-            <v-col><v-btn color="primary" to="/login" block>ログイン</v-btn></v-col>
-            <v-col><v-btn color="secondary" to="/register" block>新規登録</v-btn></v-col>
+            <v-col><v-btn color="primary" variant="flat" to="/login" block>ログイン</v-btn></v-col>
+            <v-col><v-btn color="secondary" variant="flat" to="/register" block>新規登録</v-btn></v-col>
             <v-spacer></v-spacer>
           </v-row>
           <v-row :justify="'center'">

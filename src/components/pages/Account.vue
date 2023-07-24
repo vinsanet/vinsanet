@@ -26,7 +26,13 @@
                     hide-details="auto"
                     density="comfortable"
                   ></v-text-field>
-                  <v-btn class="ml-4" color="primary" prepend-icon="mdi-content-save" @click="onClickSaveAccountName">
+                  <v-btn
+                    color="primary"
+                    variant="flat"
+                    prepend-icon="mdi-content-save"
+                    class="ml-4"
+                    @click="onClickSaveAccountName"
+                  >
                     保存
                   </v-btn>
                 </v-col>
@@ -56,7 +62,11 @@
                           </div>
                         </td>
                         <td>
-                          <v-btn :color="!twitterAuthorized ? 'primary' : 'error'" @click.stop="onClickTwitter">
+                          <v-btn
+                            :color="!twitterAuthorized ? 'primary' : 'error'"
+                            variant="flat"
+                            @click.stop="onClickTwitter"
+                          >
                             <v-icon>{{ !twitterAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
                             {{ !twitterAuthorized ? "連携する" : "連携解除" }}
                           </v-btn>
@@ -70,7 +80,11 @@
                           </div>
                         </td>
                         <td>
-                          <v-btn :color="!googleAuthorized ? 'primary' : 'error'" @click.stop="onClickGoogle">
+                          <v-btn
+                            :color="!googleAuthorized ? 'primary' : 'error'"
+                            variant="flat"
+                            @click.stop="onClickGoogle"
+                          >
                             <v-icon>{{ !googleAuthorized ? "mdi-link" : "mdi-link-off" }}</v-icon>
                             {{ !googleAuthorized ? "連携する" : "連携解除" }}
                           </v-btn>
@@ -84,7 +98,11 @@
                           </div>
                         </td>
                         <td>
-                          <v-btn :color="!githubAuthoized ? 'primary' : 'error'" @click.stop="onClickGithub">
+                          <v-btn
+                            :color="!githubAuthoized ? 'primary' : 'error'"
+                            variant="flat"
+                            @click.stop="onClickGithub"
+                          >
                             <v-icon>{{ !githubAuthoized ? "mdi-link" : "mdi-link-off" }}</v-icon>
                             {{ !githubAuthoized ? "連携する" : "連携解除" }}
                           </v-btn>

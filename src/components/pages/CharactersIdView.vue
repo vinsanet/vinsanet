@@ -337,7 +337,9 @@
                           </v-row>
                           <v-row>
                             <v-col>
-                              <v-btn class="my-2" color="secondary" @click="onClickRemarksAnswer(index)">送信</v-btn>
+                              <v-btn color="secondary" variant="flat" class="my-2" @click="onClickRemarksAnswer(index)"
+                                >送信</v-btn
+                              >
                             </v-col>
                           </v-row>
                         </div>
@@ -434,10 +436,12 @@
       <v-card-text>
         <v-row>
           <v-col v-if="hasCharacter">
-            <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
-            <v-btn color="secondary" prepend-icon="mdi-export-variant" @click="onClickExport">キャラクター出力</v-btn>
+            <v-btn color="secondary" variant="flat" prepend-icon="mdi-export-variant" @click="onClickExport"
+              >キャラクター出力</v-btn
+            >
           </v-col>
         </v-row>
       </v-card-text>

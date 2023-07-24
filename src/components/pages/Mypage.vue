@@ -12,7 +12,7 @@
           ></v-text-field>
         </v-col>
         <v-col class="d-flex justify-end">
-          <v-btn color="secondary" prepend-icon="mdi-swap-vertical">
+          <v-btn color="secondary" variant="flat" prepend-icon="mdi-swap-vertical">
             表示順：{{ displayOrder }}
             <v-menu activator="parent" :close-on-content-click="false">
               <v-card class="pa-2">

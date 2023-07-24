@@ -19,7 +19,12 @@
                 </v-row>
                 <v-row>
                   <v-col class="d-flex justify-center">
-                    <v-btn color="secondary" prepend-icon="mdi-image-edit" @click="() => (imageDialog = true)">
+                    <v-btn
+                      color="secondary"
+                      variant="flat"
+                      prepend-icon="mdi-image-edit"
+                      @click="() => (imageDialog = true)"
+                    >
                       画像追加・削除
                     </v-btn>
                   </v-col>
@@ -694,25 +699,36 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(false)">閲覧画面</v-btn>
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-eye" @click="onClickView(false)"
+              >閲覧画面</v-btn
+            >
           </v-col>
           <v-col>
-            <v-btn color="secondary" prepend-icon="mdi-file-find" @click="() => (publishingDialog = true)"
+            <v-btn
+              color="secondary"
+              variant="flat"
+              prepend-icon="mdi-file-find"
+              @click="() => (publishingDialog = true)"
               >公開設定</v-btn
             >
           </v-col>
           <v-col>
-            <v-btn color="secondary" prepend-icon="mdi-checkbox-multiple-marked" @click="() => (ruleDialog = true)">
+            <v-btn
+              color="secondary"
+              variant="flat"
+              prepend-icon="mdi-checkbox-multiple-marked"
+              @click="() => (ruleDialog = true)"
+            >
               ルール設定
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="secondary" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)"
+            <v-btn color="secondary" variant="flat" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)"
               >アップロード
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="success" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
+            <v-btn color="success" variant="flat" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
           </v-col>
         </v-row>
       </v-card-text>

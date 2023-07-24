@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="text-capitalize" @click.stop="props.onClick">
+  <v-btn class="text-capitalize" variant="flat" @click.stop="props.onClick">
     <v-img cover width="18px" :src="iconUrl" class="mr-2"></v-img>
     {{ props.text }}
   </v-btn>
