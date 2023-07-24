@@ -11,12 +11,14 @@ import Login from "@/components/pages/Login.vue";
 import Mypage from "@/components/pages/Mypage.vue";
 import NotFound from "@/components/pages/NotFound.vue";
 import Register from "@/components/pages/Register.vue";
+import Support from "@/components/pages/Support.vue";
 import Terms from "@/components/pages/Terms.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
   { path: "/", component: IndexLayout, children: [{ path: "", component: Index }] },
   { path: "/faq", component: DocumentLayout, children: [{ path: "", component: Faq }] },
+  { path: "/support", component: DocumentLayout, children: [{ path: "", component: Support }] },
   { path: "/terms", component: DocumentLayout, children: [{ path: "", component: Terms }] },
   { path: "/login", component: SimpleLayout, children: [{ path: "", component: Login }] },
   { path: "/register", component: SimpleLayout, children: [{ path: "", component: Register }] },
