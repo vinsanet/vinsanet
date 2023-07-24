@@ -3,6 +3,7 @@ import { DocumentSnapshot, FieldValue, SnapshotOptions } from "firebase/firestor
 type Rule = "基本ルール" | "現代日本ソースブック";
 type Skill = { name: string; value: number };
 type Speciality = { name: string; value: number };
+type Remark = { title: string; body: string; question: string; answer: string; isPublic: boolean };
 type Image = { id: string; description: string };
 
 export type CharacterType = {
@@ -19,7 +20,7 @@ export type CharacterType = {
   skills: Array<Skill>;
   specialities: Array<Speciality>;
   injury: number;
-  remarks: string;
+  remarks: Array<Remark>;
   tags: Array<string>;
   userId: string;
   images: Array<Image>;
@@ -43,7 +44,7 @@ class Character implements CharacterType {
   skills: Array<Skill>;
   specialities: Array<Speciality>;
   injury: number;
-  remarks: string;
+  remarks: Array<Remark>;
   tags: Array<string>;
   userId: string;
   images: Array<Image>;
@@ -66,7 +67,7 @@ class Character implements CharacterType {
     _skills: Array<Skill>,
     _specialities: Array<Speciality>,
     _injury: number,
-    _remarks: string,
+    _remarks: Array<Remark>,
     _tags: Array<string>,
     _userId: string,
     _images: Array<Image>,
