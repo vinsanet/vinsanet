@@ -67,12 +67,22 @@
                       <template #append>
                         <v-row v-if="smAndUp">
                           <v-col>
-                            <v-btn color="primary" prepend-icon="mdi-account-eye" @click="onClickView(character.id)">
+                            <v-btn
+                              color="primary"
+                              prepend-icon="mdi-account-eye"
+                              variant="flat"
+                              @click="onClickView(character.id)"
+                            >
                               閲覧
                             </v-btn>
                           </v-col>
                           <v-col>
-                            <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit(character.id)">
+                            <v-btn
+                              color="primary"
+                              prepend-icon="mdi-account-edit"
+                              variant="flat"
+                              @click="onClickEdit(character.id)"
+                            >
                               編集
                             </v-btn>
                           </v-col>
