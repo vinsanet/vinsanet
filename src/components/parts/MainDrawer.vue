@@ -75,7 +75,7 @@
       { name: "言語学", value: 0 },
     ];
     information.injury = 0;
-    information.remarks = "";
+    information.remarks = [{ title: "メモ", body: "", question: "", answer: "", isPublic: true }];
     information.tags = [];
     information.userId = firebaseAuth.currentUser?.uid ?? "";
     information.images = [];

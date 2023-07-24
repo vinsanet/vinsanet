@@ -294,14 +294,60 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea
-                  v-model="information.remarks"
-                  variant="plain"
-                  counter
-                  readonly
-                  hide-details
-                  class="px-4"
-                ></v-textarea>
+                <v-expansion-panels variant="accordion">
+                  <v-expansion-panel
+                    v-for="(remark, index) in information.remarks"
+                    :key="remark.title"
+                    elevation="0"
+                    bg-color="background"
+                  >
+                    <div v-if="remark.isPublic || hasCharacter">
+                      <v-expansion-panel-title class="remarks-title">
+                        <div class="mr-2">
+                          <span v-if="!remark.isPublic">
+                            <v-icon size="small">mdi-eye-off</v-icon>
+                            <v-divider vertical></v-divider>
+                          </span>
+                          <span v-else-if="remark.answer !== ''">
+                            <v-icon size="small">mdi-lock</v-icon>
+                            <v-divider vertical></v-divider>
+                          </span>
+                        </div>
+                        {{ remark.title }}
+                        <template #actions="{ expanded }">
+                          <v-icon :icon="expanded ? 'mdi-menu-up' : 'mdi-menu-down'"></v-icon>
+                        </template>
+                      </v-expansion-panel-title>
+                      <v-expansion-panel-text>
+                        <div v-if="!canShowRemarks[index]">
+                          <v-row>
+                            <v-col>このメモは限定公開です。</v-col>
+                          </v-row>
+                          <v-row class="d-flex align-center">
+                            <v-col>
+                              {{ remark.question }}
+                              <v-text-field
+                                :id="'remark-answer-' + index"
+                                variant="outlined"
+                                hide-details="auto"
+                                density="comfortable"
+                                :error-messages="remarksAnswerErrorMessages[index]"
+                              ></v-text-field>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col>
+                              <v-btn class="my-2" color="secondary" @click="onClickRemarksAnswer(index)">送信</v-btn>
+                            </v-col>
+                          </v-row>
+                        </div>
+                        <div v-if="canShowRemarks[index]">
+                          <v-textarea v-model="remark.body" variant="plain" counter readonly hide-details></v-textarea>
+                        </div>
+                      </v-expansion-panel-text>
+                    </div>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-col>
             </v-row>
           </v-card>
@@ -376,8 +422,8 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item v-if="canEdit" @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
-          <v-divider v-if="canEdit"></v-divider>
+          <v-list-item v-if="hasCharacter" @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
+          <v-divider v-if="hasCharacter"></v-divider>
           <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
         </v-list>
       </v-menu>
@@ -387,7 +433,7 @@
     <v-card flat tile width="100%" class="text-center" color="grey">
       <v-card-text>
         <v-row>
-          <v-col v-if="canEdit">
+          <v-col v-if="hasCharacter">
             <v-btn color="primary" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
@@ -422,10 +468,25 @@
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
   const imagePage = ref(0);
+  const canShowRemarks = ref([] as Array<boolean>);
+  const remarksAnswerErrorMessages = ref([] as Array<string>);
   const exportDialog = ref(false);
   const includeZeroValues = ref(false);
   const isCommandKutulu = ref(false);
 
+  const onClickRemarksAnswer = (index: number) => {
+    const answer = document.getElementById(`remark-answer-${index}`) as HTMLInputElement;
+    if (answer.value === "") {
+      remarksAnswerErrorMessages.value[index] = "質問の答えを入力してください";
+      return;
+    }
+    if (information.value.remarks[index].answer !== answer.value) {
+      remarksAnswerErrorMessages.value[index] = "質問の答えが違います";
+      return;
+    }
+    remarksAnswerErrorMessages.value[index] = "";
+    canShowRemarks.value[index] = true;
+  };
   const onClickEdit = () => {
     router.push(`/characters/${id}/edit`);
   };
@@ -551,6 +612,11 @@
           return;
         }
         information.value = character;
+        information.value.remarks.forEach((remark) => {
+          const canShowRemark = remark.answer === "" || information.value.userId === firebaseAuth.currentUser?.uid;
+          canShowRemarks.value.push(canShowRemark);
+          remarksAnswerErrorMessages.value.push("");
+        });
       })
       .then(() => {
         if (information.value.images.length === 0) {
@@ -579,7 +645,7 @@
       return sum + speciality.value;
     }, 0);
   });
-  const canEdit = computed(() => {
+  const hasCharacter = computed(() => {
     if (information.value.userId !== firebaseAuth.currentUser?.uid) return false;
     return true;
   });
@@ -609,3 +675,9 @@
     return palette.trim();
   });
 </script>
+
+<style scoped>
+  .remarks-title {
+    background-color: rgba(var(--v-theme-grey), 0.3);
+  }
+</style>

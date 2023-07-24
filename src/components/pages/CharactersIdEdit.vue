@@ -323,7 +323,56 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-textarea v-model="information.remarks" variant="outlined" counter></v-textarea>
+                <v-expansion-panels variant="accordion">
+                  <v-expansion-panel
+                    v-for="(remark, index) in information.remarks"
+                    :key="remark.title"
+                    elevation="0"
+                    bg-color="background"
+                  >
+                    <v-expansion-panel-title class="remarks-title">
+                      <div class="mr-2">
+                        <span v-if="!remark.isPublic">
+                          <v-icon size="small">mdi-eye-off</v-icon>
+                          <v-divider vertical></v-divider>
+                        </span>
+                        <span v-else-if="remark.answer !== ''">
+                          <v-icon size="small">mdi-lock</v-icon>
+                          <v-divider vertical></v-divider>
+                        </span>
+                      </div>
+                      {{ remark.title }}
+                      <template #actions="{ expanded }">
+                        <div class="d-flex align-center">
+                          <div class="mr-2">
+                            <v-btn color="secondary" variant="flat" @click.stop="onClickRemarksSetting(index)">
+                              設定
+                            </v-btn>
+                          </div>
+                          <div class="mr-2">
+                            <v-btn
+                              color="error"
+                              variant="flat"
+                              :disabled="information.remarks.length === 1"
+                              @click.stop="onClickRemarksDelete(index)"
+                            >
+                              削除
+                            </v-btn>
+                          </div>
+                          <v-icon :icon="expanded ? 'mdi-menu-up' : 'mdi-menu-down'"></v-icon>
+                        </div>
+                      </template>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-textarea v-model="remark.body" counter hide-details></v-textarea>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn color="secondary" variant="flat" @click.stop="onClickRemarksAdd">追加</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -430,7 +479,7 @@
         <v-row class="d-none">
           <v-col>
             <v-file-input
-              id="imageInput"
+              id="image-input"
               v-model="newImage"
               variant="underlined"
               accept="image/*"
@@ -441,6 +490,71 @@
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="onClickImageClose">閉じる</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="remarkSettingDialog" width="500px" max-width="90%">
+    <v-card>
+      <v-card-title>メモ設定</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col>
+            <v-text-field v-model="newRemark.title" variant="outlined" label="タイトル"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-select
+              v-model="newRemark.publicity"
+              :items="['全体公開', '限定公開', '非公開']"
+              label="公開設定"
+              variant="outlined"
+            ></v-select>
+          </v-col>
+        </v-row>
+        <v-row v-if="newRemark.publicity === '限定公開'">
+          <v-col>
+            <v-text-field
+              v-model="newRemark.question"
+              variant="outlined"
+              label="質問"
+              :rules="[
+                (value: string) => {
+                  return !!value || '質問を入力してください';
+                },
+              ]"
+            ></v-text-field>
+            <v-text-field
+              v-model="newRemark.answer"
+              variant="outlined"
+              label="答え"
+              :rules="[
+                (value: string) => {
+                  return !!value || '答えを入力してください';
+                },
+              ]"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="onClickRemarkSetting">OK</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog v-model="remarkDeleteDialog" width="500px" max-width="90%">
+    <v-card>
+      <v-card-title>メモ削除</v-card-title>
+      <v-card-text>
+        <span class="text-decoration-underline">{{ information.remarks[deleteRemarkIndex]?.title ?? "" }}</span>
+        を削除しようとしています。 本当に削除しますか？
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" @click="remarkDeleteDialog = false"> キャンセル </v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="error" @click="onClickRemarkDelete">OK</v-btn>
+        <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -545,7 +659,7 @@
         <v-row class="d-none">
           <v-col>
             <v-file-input
-              id="fileInput"
+              id="file-input"
               v-model="newFile"
               variant="underlined"
               accept="application/json"
@@ -644,19 +758,32 @@
   const { mobile, xs, smAndUp } = useDisplay();
   let documentId = "";
   let isDirty = false;
+  let deleteRemarkIndex = -1;
 
   let information = ref({} as CharacterType);
   let imageUrls = ref([] as Array<{ id: string; value: string }>);
+  const overlay = ref(false);
   const imagePage = ref(0);
   const imageDragging = ref(false);
   const fileDragging = ref(false);
   const newImage = ref([]);
   const newFile = ref([]);
   const newTag = ref("");
-  const overlay = ref(false);
+  const newRemark = ref(
+    {} as {
+      title: string;
+      body: string;
+      question: string;
+      answer: string;
+      publicity: "全体公開" | "限定公開" | "非公開";
+      index: number;
+    }
+  );
   const publish = ref<"公開" | "非公開">("公開");
   const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
+  const remarkSettingDialog = ref(false);
+  const remarkDeleteDialog = ref(false);
   const publishingDialog = ref(false);
   const ruleDialog = ref(false);
   const uploadDialog = ref(false);
@@ -731,7 +858,15 @@
       information.value.rank = data.data.rank ?? "";
       information.value.family = data.data.family ?? "";
       information.value.tags = data.data.tags ?? [];
-      information.value.remarks = data.data.remarks ?? "";
+      if (data.data.remarks === undefined) {
+        information.value.remarks = [{ title: "", body: "", question: "", answer: "", isPublic: true }];
+      } else if (typeof data.data.remarks === "string") {
+        information.value.remarks = [
+          { title: "メモ", body: data.data.remarks, question: "", answer: "", isPublic: true },
+        ];
+      } else {
+        information.value.remarks = data.data.remarks;
+      }
       information.value.skills.forEach((skill) => {
         const found = data.data.params.find(
           (element: { label: string; value: string }) => element.label === skill.name
@@ -777,17 +912,25 @@
     fileReader.readAsText(event.dataTransfer.files[0]);
     fileReader.onload = () => {
       const data = JSON.parse(fileReader.result?.toString() ?? "");
-      information.value.name = data.data.name;
-      information.value.kana = data.data.kana;
-      information.value.title = data.data.title;
-      information.value.age = data.data.age;
-      information.value.gender = data.data.gender;
-      information.value.profession = data.data.profession;
-      information.value.home = data.data.home;
-      information.value.rank = data.data.rank;
-      information.value.family = data.data.family;
-      information.value.tags = data.data.tags;
-      information.value.remarks = data.data.remarks;
+      information.value.name = data.data.name ?? "";
+      information.value.kana = data.data.kana ?? "";
+      information.value.title = data.data.title ?? "";
+      information.value.age = data.data.age ?? "";
+      information.value.gender = data.data.gender ?? "";
+      information.value.profession = data.data.profession ?? "";
+      information.value.home = data.data.home ?? "";
+      information.value.rank = data.data.rank ?? "";
+      information.value.family = data.data.family ?? "";
+      information.value.tags = data.data.tags ?? [];
+      if (data.data.remarks === undefined) {
+        information.value.remarks = [{ title: "", body: "", question: "", answer: "", isPublic: true }];
+      } else if (typeof data.data.remarks === "string") {
+        information.value.remarks = [
+          { title: "メモ", body: data.data.remarks, question: "", answer: "", isPublic: true },
+        ];
+      } else {
+        information.value.remarks = data.data.remarks;
+      }
       information.value.skills.forEach((skill) => {
         const found = data.data.params.find(
           (element: { label: string; value: string }) => element.label === skill.name
@@ -826,7 +969,7 @@
   };
 
   const onClickImageAdd = () => {
-    const imageInput = document.getElementById("imageInput");
+    const imageInput = document.getElementById("image-input");
     if (imageInput !== null) {
       imageInput.click();
     }
@@ -853,6 +996,58 @@
   };
   const onClickTagClose = (index: number) => {
     information.value.tags.splice(index, 1);
+  };
+  const onClickRemarksSetting = (index: number) => {
+    newRemark.value.title = information.value.remarks[index].title;
+    newRemark.value.body = information.value.remarks[index].body;
+    newRemark.value.question = information.value.remarks[index].question;
+    newRemark.value.answer = information.value.remarks[index].answer;
+    if (information.value.remarks[index].isPublic) {
+      newRemark.value.publicity = information.value.remarks[index].answer === "" ? "全体公開" : "限定公開";
+    } else {
+      newRemark.value.publicity = "非公開";
+    }
+    newRemark.value.index = index;
+    remarkSettingDialog.value = true;
+  };
+  const onClickRemarkSetting = () => {
+    if (newRemark.value.publicity === "限定公開") {
+      if (newRemark.value.question === null || newRemark.value.question.length === 0) {
+        showSnackbar("質問を入力してください", "error");
+        return;
+      }
+      if (newRemark.value.answer === null || newRemark.value.answer.length === 0) {
+        showSnackbar("答えを入力してください", "error");
+        return;
+      }
+    }
+    information.value.remarks[newRemark.value.index] = {
+      title: newRemark.value.title,
+      body: newRemark.value.body,
+      question: newRemark.value.publicity === "限定公開" ? newRemark.value.question : "",
+      answer: newRemark.value.publicity === "限定公開" ? newRemark.value.answer : "",
+      isPublic: ["全体公開", "限定公開"].includes(newRemark.value.publicity) ? true : false,
+    };
+    remarkSettingDialog.value = false;
+  };
+  const onClickRemarksDelete = (index: number) => {
+    deleteRemarkIndex = index;
+    remarkDeleteDialog.value = true;
+  };
+  const onClickRemarkDelete = () => {
+    information.value.remarks.splice(deleteRemarkIndex, 1);
+    deleteRemarkIndex = -1;
+    remarkDeleteDialog.value = false;
+  };
+  const onClickRemarksAdd = () => {
+    const remarksLength = information.value.remarks.length;
+    information.value.remarks.push({
+      title: `メモ${remarksLength + 1}`,
+      body: "",
+      question: "",
+      answer: "",
+      isPublic: true,
+    });
   };
   const onClickView = (isForceMove: boolean) => {
     if (isDirty && !isForceMove) {
@@ -937,7 +1132,7 @@
     rule.value = information.value.rule;
   };
   const onClickFileUpload = () => {
-    const fileInput = document.getElementById("fileInput");
+    const fileInput = document.getElementById("file-input");
     if (fileInput !== null) {
       fileInput.click();
     }
@@ -1013,3 +1208,9 @@
     }, 0);
   });
 </script>
+
+<style scoped>
+  .remarks-title {
+    background-color: rgba(var(--v-theme-grey), 0.3);
+  }
+</style>
