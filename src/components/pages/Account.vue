@@ -15,6 +15,7 @@
                 <v-col style="max-width: 500px" class="d-flex align-center">
                   <v-text-field
                     v-model="accountName"
+                    variant="outlined"
                     :rules="[
                       (value: string) => {
                         return !!value || 'アカウント名を入力してください';
