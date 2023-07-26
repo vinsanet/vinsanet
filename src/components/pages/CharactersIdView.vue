@@ -314,9 +314,6 @@
                           </span>
                         </div>
                         {{ remark.title }}
-                        <template #actions="{ expanded }">
-                          <v-icon :icon="expanded ? 'mdi-menu-up' : 'mdi-menu-down'"></v-icon>
-                        </template>
                       </v-expansion-panel-title>
                       <v-expansion-panel-text>
                         <div v-if="!canShowRemarks[index]">
@@ -325,21 +322,27 @@
                           </v-row>
                           <v-row class="d-flex align-center">
                             <v-col>
-                              {{ remark.question }}
                               <v-text-field
                                 :id="'remark-answer-' + index"
                                 variant="outlined"
-                                hide-details="auto"
                                 density="comfortable"
+                                :label="remark.question"
+                                hide-details="auto"
                                 :error-messages="remarksAnswerErrorMessages[index]"
                               ></v-text-field>
                             </v-col>
                           </v-row>
                           <v-row>
                             <v-col>
-                              <v-btn color="secondary" variant="flat" class="my-2" @click="onClickRemarksAnswer(index)"
-                                >送信</v-btn
+                              <v-btn
+                                color="secondary"
+                                variant="flat"
+                                class="my-2"
+                                prepend-icon="mdi-lock-open-check"
+                                @click="onClickRemarksAnswer(index)"
                               >
+                                確認
+                              </v-btn>
                             </v-col>
                           </v-row>
                         </div>
