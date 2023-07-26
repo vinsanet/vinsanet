@@ -347,29 +347,35 @@
                         </span>
                       </div>
                       {{ remark.title }}
-                      <template #actions="{ expanded }">
-                        <div class="d-flex align-center">
-                          <div class="mr-2">
-                            <v-btn color="secondary" variant="flat" @click.stop="onClickRemarksSetting(index)">
-                              設定
-                            </v-btn>
-                          </div>
-                          <div class="mr-2">
-                            <v-btn
-                              color="error"
-                              variant="flat"
-                              :disabled="information.remarks.length === 1"
-                              @click.stop="onClickRemarksDelete(index)"
-                            >
-                              削除
-                            </v-btn>
-                          </div>
-                          <v-icon :icon="expanded ? 'mdi-menu-up' : 'mdi-menu-down'"></v-icon>
-                        </div>
-                      </template>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
-                      <v-textarea v-model="remark.body" variant="outlined" counter hide-details></v-textarea>
+                      <v-row>
+                        <v-col>
+                          <v-textarea v-model="remark.body" variant="outlined" counter hide-details></v-textarea>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col>
+                          <v-btn
+                            color="secondary"
+                            variant="flat"
+                            prepend-icon="mdi-note-edit"
+                            class="mr-2"
+                            @click.stop="onClickRemarksSetting(index)"
+                          >
+                            設定
+                          </v-btn>
+                          <v-btn
+                            color="error"
+                            variant="flat"
+                            :disabled="information.remarks.length === 1"
+                            prepend-icon="mdi-note-remove"
+                            @click.stop="onClickRemarksDelete(index)"
+                          >
+                            削除
+                          </v-btn>
+                        </v-col>
+                      </v-row>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
                 </v-expansion-panels>
@@ -377,7 +383,14 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-btn color="secondary" variant="flat" @click.stop="onClickRemarksAdd">追加</v-btn>
+                <v-divider></v-divider>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn color="secondary" variant="flat" prepend-icon="mdi-note-plus" @click.stop="onClickRemarksAdd">
+                  追加
+                </v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -504,7 +517,7 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <v-text-field v-model="newRemark.title" variant="outlined" label="タイトル"></v-text-field>
+            <v-text-field v-model="newRemark.title" variant="outlined" label="タイトル" hide-details></v-text-field>
           </v-col>
         </v-row>
         <v-row>
@@ -514,33 +527,47 @@
               :items="['全体公開', '限定公開', '非公開']"
               label="公開設定"
               variant="outlined"
+              hide-details
             ></v-select>
           </v-col>
         </v-row>
-        <v-row v-if="newRemark.publicity === '限定公開'">
-          <v-col>
-            <v-text-field
-              v-model="newRemark.question"
-              variant="outlined"
-              label="質問"
-              :rules="[
+        <div v-if="newRemark.publicity === '限定公開'">
+          <v-row>
+            <v-col>
+              <v-divider></v-divider>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="newRemark.question"
+                variant="outlined"
+                label="質問"
+                hide-details="auto"
+                :rules="[
                 (value: string) => {
                   return !!value || '質問を入力してください';
                 },
               ]"
-            ></v-text-field>
-            <v-text-field
-              v-model="newRemark.answer"
-              variant="outlined"
-              label="答え"
-              :rules="[
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-text-field
+                v-model="newRemark.answer"
+                variant="outlined"
+                label="答え"
+                hide-details="auto"
+                :rules="[
                 (value: string) => {
                   return !!value || '答えを入力してください';
                 },
               ]"
-            ></v-text-field>
-          </v-col>
-        </v-row>
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </div>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" block @click="onClickRemarkSetting">OK</v-btn>
@@ -1054,6 +1081,7 @@
     information.value.remarks.splice(deleteRemarkIndex, 1);
     deleteRemarkIndex = -1;
     remarkDeleteDialog.value = false;
+    showSnackbar("メモを削除しました", "success");
   };
   const onClickRemarksAdd = () => {
     const remarksLength = information.value.remarks.length;
