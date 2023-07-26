@@ -14,6 +14,7 @@
 
 <style scoped>
   button {
+    color: #000;
     background-color: #fff;
   }
 </style>
