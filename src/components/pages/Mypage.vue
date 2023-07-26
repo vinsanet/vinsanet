@@ -90,7 +90,7 @@
                             <v-btn
                               color="error"
                               prepend-icon="mdi-delete"
-                              variant="outlined"
+                              variant="flat"
                               @click="onClickDelete(character.id)"
                             >
                               削除
