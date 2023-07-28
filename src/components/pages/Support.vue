@@ -18,7 +18,7 @@
                   <v-col>
                     <div class="pa-4">
                       <p>
-                        vinsanetは広告を設置せず、ユーザーの皆様にも無料でサービスをご利用頂いております。
+                        vinsanetはユーザーの皆様に無料でご利用頂いております。広告も設置しておりません。
                         開発および運営にかかる費用は、管理者である
                         <a :href="'https://twitter.com/hnymA'" class="text-decoration-none">はにーま</a>
                         が全て負担しております。
