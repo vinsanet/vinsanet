@@ -43,7 +43,7 @@
                   <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
                     <v-list-item :key="character.id" :prepend-avatar="character.avatar" class="my-2">
                       <v-list-item-title>
-                        <span style="cursor: pointer" @click="onClickView(character.id)">
+                        <span style="cursor: pointer" @click.stop="onClickView(character.id)">
                           {{ character.name }}
                           <v-chip
                             v-if="!character.isPublishing"
@@ -71,7 +71,7 @@
                               color="primary"
                               prepend-icon="mdi-account-eye"
                               variant="flat"
-                              @click="onClickView(character.id)"
+                              @click.stop="onClickView(character.id)"
                             >
                               閲覧
                             </v-btn>
@@ -81,7 +81,7 @@
                               color="primary"
                               prepend-icon="mdi-account-edit"
                               variant="flat"
-                              @click="onClickEdit(character.id)"
+                              @click.stop="onClickEdit(character.id)"
                             >
                               編集
                             </v-btn>
@@ -91,7 +91,7 @@
                               color="error"
                               prepend-icon="mdi-delete"
                               variant="flat"
-                              @click="onClickDelete(character.id)"
+                              @click.stop="onClickDelete(character.id)"
                             >
                               削除
                             </v-btn>
@@ -102,13 +102,13 @@
                             <v-icon>mdi-dots-vertical</v-icon>
                             <v-menu activator="parent">
                               <v-list>
-                                <v-list-item title="閲覧" @click="onClickView(character.id)"></v-list-item>
-                                <v-list-item title="編集" @click="onClickEdit(character.id)"></v-list-item>
+                                <v-list-item title="閲覧" @click.stop="onClickView(character.id)"></v-list-item>
+                                <v-list-item title="編集" @click.stop="onClickEdit(character.id)"></v-list-item>
                                 <v-divider></v-divider>
                                 <v-list-item
                                   title="削除"
                                   class="text-error"
-                                  @click="onClickDelete(character.id)"
+                                  @click.stop="onClickDelete(character.id)"
                                 ></v-list-item>
                               </v-list>
                             </v-menu>
@@ -138,9 +138,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="deleteDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="deleteDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickDeleteExecute">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickDeleteExecute">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>

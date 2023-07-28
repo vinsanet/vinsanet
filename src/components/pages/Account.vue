@@ -32,7 +32,7 @@
                     variant="flat"
                     prepend-icon="mdi-content-save"
                     class="ml-4"
-                    @click="onClickSaveAccountName"
+                    @click.stop="onClickSaveAccountName"
                   >
                     保存
                   </v-btn>
@@ -137,7 +137,7 @@
                     prepend-icon="mdi-delete"
                     variant="outlined"
                     :disabled="!isAccountDeletable"
-                    @click="() => (deleteDialog = true)"
+                    @click.stop="() => (deleteDialog = true)"
                   >
                     アカウントを削除する
                   </v-btn>
@@ -159,9 +159,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="twitterDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="twitterDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickUnLinkTwitter">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickUnLinkTwitter">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -176,9 +176,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="googleDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="googleDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickUnLinkGoogle">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickUnLinkGoogle">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -193,9 +193,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="githubDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="githubDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickUnLinkGithub">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickUnLinkGithub">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -210,9 +210,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="deleteDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="deleteDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickDeleteAccount">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickDeleteAccount">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>

@@ -339,7 +339,7 @@
                                 variant="flat"
                                 class="my-2"
                                 prepend-icon="mdi-lock-open-check"
-                                @click="onClickRemarksAnswer(index)"
+                                @click.stop="onClickRemarksAnswer(index)"
                               >
                                 確認
                               </v-btn>
@@ -390,14 +390,14 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="secondary" block @click="onClickCopyPalette">
+            <v-btn color="secondary" block @click.stop="onClickCopyPalette">
               <v-icon>mdi-clipboard-text</v-icon> クリップボードにコピー
             </v-btn>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="secondary" block @click="onClickCopyCharacter">
+            <v-btn color="secondary" block @click.stop="onClickCopyCharacter">
               <v-icon>mdi-face-man</v-icon> CCFOLIA形式でコピー
             </v-btn>
           </v-col>
@@ -409,7 +409,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <v-btn color="secondary" variant="outlined" block @click="onClickDownloadCharacter">
+            <v-btn color="secondary" variant="outlined" block @click.stop="onClickDownloadCharacter">
               <v-icon>mdi-download</v-icon> ファイルダウンロード
             </v-btn>
           </v-col>
@@ -417,7 +417,7 @@
       </v-card-text>
       <v-card-actions>
         <v-row>
-          <v-col><v-btn color="primary" block @click="exportDialog = false">閉じる</v-btn></v-col>
+          <v-col><v-btn color="primary" block @click.stop="exportDialog = false">閉じる</v-btn></v-col>
         </v-row>
       </v-card-actions>
     </v-card>
@@ -427,9 +427,11 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item v-if="hasCharacter" @click="onClickEdit"><v-icon>mdi-account-edit</v-icon> 編集画面</v-list-item>
+          <v-list-item v-if="hasCharacter" @click.stop="onClickEdit">
+            <v-icon>mdi-account-edit</v-icon> 編集画面
+          </v-list-item>
           <v-divider v-if="hasCharacter"></v-divider>
-          <v-list-item @click="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
+          <v-list-item @click.stop="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
         </v-list>
       </v-menu>
     </v-btn>
@@ -439,12 +441,14 @@
       <v-card-text>
         <v-row>
           <v-col v-if="hasCharacter">
-            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-edit" @click="onClickEdit">編集画面</v-btn>
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-edit" @click.stop="onClickEdit">
+              編集画面
+            </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="secondary" variant="flat" prepend-icon="mdi-export-variant" @click="onClickExport"
-              >キャラクター出力</v-btn
-            >
+            <v-btn color="secondary" variant="flat" prepend-icon="mdi-export-variant" @click.stop="onClickExport">
+              キャラクター出力
+            </v-btn>
           </v-col>
         </v-row>
       </v-card-text>

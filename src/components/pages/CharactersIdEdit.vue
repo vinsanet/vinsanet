@@ -23,7 +23,7 @@
                       color="secondary"
                       variant="flat"
                       prepend-icon="mdi-image-edit"
-                      @click="() => (imageDialog = true)"
+                      @click.stop="() => (imageDialog = true)"
                     >
                       画像追加・削除
                     </v-btn>
@@ -431,7 +431,7 @@
                       <v-text-field v-model="image.description" variant="underlined"></v-text-field>
                     </td>
                     <td>
-                      <v-btn icon color="error" variant="text" @click="deleteImage(image.id)">
+                      <v-btn icon color="error" variant="text" @click.stop="deleteImage(image.id)">
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </td>
@@ -453,7 +453,7 @@
               variant="outlined"
               width="100%"
               prepend-icon="mdi-image-plus"
-              @click="onClickImageAdd"
+              @click.stop="onClickImageAdd"
             >
               画像追加
             </v-btn>
@@ -513,7 +513,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="onClickImageClose">閉じる</v-btn>
+        <v-btn color="primary" block @click.stop="onClickImageClose">閉じる</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -576,7 +576,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="onClickRemarkSetting">OK</v-btn>
+        <v-btn color="primary" block @click.stop="onClickRemarkSetting">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -589,9 +589,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="remarkDeleteDialog = false"> キャンセル </v-btn>
+        <v-btn color="primary" @click.stop="remarkDeleteDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickRemarkDelete">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickRemarkDelete">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -608,7 +608,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="onClickPublish">OK</v-btn>
+        <v-btn color="primary" block @click.stop="onClickPublish">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -629,7 +629,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="onClickRule">OK</v-btn>
+        <v-btn color="primary" block @click.stop="onClickRule">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -647,7 +647,7 @@
               variant="outlined"
               width="100%"
               prepend-icon="mdi-file-account"
-              @click="onClickFileUpload"
+              @click.stop="onClickFileUpload"
             >
               ファイル選択
             </v-btn>
@@ -707,7 +707,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click="() => (uploadDialog = false)">閉じる</v-btn>
+        <v-btn color="primary" block @click.stop="() => (uploadDialog = false)">閉じる</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -720,9 +720,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="unsavedDialog = false">キャンセル</v-btn>
+        <v-btn color="primary" @click.stop="unsavedDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click="onClickView(true)">OK</v-btn>
+        <v-btn color="error" @click.stop="onClickView(true)">OK</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -732,7 +732,7 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-eye" @click="onClickView(false)"
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-eye" @click.stop="onClickView(false)"
               >閲覧画面</v-btn
             >
           </v-col>
@@ -741,7 +741,7 @@
               color="secondary"
               variant="flat"
               prepend-icon="mdi-file-find"
-              @click="() => (publishingDialog = true)"
+              @click.stop="() => (publishingDialog = true)"
               >公開設定</v-btn
             >
           </v-col>
@@ -750,18 +750,18 @@
               color="secondary"
               variant="flat"
               prepend-icon="mdi-checkbox-multiple-marked"
-              @click="() => (ruleDialog = true)"
+              @click.stop="() => (ruleDialog = true)"
             >
               ルール設定
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="secondary" variant="flat" prepend-icon="mdi-upload" @click="() => (uploadDialog = true)"
+            <v-btn color="secondary" variant="flat" prepend-icon="mdi-upload" @click.stop="() => (uploadDialog = true)"
               >アップロード
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="success" variant="flat" prepend-icon="mdi-content-save" @click="onClickSave">保存</v-btn>
+            <v-btn color="success" variant="flat" prepend-icon="mdi-content-save" @click.stop="onClickSave">保存</v-btn>
           </v-col>
         </v-row>
       </v-card-text>
@@ -772,17 +772,19 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item @click="onClickView(false)"><v-icon>mdi-account-eye</v-icon> 閲覧画面</v-list-item>
+          <v-list-item @click.stop="onClickView(false)"><v-icon>mdi-account-eye</v-icon> 閲覧画面 </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click="() => (publishingDialog = true)"><v-icon>mdi-file-find</v-icon> 公開設定</v-list-item>
+          <v-list-item @click.stop="() => (publishingDialog = true)">
+            <v-icon>mdi-file-find</v-icon> 公開設定
+          </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click="() => (ruleDialog = true)">
+          <v-list-item @click.stop="() => (ruleDialog = true)">
             <v-icon>mdi-checkbox-multiple-marked</v-icon> ルール設定
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
+          <v-list-item @click.stop="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click="onClickSave"><v-icon>mdi-content-save</v-icon> 保存</v-list-item>
+          <v-list-item @click.stop="onClickSave"><v-icon>mdi-content-save</v-icon> 保存</v-list-item>
         </v-list>
       </v-menu>
     </v-btn>

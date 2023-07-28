@@ -5,10 +5,15 @@
         prepend-icon="mdi-format-list-text"
         title="キャラクター一覧"
         value="mypage"
-        @click="onClickMypage"
+        @click.stop="onClickMypage"
       ></v-list-item>
-      <v-list-item prepend-icon="mdi-pencil" title="新規作成" value="create" @click="onClickCreate"></v-list-item>
-      <v-list-item prepend-icon="mdi-account" title="アカウント" value="account" @click="onClickAccount"></v-list-item>
+      <v-list-item prepend-icon="mdi-pencil" title="新規作成" value="create" @click.stop="onClickCreate"></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-account"
+        title="アカウント"
+        value="account"
+        @click.stop="onClickAccount"
+      ></v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

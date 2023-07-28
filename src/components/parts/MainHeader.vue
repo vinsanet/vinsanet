@@ -2,7 +2,7 @@
   <v-app-bar elevation="1">
     <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
     <v-app-bar-title class="text-subtitle-1">
-      <div style="cursor: pointer" @click="$router.push('/mypage')">
+      <div style="cursor: pointer" @click.stop="$router.push('/mypage')">
         vinsanet
         <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
       </div>
