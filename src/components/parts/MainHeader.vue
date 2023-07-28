@@ -16,13 +16,7 @@
         <v-menu activator="parent" :close-on-content-click="false">
           <v-list>
             <v-list-item>
-              <v-row justify="center" class="align-center">
-                <v-col class="text-center"><v-icon>mdi-weather-sunny</v-icon></v-col>
-                <v-col class="text-center pl-0">
-                  <v-switch hide-details :model-value="theme === 'dark'" inset @change="toggleTheme"></v-switch>
-                </v-col>
-                <v-col class="text-center"><v-icon>mdi-weather-night</v-icon></v-col>
-              </v-row>
+              <theme-switch></theme-switch>
             </v-list-item>
             <v-list-item v-if="!isLoggedIn">
               <v-btn :prepend-icon="'mdi-login'" variant="plain" @click.stop="onClickLogin">ログイン</v-btn>
@@ -38,11 +32,11 @@
 </template>
 
 <script setup lang="ts">
+  import ThemeSwitch from "@/components/parts/ThemeSwitch.vue";
   import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
   import { accountConverter } from "@/models/account";
   import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
-  import { useThemeStore } from "@/store/theme";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { storeToRefs } from "pinia";
   import { ref } from "vue";
@@ -58,9 +52,6 @@
   const { accountName } = storeToRefs(accountNamestore);
   const { setAccountName } = accountNamestore;
   const { showSnackbar } = useSnackbarStore();
-  const themeStore = useThemeStore();
-  const { theme } = storeToRefs(themeStore);
-  const { toggleTheme } = themeStore;
   const router = useRouter();
 
   firebaseAuth.onAuthStateChanged(async (user) => {
