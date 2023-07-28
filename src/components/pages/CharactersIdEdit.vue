@@ -305,7 +305,13 @@
                         </v-chip>
                       </div>
                     </v-chip-group>
-                    <v-text-field v-model="newTag" variant="outlined" @keyup.enter="onEnterTag()"></v-text-field>
+                    <v-text-field
+                      v-model="newTag"
+                      variant="outlined"
+                      hide-details="auto"
+                      :error-messages="tagErrorMessages"
+                      @keyup.enter="onEnterTag()"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
               </v-col>
@@ -812,6 +818,7 @@
   const newImage = ref([]);
   const newFile = ref([]);
   const newTag = ref("");
+  const tagErrorMessages = ref("");
   const newRemark = ref(
     {} as {
       title: string;
@@ -1031,9 +1038,12 @@
       newTag.value = "";
       return;
     }
-    if (information.value.tags.length >= 10) {
-      information.value.tags.shift();
+    if (information.value.tags.length >= 100) {
+      tagErrorMessages.value = "タグが登録できるのは100個までです";
+      newTag.value = "";
+      return;
     }
+    tagErrorMessages.value = "";
     information.value.tags.push(trimedValue);
     newTag.value = "";
   };
@@ -1085,6 +1095,10 @@
   };
   const onClickRemarksAdd = () => {
     const remarksLength = information.value.remarks.length;
+    if (remarksLength >= 50) {
+      showSnackbar("メモが追加できるのは50個までです", "error");
+      return;
+    }
     information.value.remarks.push({
       title: `メモ${remarksLength + 1}`,
       body: "",
