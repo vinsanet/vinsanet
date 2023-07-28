@@ -6,13 +6,12 @@
           <v-col>
             <v-row class="pa-4">
               <v-col>
-                <div :class="['text-h3']">Kutulu character sheet <v-chip>Beta</v-chip></div>
+                <div :class="['text-h3']">vinsanet <v-chip>Beta</v-chip></div>
               </v-col>
             </v-row>
             <v-row class="pa-4">
               <v-col>
-                Kutulu character sheetは、Kutulu
-                TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。
+                vinsanetは、Kutulu TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。
               </v-col>
             </v-row>
             <v-row :justify="'center'">
