@@ -27,21 +27,21 @@
         </v-row>
         <v-row class="align-center text-center align-stretch">
           <v-col>
-            <v-card class="h-100">
+            <v-card class="h-100" variant="flat">
               <v-icon size="75">mdi-account-edit</v-icon>
               <v-card-title>キャラクター管理</v-card-title>
               <v-card-text>Kutulu TRPGのキャラクターを簡単に作成および編集することができます</v-card-text>
             </v-card>
           </v-col>
           <v-col>
-            <v-card class="h-100">
+            <v-card class="h-100" variant="flat">
               <v-icon size="75">mdi-folder-search</v-icon>
               <v-card-title>キャラクター閲覧</v-card-title>
               <v-card-text>作成したキャラクターを他の人に共有することも、非公開にすることもできます</v-card-text>
             </v-card>
           </v-col>
           <v-col>
-            <v-card class="h-100">
+            <v-card class="h-100" variant="flat">
               <v-icon size="75">mdi-export</v-icon>
               <v-card-title>キャラクター出力</v-card-title>
               <v-card-text>作成したキャラクターをCCFOLIAへ出力したり、ファイルに保存することができます</v-card-text>
@@ -50,7 +50,7 @@
         </v-row>
         <v-row class="align-center text-center">
           <v-col>
-            <v-card color="blue-grey">
+            <v-card color="blue-grey" variant="flat">
               <v-card-text class="text-left pa-6">
                 <p>
                   本サイトは、株式会社viviONより発売された、Kutulu日本語版の２次創作ガイドラインに基づく創作物です。オリジナル（スウェーデン語）の利用はCC-BY4.0によります。
