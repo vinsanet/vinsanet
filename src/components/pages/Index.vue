@@ -4,24 +4,31 @@
       <v-container class="fill-height">
         <v-row style="height: 100vh" class="align-center text-center">
           <v-col>
-            <v-row class="pa-4">
+            <v-row>
               <v-col>
-                <div :class="['text-h3']">vinsanet <v-chip>Beta</v-chip></div>
+                <div :class="['text-h2', 'text-lg-h1']">vinsanet <v-chip>Beta</v-chip></div>
               </v-col>
             </v-row>
-            <v-row class="pa-4">
-              <v-col>
-                vinsanetは、Kutulu TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。
-              </v-col>
+            <v-row class="mb-2">
+              <v-col><div class="text-subtitle-1 font-weight-bold">”信頼できるキャラクターシート”</div> </v-col>
             </v-row>
-            <v-row :justify="'center'">
+            <v-row :justify="'center'" class="ma-4">
               <v-spacer></v-spacer>
               <v-col><v-btn color="primary" variant="flat" to="/login" block>ログイン</v-btn></v-col>
               <v-col><v-btn color="secondary" variant="flat" to="/register" block>新規登録</v-btn></v-col>
               <v-spacer></v-spacer>
             </v-row>
-            <v-row :justify="'center'">
-              <v-col>ご利用にはアカウント登録が必要です。</v-col>
+            <v-row class="my-4">
+              <v-divider></v-divider>
+            </v-row>
+            <v-row>
+              <v-col>
+                <p>vinsanetは、Kutulu TRPGのキャラクターシートを簡単に作成、管理、共有できるオンラインツールです。</p>
+                <p>ご利用にはアカウント登録が必要です。</p>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col></v-col>
             </v-row>
           </v-col>
         </v-row>
