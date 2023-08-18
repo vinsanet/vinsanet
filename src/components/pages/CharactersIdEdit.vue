@@ -921,7 +921,7 @@
       }
       information.value.skills.forEach((skill) => {
         const found = data.data.params.find(
-          (element: { label: string; value: string }) => element.label === skill.name
+          (element: { label: string; value: string }) => element.label.replace("&", "＆") === skill.name
         );
         if (found !== undefined) {
           skill.value = parseInt(found.value);
@@ -931,7 +931,7 @@
       });
       information.value.specialities.forEach((speciality) => {
         const found = data.data.params.find(
-          (element: { label: string; value: string }) => element.label === speciality.name
+          (element: { label: string; value: string }) => element.label.replace("&", "＆") === speciality.name
         );
         if (found !== undefined) {
           speciality.value = parseInt(found.value);
@@ -985,7 +985,7 @@
       }
       information.value.skills.forEach((skill) => {
         const found = data.data.params.find(
-          (element: { label: string; value: string }) => element.label === skill.name
+          (element: { label: string; value: string }) => element.label.replace("&", "＆") === skill.name
         );
         if (found !== undefined) {
           skill.value = parseInt(found.value);
@@ -995,7 +995,7 @@
       });
       information.value.specialities.forEach((speciality) => {
         const found = data.data.params.find(
-          (element: { label: string; value: string }) => element.label === speciality.name
+          (element: { label: string; value: string }) => element.label.replace("&", "＆") === speciality.name
         );
         if (found !== undefined) {
           speciality.value = parseInt(found.value);
@@ -1144,11 +1144,11 @@
           { name: "信用", value: 0 },
         ];
         information.value.specialities = [
-          { name: "人類学&民俗学", value: 0 },
-          { name: "考古学&歴史学", value: 0 },
-          { name: "図書館&古文書学", value: 0 },
-          { name: "経済学&法学", value: 0 },
-          { name: "芸術&工芸", value: 0 },
+          { name: "人類学＆民俗学", value: 0 },
+          { name: "考古学＆歴史学", value: 0 },
+          { name: "図書館＆古文書学", value: 0 },
+          { name: "経済学＆法学", value: 0 },
+          { name: "芸術＆工芸", value: 0 },
           { name: "犯罪学", value: information.value.specialities[6].value },
           { name: "医学", value: 0 },
           { name: "機械工学", value: 0 },
@@ -1171,17 +1171,17 @@
           { name: "第六感", value: 0 },
         ];
         information.value.specialities = [
-          { name: "文化人類学&考古学", value: 0 },
-          { name: "歴史学&古文書学", value: 0 },
+          { name: "文化人類学＆考古学", value: 0 },
+          { name: "歴史学＆古文書学", value: 0 },
           { name: "民俗学", value: 0 },
           { name: "言語学", value: information.value.specialities[11].value },
           { name: "芸術学", value: 0 },
-          { name: "会計学&法学", value: 0 },
+          { name: "会計学＆法学", value: 0 },
           { name: "犯罪学", value: information.value.specialities[5].value },
           { name: "地球科学", value: 0 },
           { name: "宇宙科学", value: 0 },
-          { name: "医学&獣医学", value: 0 },
-          { name: "機械工学&電子工学", value: 0 },
+          { name: "医学＆獣医学", value: 0 },
+          { name: "機械工学＆電子工学", value: 0 },
           { name: "情報工学", value: 0 },
         ];
         break;

@@ -66,11 +66,11 @@
       { name: "信用", value: 0 },
     ];
     information.specialities = [
-      { name: "人類学&民俗学", value: 0 },
-      { name: "考古学&歴史学", value: 0 },
-      { name: "図書館&古文書学", value: 0 },
-      { name: "経済学&法学", value: 0 },
-      { name: "芸術&工芸", value: 0 },
+      { name: "人類学＆民俗学", value: 0 },
+      { name: "考古学＆歴史学", value: 0 },
+      { name: "図書館＆古文書学", value: 0 },
+      { name: "経済学＆法学", value: 0 },
+      { name: "芸術＆工芸", value: 0 },
       { name: "犯罪学", value: 0 },
       { name: "医学", value: 0 },
       { name: "機械工学", value: 0 },
