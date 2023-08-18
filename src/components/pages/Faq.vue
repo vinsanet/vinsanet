@@ -69,7 +69,7 @@
                         <div>
                           <p class="font-weight-bold">はい、無料です。</p>
                           <p>
-                            ただし、サービスを安定し提供するため、ユーザーの皆様からの開発支援を受け付けております。詳しくは、
+                            ただし、サービスを安定的に提供するため、ユーザーの皆様からの開発支援を受け付けております。詳しくは、
                             <a href="/support" class="text-decoration-none">開発支援のページ</a> をご覧ください。
                           </p>
                         </div>
@@ -80,8 +80,25 @@
                     <v-col>
                       <div id="q3" :class="['pa-2', 'question', 'd-flex', 'align-center']">
                         <span :class="['text-h4', 'text-lg-h3', 'mr-4']">Q</span>
+                        <span class="font-weight-bold">"vinsanet" はどう読むのですか？</span>
+                      </div>
+                      <div :class="['pa-2', 'answer', 'd-flex', 'align-center']">
+                        <span :class="['text-h4', 'text-lg-h3', 'mr-4']">A</span>
+                        <div>
+                          <p class="font-weight-bold">「びんさねっと」と読みます。</p>
+                          <p>
+                            イントネーションは皆様にお任せしますが、管理者は「パンナコッタ」と同じイントネーションで読んでいます。
+                          </p>
+                        </div>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mb-2">
+                    <v-col>
+                      <div id="q3" :class="['pa-2', 'question', 'd-flex', 'align-center']">
+                        <span :class="['text-h4', 'text-lg-h3', 'mr-4']">Q</span>
                         <span class="font-weight-bold">
-                          タイトルに"Beta"と書いてありますが、これはどういう意味ですか？
+                          タイトルに "Beta" と書いてありますが、これはどういう意味ですか？
                         </span>
                       </div>
                       <div :class="['pa-2', 'answer', 'd-flex', 'align-center']">
@@ -96,8 +113,7 @@
                           <p class="my-2">
                             ・動作が不安定になる場合があります。<br />
                             ・仕様を予告なく変更する場合があります。<br />
-                            ・正式版移行時にはデータを消去する場合があります。<br />
-                            ・正式版移行時にはURLを変更する予定です。<br />
+                            ・正式版移行時にデータが消去される場合があります。<br />
                           </p>
                         </div>
                       </div>
