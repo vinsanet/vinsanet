@@ -29,6 +29,8 @@ const routes = [
     children: [
       { path: "edit", component: CharactersIdEdit },
       { path: "view", component: CharactersIdView },
+      { path: "", component: NotFound },
+      { path: ":catchAll(.*)", component: NotFound },
     ],
   },
   { path: "/mypage", component: MainLayout, children: [{ path: "", component: Mypage }] },
