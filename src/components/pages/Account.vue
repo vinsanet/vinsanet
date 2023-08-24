@@ -408,16 +408,20 @@
   };
   const onClickDeleteAccount = () => {
     const userId = firebaseAuth.currentUser?.uid;
-    firebaseAuth.currentUser
-      ?.delete()
-      .then(() => {
-        const q = query(collection(firebaseDb, "accounts"), where("id", "==", userId)).withConverter(accountConverter);
-        getDocs(q).then((querySnapshot) => {
-          if (querySnapshot.empty) return;
-          deleteDoc(doc(firebaseDb, "accounts", querySnapshot.docs[0].id));
-        });
-        showSnackbar("アカウントを削除しました", "success");
-        router.push("/");
+    const q = query(collection(firebaseDb, "accounts"), where("id", "==", userId)).withConverter(accountConverter);
+    getDocs(q)
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) return;
+        deleteDoc(doc(firebaseDb, "accounts", querySnapshot.docs[0].id))
+          .then(() => {
+            firebaseAuth.currentUser?.delete().then(() => {
+              showSnackbar("アカウントを削除しました", "success");
+              router.push("/");
+            });
+          })
+          .catch((error) => {
+            throw error;
+          });
       })
       .catch((error) => {
         const errorMessage = error.message;
