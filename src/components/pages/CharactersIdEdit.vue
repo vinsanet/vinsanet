@@ -454,6 +454,7 @@
               variant="outlined"
               width="100%"
               prepend-icon="mdi-image-plus"
+              :disabled="information.images.length >= 10"
               @click.stop="onClickImageAdd"
             >
               画像追加
@@ -467,6 +468,7 @@
             class="ma-2"
             variant="tonal"
             style="user-select: none"
+            :disabled="information.images.length >= 10"
             @drop.prevent="onDropImage"
             @dragover.prevent="imageDragging = true"
             @dragenter.prevent="imageDragging = true"
