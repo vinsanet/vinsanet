@@ -410,6 +410,7 @@
   <v-dialog v-model="imageDialog" width="500px" max-width="90%" @click:outside="onClickImageClose">
     <v-card>
       <v-card-title>画像追加・削除</v-card-title>
+      <v-card-subtitle>複数の画像を登録できます（10枚まで・各10MBまで）</v-card-subtitle>
       <v-card-text>
         <v-row>
           <v-col>
