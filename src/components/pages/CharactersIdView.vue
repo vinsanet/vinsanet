@@ -635,7 +635,7 @@
           });
         } else {
           information.value.images.forEach((image) => {
-            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.png`);
+            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
             getDownloadURL(imageRef).then((downloadUrl) => {
               imageUrls.value.push(downloadUrl);
             });

@@ -164,7 +164,7 @@
     id: string;
     tags: Array<string>;
     avatar: string;
-    images: Array<{ id: string; description: string }>;
+    images: Array<{ id: string; extension: string; description: string }>;
     isPublishing: boolean;
     createdAt: Timestamp;
     updatedAt: Timestamp;
@@ -213,7 +213,7 @@
     // storage
     {
       deleteCharacter.images.forEach((image) => {
-        const imageRef = storageRef(firebaseStorage, `characters/${image.id}.png`);
+        const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
         deleteObject(imageRef);
       });
     }
@@ -259,7 +259,9 @@
             characterInformation.createdAt = character.createdAt as Timestamp;
             characterInformation.updatedAt = character.updatedAt as Timestamp;
             const imagePath =
-              character.images.length !== 0 ? `characters/${character.images[0].id}.png` : "characters/undefined.png";
+              character.images.length !== 0
+                ? `characters/${character.images[0].id}.${character.images[0].extension}`
+                : "characters/undefined.png";
             const imageRef = storageRef(firebaseStorage, imagePath);
             await getDownloadURL(imageRef)
               .then((downloadUrl) => {

@@ -4,7 +4,7 @@ type Rule = "基本ルール" | "現代日本ソースブック";
 type Skill = { name: string; value: number };
 type Speciality = { name: string; value: number };
 type Remark = { title: string; body: string; question: string; answer: string; isPublic: boolean };
-type Image = { id: string; description: string };
+type Image = { id: string; extension: string; description: string };
 
 export type CharacterType = {
   id: string;

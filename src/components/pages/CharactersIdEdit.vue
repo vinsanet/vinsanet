@@ -432,7 +432,7 @@
                       <v-text-field v-model="image.description" variant="underlined"></v-text-field>
                     </td>
                     <td>
-                      <v-btn icon color="error" variant="text" @click.stop="deleteImage(image.id)">
+                      <v-btn icon color="error" variant="text" @click.stop="deleteImage(image.id, image.extension)">
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
                     </td>
@@ -844,26 +844,29 @@
   const uploadDialog = ref(false);
   const unsavedDialog = ref(false);
 
-  const uploadImage = async () => {
+  const uploadImage = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const fileName = (target.files as FileList)[0].name;
+    const fileExtension = fileName.match(/[^.]+$/)?.[0] ?? "png";
     const newId = nanoid();
-    const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
+    const imageRef = storageRef(firebaseStorage, `characters/${newId}.${fileExtension}`);
     uploadBytes(imageRef, newImage.value[0])
       .then(() => {
-        const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
+        const imageRef = storageRef(firebaseStorage, `characters/${newId}.${fileExtension}`);
         getDownloadURL(imageRef).then((downloadUrl) => {
           imageUrls.value.push({ id: `${newId}`, value: downloadUrl });
           imagePage.value = imageUrls.value.length - 1;
         });
       })
       .then(() => {
-        information.value.images.push({ id: newId, description: "" });
+        information.value.images.push({ id: newId, extension: fileExtension, description: "" });
         const docRef = doc(collection(firebaseDb, "characters"), `${documentId}`).withConverter(characterConverter);
         updateDoc(docRef, { images: information.value.images });
         newImage.value = [];
       });
   };
-  const deleteImage = (imageId: string) => {
-    const imageRef = storageRef(firebaseStorage, `characters/${imageId}.png`);
+  const deleteImage = (imageId: string, imageExtension: string) => {
+    const imageRef = storageRef(firebaseStorage, `characters/${imageId}.${imageExtension}`);
     deleteObject(imageRef).then(() => {
       imageUrls.value = imageUrls.value.filter((imageUrl) => {
         return imageUrl.id !== `${imageId}`;
@@ -881,18 +884,21 @@
     if (!event || !event.dataTransfer || event.dataTransfer.files.length === 0) {
       return;
     }
+    const target = event.dataTransfer as DataTransfer;
+    const fileName = (target.files as FileList)[0].name;
+    const fileExtension = fileName.match(/[^.]+$/)?.[0] ?? "png";
     const newId = nanoid();
-    const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
+    const imageRef = storageRef(firebaseStorage, `characters/${newId}.${fileExtension}`);
     uploadBytes(imageRef, event.dataTransfer.files[0])
       .then(() => {
-        const imageRef = storageRef(firebaseStorage, `characters/${newId}.png`);
+        const imageRef = storageRef(firebaseStorage, `characters/${newId}.${fileExtension}`);
         getDownloadURL(imageRef).then((downloadUrl) => {
           imageUrls.value.push({ id: `${newId}`, value: downloadUrl });
           imagePage.value = imageUrls.value.length - 1;
         });
       })
       .then(() => {
-        information.value.images.push({ id: newId, description: "" });
+        information.value.images.push({ id: newId, extension: fileExtension, description: "" });
         const docRef = doc(collection(firebaseDb, "characters"), `${documentId}`).withConverter(characterConverter);
         updateDoc(docRef, { images: information.value.images });
         newImage.value = [];
@@ -1239,7 +1245,7 @@
       })
       .then(() => {
         information.value.images.forEach((image) => {
-          const imageRef = storageRef(firebaseStorage, `characters/${image.id}.png`);
+          const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
           getDownloadURL(imageRef).then((downloadUrl) => {
             imageUrls.value.push({
               id: `${id}-${image.id}`,
