@@ -66,7 +66,16 @@
               <v-card-text class="pa-0">
                 <v-list lines="one" bg-color="background" class="pa-0">
                   <div v-for="(character, index) in shapedCharacterInformations" :key="character.id" :index="index">
-                    <v-list-item :key="character.id" :prepend-avatar="character.avatar" class="my-2">
+                    <v-list-item :key="character.id" class="my-2">
+                      <template #prepend>
+                        <v-avatar>
+                          <v-img
+                            :src="character.avatar"
+                            style="cursor: pointer"
+                            @click.stop="onClickView(character.id)"
+                          ></v-img>
+                        </v-avatar>
+                      </template>
                       <v-list-item-title>
                         <span style="cursor: pointer" @click.stop="onClickView(character.id)">
                           {{ character.name }}
