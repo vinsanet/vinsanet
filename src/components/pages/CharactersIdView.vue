@@ -435,7 +435,7 @@
       <v-menu activator="parent">
         <v-list>
           <v-list-item v-if="hasCharacter" @click.stop="onClickEdit">
-            <v-icon>mdi-account-edit</v-icon> 編集画面
+            <v-icon>mdi-pencil</v-icon> 編集画面
           </v-list-item>
           <v-divider v-if="hasCharacter"></v-divider>
           <v-list-item @click.stop="onClickExport"><v-icon>mdi-export-variant</v-icon> キャラクター出力</v-list-item>
@@ -448,9 +448,7 @@
       <v-card-text>
         <v-row>
           <v-col v-if="hasCharacter">
-            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-edit" @click.stop="onClickEdit">
-              編集画面
-            </v-btn>
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-pencil" @click.stop="onClickEdit">編集画面</v-btn>
           </v-col>
           <v-col>
             <v-btn color="secondary" variant="flat" prepend-icon="mdi-export-variant" @click.stop="onClickExport">

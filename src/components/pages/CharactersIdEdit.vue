@@ -376,7 +376,7 @@
                             color="error"
                             variant="flat"
                             :disabled="information.remarks.length === 1"
-                            prepend-icon="mdi-note-remove"
+                            prepend-icon="mdi-note-minus"
                             @click.stop="onClickRemarksDelete(index)"
                           >
                             削除
@@ -739,9 +739,9 @@
       <v-card-text>
         <v-row>
           <v-col>
-            <v-btn color="primary" variant="flat" prepend-icon="mdi-account-eye" @click.stop="onClickView(false)"
-              >閲覧画面</v-btn
-            >
+            <v-btn color="primary" variant="flat" prepend-icon="mdi-eye" @click.stop="onClickView(false)">
+              閲覧画面
+            </v-btn>
           </v-col>
           <v-col>
             <v-btn
@@ -770,7 +770,7 @@
       <v-icon>mdi-dots-vertical</v-icon>
       <v-menu activator="parent">
         <v-list>
-          <v-list-item @click.stop="onClickView(false)"><v-icon>mdi-account-eye</v-icon> 閲覧画面 </v-list-item>
+          <v-list-item @click.stop="onClickView(false)"><v-icon>mdi-eye</v-icon> 閲覧画面</v-list-item>
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-list-item @click.stop="() => (sheetSettingsDialog = true)">
