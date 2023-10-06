@@ -754,8 +754,8 @@
             </v-btn>
           </v-col>
           <v-col>
-            <v-btn color="secondary" variant="flat" prepend-icon="mdi-upload" @click.stop="() => (uploadDialog = true)"
-              >アップロード
+            <v-btn color="secondary" variant="flat" prepend-icon="mdi-upload" @click.stop="() => (uploadDialog = true)">
+              アップロード
             </v-btn>
           </v-col>
           <v-col>
@@ -777,7 +777,8 @@
             <v-icon>mdi-cog</v-icon> キャラシ設定
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click.stop="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
+          <v-list-item @click.stop="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード</v-list-item>
+          <v-divider></v-divider>
           <v-divider></v-divider>
           <v-list-item @click.stop="onClickSave"><v-icon>mdi-content-save</v-icon> 保存</v-list-item>
         </v-list>

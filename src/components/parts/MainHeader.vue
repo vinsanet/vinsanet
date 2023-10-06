@@ -19,10 +19,10 @@
               <theme-switch></theme-switch>
             </v-list-item>
             <v-list-item v-if="!isLoggedIn">
-              <v-btn :prepend-icon="'mdi-login'" variant="plain" @click.stop="onClickLogin">ログイン</v-btn>
+              <v-btn prepend-icon="mdi-login" variant="plain" @click.stop="onClickLogin">ログイン</v-btn>
             </v-list-item>
             <v-list-item v-if="isLoggedIn">
-              <v-btn :prepend-icon="'mdi-logout'" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
+              <v-btn prepend-icon="mdi-logout" variant="plain" @click.stop="onClickLogout">ログアウト</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
