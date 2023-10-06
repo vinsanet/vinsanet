@@ -77,17 +77,20 @@
                         </v-avatar>
                       </template>
                       <v-list-item-title>
-                        <span style="cursor: pointer" @click.stop="onClickView(character.id)">
-                          {{ character.name }}
+                        <span style="cursor: pointer" class="d-inline-block" @click.stop="onClickView(character.id)">
+                          <span class="mr-4">
+                            {{ character.name }}
+                          </span>
                           <v-chip
-                            v-if="!character.isPublishing"
+                            v-if="!character.isPublishing && smAndUp"
                             label
-                            variant="outlined"
                             size="x-small"
-                            prepend-icon="mdi-eye-off"
+                            class="mr-2"
+                            color="secondary"
                           >
                             非公開
                           </v-chip>
+                          <v-chip v-if="character.isLost && smAndUp" label size="x-small" color="error">ロスト</v-chip>
                         </span>
                       </v-list-item-title>
                       <v-chip-group v-if="character.tags.length > 0" :disabled="true" class="mr-2">
