@@ -294,12 +294,13 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-expansion-panels variant="accordion">
+                <v-expansion-panels v-model="openedRemarks" variant="accordion" multiple>
                   <v-expansion-panel
                     v-for="(remark, index) in information.remarks"
                     :key="remark.title"
                     elevation="0"
                     bg-color="background"
+                    :value="index"
                   >
                     <div v-if="remark.isPublic || hasCharacter">
                       <v-expansion-panel-title class="remarks-title">
@@ -479,6 +480,7 @@
   const information = ref({} as CharacterType);
   const imageUrls = ref([] as Array<string>);
   const imagePage = ref(0);
+  const openedRemarks = ref([0] as Array<number>);
   const canShowRemarks = ref([] as Array<boolean>);
   const remarksAnswerErrorMessages = ref([] as Array<string>);
   const exportDialog = ref(false);

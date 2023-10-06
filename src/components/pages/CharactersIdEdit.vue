@@ -334,12 +334,13 @@
             </v-row>
             <v-row>
               <v-col>
-                <v-expansion-panels variant="accordion">
+                <v-expansion-panels v-model="openedRemarks" variant="accordion" multiple>
                   <v-expansion-panel
                     v-for="(remark, index) in information.remarks"
                     :key="remark.title"
                     elevation="0"
                     bg-color="background"
+                    :value="index"
                   >
                     <v-expansion-panel-title class="remarks-title">
                       <div class="mr-2">
@@ -837,6 +838,7 @@
   const publish = ref<"公開" | "非公開">("公開");
   const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
+  const openedRemarks = ref([0] as Array<number>);
   const remarkSettingDialog = ref(false);
   const remarkDeleteDialog = ref(false);
   const publishingDialog = ref(false);
@@ -1100,6 +1102,18 @@
   };
   const onClickRemarkDelete = () => {
     information.value.remarks.splice(deleteRemarkIndex, 1);
+    openedRemarks.value = [
+      ...openedRemarks.value.filter((openedRemarks) => {
+        return openedRemarks < deleteRemarkIndex;
+      }),
+      ...openedRemarks.value
+        .filter((openedRemarks) => {
+          return openedRemarks > deleteRemarkIndex;
+        })
+        .map((openedRemarks) => {
+          return openedRemarks - 1;
+        }),
+    ];
     deleteRemarkIndex = -1;
     remarkDeleteDialog.value = false;
     showSnackbar("メモを削除しました", "success");
