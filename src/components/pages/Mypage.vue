@@ -1,29 +1,54 @@
 <template>
   <v-container class="fill-height">
     <v-responsive class="d-flex fill-height">
-      <v-row class="align-center">
+      <v-row>
         <v-col>
-          <v-text-field
-            v-model="searchText"
-            variant="underlined"
-            prepend-icon="mdi-account-search"
-            placeholder="検索"
-            hide-details
-          ></v-text-field>
-        </v-col>
-        <v-col class="d-flex justify-end">
-          <v-btn color="secondary" variant="flat" prepend-icon="mdi-swap-vertical">
-            表示順：{{ displayOrder }}
-            <v-menu activator="parent" :close-on-content-click="false">
-              <v-card class="pa-2">
-                <v-radio-group v-model="displayOrder" hide-details>
-                  <v-radio label="更新順" value="更新順"></v-radio>
-                  <v-radio label="作成順" value="作成順"></v-radio>
-                  <v-radio label="名前順" value="名前順"></v-radio>
-                </v-radio-group>
-              </v-card>
-            </v-menu>
-          </v-btn>
+          <v-expansion-panels>
+            <v-expansion-panel elevation="0" bg-color="background" style="border: thin solid">
+              <v-expansion-panel-title>表示設定</v-expansion-panel-title>
+              <v-expansion-panel-text>
+                <v-row class="align-center">
+                  <v-col :cols="xs ? '12' : '6'">
+                    <v-text-field
+                      v-model="searchText"
+                      variant="underlined"
+                      prepend-icon="mdi-account-search"
+                      placeholder="検索"
+                      hide-details
+                    ></v-text-field>
+                  </v-col>
+                  <v-col class="d-flex justify-end" :cols="xs ? '12' : '6'">
+                    <v-btn-group divided variant="flat" density="comfortable">
+                      <v-btn color="secondary" prepend-icon="mdi-swap-vertical" class="mr-2">
+                        {{ displayOrder }}
+                        <v-menu activator="parent" :close-on-content-click="false">
+                          <v-card class="pa-2 pr-6">
+                            <v-radio-group v-model="displayOrder" hide-details>
+                              <v-radio label="更新順" value="更新順"></v-radio>
+                              <v-radio label="作成順" value="作成順"></v-radio>
+                              <v-radio label="名前順" value="名前順"></v-radio>
+                            </v-radio-group>
+                          </v-card>
+                        </v-menu>
+                      </v-btn>
+                      <v-btn color="secondary" prepend-icon="mdi-filter">
+                        {{ displayFilter }}
+                        <v-menu activator="parent" :close-on-content-click="false">
+                          <v-card class="pa-2 pr-6">
+                            <v-radio-group v-model="displayFilter" hide-details>
+                              <v-radio label="全て表示" value="全て表示"></v-radio>
+                              <v-radio label="ロスト以外" value="ロスト以外"></v-radio>
+                              <v-radio label="ロストのみ" value="ロストのみ"></v-radio>
+                            </v-radio-group>
+                          </v-card>
+                        </v-menu>
+                      </v-btn>
+                    </v-btn-group>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </v-col>
       </v-row>
       <v-row>
