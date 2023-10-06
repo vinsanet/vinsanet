@@ -517,7 +517,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickImageClose">閉じる</v-btn>
+        <v-btn color="primary" block @click.stop="onClickImageClose">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -584,7 +584,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="remarkDeleteDialog" width="500px" max-width="90%">
+  <v-dialog v-model="remarkDeleteDialog" width="auto">
     <v-card>
       <v-card-title>メモ削除</v-card-title>
       <v-card-text>

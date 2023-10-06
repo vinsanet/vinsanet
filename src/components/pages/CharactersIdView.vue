@@ -354,7 +354,7 @@
                           </v-row>
                         </div>
                         <div v-if="canShowRemarks[index]">
-                          <v-textarea v-model="remark.body" variant="plain" counter readonly hide-details></v-textarea>
+                          <v-textarea v-model="remark.body" variant="plain" readonly hide-details></v-textarea>
                         </div>
                       </v-expansion-panel-text>
                     </div>
@@ -367,7 +367,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-dialog v-model="exportDialog" width="auto">
+  <v-dialog v-model="exportDialog" width="500px" max-width="90%">
     <v-card class="overflow-y-hidden">
       <v-card-title>キャラクター出力</v-card-title>
       <v-card-text>
