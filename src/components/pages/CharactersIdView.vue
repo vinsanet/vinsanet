@@ -646,7 +646,7 @@
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `${information.value.name}.json`;
+    link.download = `${information.value.name === "" ? "noname" : information.value.name}.json`;
     link.click();
   };
 
