@@ -81,6 +81,7 @@
     ];
     information.injury = 0;
     information.remarks = [{ title: "メモ", body: "", question: "", answer: "", isPublic: true }];
+    information.isLost = false;
     information.tags = [];
     information.userId = firebaseAuth.currentUser?.uid ?? "";
     information.images = [];

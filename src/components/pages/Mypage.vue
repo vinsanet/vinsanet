@@ -163,6 +163,7 @@
     kana: string;
     id: string;
     tags: Array<string>;
+    isLost: boolean;
     avatar: string;
     images: Array<{ id: string; extension: string; description: string }>;
     isPublishing: boolean;
