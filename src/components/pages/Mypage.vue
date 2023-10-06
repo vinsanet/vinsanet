@@ -104,34 +104,34 @@
                       <template #append>
                         <v-row v-if="smAndUp">
                           <v-col>
-                            <v-btn
-                              color="primary"
-                              prepend-icon="mdi-account-eye"
-                              variant="flat"
-                              @click.stop="onClickView(character.id)"
-                            >
-                              閲覧
-                            </v-btn>
-                          </v-col>
-                          <v-col>
-                            <v-btn
-                              color="primary"
-                              prepend-icon="mdi-account-edit"
-                              variant="flat"
-                              @click.stop="onClickEdit(character.id)"
-                            >
-                              編集
-                            </v-btn>
-                          </v-col>
-                          <v-col>
-                            <v-btn
-                              color="error"
-                              prepend-icon="mdi-delete"
-                              variant="flat"
-                              @click.stop="onClickDelete(character.id)"
-                            >
-                              削除
-                            </v-btn>
+                            <v-btn-group divided variant="flat" density="comfortable">
+                              <v-btn
+                                color="primary"
+                                prepend-icon="mdi-eye"
+                                variant="flat"
+                                class="mr-2"
+                                @click.stop="onClickView(character.id)"
+                              >
+                                閲覧
+                              </v-btn>
+                              <v-btn
+                                color="primary"
+                                prepend-icon="mdi-pencil"
+                                variant="flat"
+                                class="mr-2"
+                                @click.stop="onClickEdit(character.id)"
+                              >
+                                編集
+                              </v-btn>
+                              <v-btn
+                                color="error"
+                                prepend-icon="mdi-delete"
+                                variant="flat"
+                                @click.stop="onClickDelete(character.id)"
+                              >
+                                削除
+                              </v-btn>
+                            </v-btn-group>
                           </v-col>
                         </v-row>
                         <v-row v-if="xs">
@@ -139,14 +139,18 @@
                             <v-icon>mdi-dots-vertical</v-icon>
                             <v-menu activator="parent">
                               <v-list>
-                                <v-list-item title="閲覧" @click.stop="onClickView(character.id)"></v-list-item>
-                                <v-list-item title="編集" @click.stop="onClickEdit(character.id)"></v-list-item>
+                                <v-list-item @click.stop="onClickView(character.id)">
+                                  <v-icon>mdi-eye</v-icon> 閲覧
+                                </v-list-item>
                                 <v-divider></v-divider>
-                                <v-list-item
-                                  title="削除"
-                                  class="text-error"
-                                  @click.stop="onClickDelete(character.id)"
-                                ></v-list-item>
+                                <v-list-item @click.stop="onClickEdit(character.id)">
+                                  <v-icon>mdi-pencil</v-icon> 編集
+                                </v-list-item>
+                                <v-divider></v-divider>
+                                <v-divider></v-divider>
+                                <v-list-item class="text-error" @click.stop="onClickDelete(character.id)">
+                                  <v-icon>mdi-delete</v-icon> 削除
+                                </v-list-item>
                               </v-list>
                             </v-menu>
                           </v-btn>
