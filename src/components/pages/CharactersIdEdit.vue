@@ -600,30 +600,15 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
-  <v-dialog v-model="publishingDialog" width="auto" @click:outside="onClickOutsidePublish">
+  <v-dialog v-model="sheetSettingsDialog" width="auto" @click:outside="onClickOutsideSheetSettings">
     <v-card>
-      <v-card-title>公開設定</v-card-title>
-      <v-card-text>
-        <v-row>
-          <v-col>あなた以外の方にこのキャラクターを公開しますか？</v-col>
-        </v-row>
-        <v-row>
-          <v-col><v-select v-model="publish" :items="['公開', '非公開']" variant="outlined"></v-select></v-col>
-        </v-row>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickPublish">OK</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
-  <v-dialog v-model="ruleDialog" width="auto" @click:outside="onClickOutsideRule">
-    <v-card>
-      <v-card-title>ルール設定</v-card-title>
+      <v-card-title>キャラクターシート設定</v-card-title>
+      <v-card-subtitle>ルール設定</v-card-subtitle>
       <v-card-text>
         <v-row>
           <v-col>
-            <p>キャラクター作成に使用するルールを選択してください。</p>
-            <p>ルールを変更すると、一部の情報がリセットされます。ご注意ください。</p>
+            <span class="text-decoration-underline">ルールを変更すると、一部の情報がリセットされます。</span>
+            ご注意ください。
           </v-col>
         </v-row>
         <v-row>
@@ -632,8 +617,26 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-subtitle>公開設定</v-card-subtitle>
+      <v-card-text>
+        <v-row>
+          <v-col>このキャラクターをあなた以外の方に公開しますか？</v-col>
+        </v-row>
+        <v-row>
+          <v-col><v-select v-model="publish" :items="['公開', '非公開']" variant="outlined"></v-select></v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-subtitle>ロスト設定</v-card-subtitle>
+      <v-card-text>
+        <v-row>
+          <v-col>
+            このキャラクターにロストフラグを設定しますか？
+            <v-checkbox v-model="isLost" label="設定する"></v-checkbox>
+          </v-col>
+        </v-row>
+      </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickRule">OK</v-btn>
+        <v-btn color="primary" block @click.stop="onClickSheetSettings">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -744,19 +747,10 @@
             <v-btn
               color="secondary"
               variant="flat"
-              prepend-icon="mdi-file-find"
-              @click.stop="() => (publishingDialog = true)"
-              >公開設定</v-btn
+              prepend-icon="mdi-cog"
+              @click.stop="() => (sheetSettingsDialog = true)"
             >
-          </v-col>
-          <v-col>
-            <v-btn
-              color="secondary"
-              variant="flat"
-              prepend-icon="mdi-checkbox-multiple-marked"
-              @click.stop="() => (ruleDialog = true)"
-            >
-              ルール設定
+              キャラシ設定
             </v-btn>
           </v-col>
           <v-col>
@@ -778,12 +772,9 @@
         <v-list>
           <v-list-item @click.stop="onClickView(false)"><v-icon>mdi-account-eye</v-icon> 閲覧画面 </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click.stop="() => (publishingDialog = true)">
-            <v-icon>mdi-file-find</v-icon> 公開設定
-          </v-list-item>
           <v-divider></v-divider>
-          <v-list-item @click.stop="() => (ruleDialog = true)">
-            <v-icon>mdi-checkbox-multiple-marked</v-icon> ルール設定
+          <v-list-item @click.stop="() => (sheetSettingsDialog = true)">
+            <v-icon>mdi-cog</v-icon> キャラシ設定
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item @click.stop="() => (uploadDialog = true)"><v-icon>mdi-upload</v-icon> アップロード </v-list-item>
@@ -836,13 +827,13 @@
     }
   );
   const publish = ref<"公開" | "非公開">("公開");
+  const isLost = ref(false);
   const rule = ref<"基本ルール" | "現代日本ソースブック">("基本ルール");
   const imageDialog = ref(false);
   const openedRemarks = ref([0] as Array<number>);
   const remarkSettingDialog = ref(false);
   const remarkDeleteDialog = ref(false);
-  const publishingDialog = ref(false);
-  const ruleDialog = ref(false);
+  const sheetSettingsDialog = ref(false);
   const uploadDialog = ref(false);
   const unsavedDialog = ref(false);
 
@@ -1140,16 +1131,11 @@
       router.push(`/characters/${id}/view`);
     }
   };
-  const onClickPublish = () => {
+  const onClickSheetSettings = () => {
     information.value.isPublishing = publish.value === "公開";
-    publishingDialog.value = false;
-  };
-  const onClickOutsidePublish = () => {
-    publish.value = information.value.isPublishing ? "公開" : "非公開";
-  };
-  const onClickRule = () => {
+    information.value.isLost = isLost.value;
     if (information.value.rule === rule.value) {
-      ruleDialog.value = false;
+      sheetSettingsDialog.value = false;
       return;
     }
     information.value.rule = rule.value;
@@ -1209,10 +1195,12 @@
         ];
         break;
     }
-    ruleDialog.value = false;
+    sheetSettingsDialog.value = false;
   };
-  const onClickOutsideRule = () => {
+  const onClickOutsideSheetSettings = () => {
+    publish.value = information.value.isPublishing ? "公開" : "非公開";
     rule.value = information.value.rule;
+    isLost.value = information.value.isLost;
   };
   const onClickFileUpload = () => {
     const fileInput = document.getElementById("file-input");

@@ -23,6 +23,12 @@
                 </v-row>
                 <v-row>
                   <v-col>
+                    <v-chip v-if="!information.isPublishing" label class="mr-4" color="secondary">非公開</v-chip>
+                    <v-chip v-if="information.isLost" label color="error">ロスト</v-chip>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
                     <v-card flat color="background">
                       <v-table style="background-color: transparent">
                         <tbody>
