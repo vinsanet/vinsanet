@@ -21,6 +21,7 @@ export type CharacterType = {
   specialities: Array<Speciality>;
   injury: number;
   remarks: Array<Remark>;
+  isLost: boolean;
   tags: Array<string>;
   userId: string;
   images: Array<Image>;
@@ -45,6 +46,7 @@ class Character implements CharacterType {
   specialities: Array<Speciality>;
   injury: number;
   remarks: Array<Remark>;
+  isLost: boolean;
   tags: Array<string>;
   userId: string;
   images: Array<Image>;
@@ -68,6 +70,7 @@ class Character implements CharacterType {
     _specialities: Array<Speciality>,
     _injury: number,
     _remarks: Array<Remark>,
+    _isLost: boolean,
     _tags: Array<string>,
     _userId: string,
     _images: Array<Image>,
@@ -90,6 +93,7 @@ class Character implements CharacterType {
     this.specialities = _specialities;
     this.injury = _injury;
     this.remarks = _remarks;
+    this.isLost = _isLost;
     this.tags = _tags;
     this.userId = _userId;
     this.images = _images;
@@ -117,6 +121,7 @@ export const characterConverter = {
       specialities: character.specialities,
       injury: character.injury,
       remarks: character.remarks,
+      isLost: character.isLost,
       tags: character.tags,
       userId: character.userId,
       images: character.images,
@@ -143,6 +148,7 @@ export const characterConverter = {
       data?.specialities,
       data?.injury,
       data?.remarks,
+      data?.isLost,
       data?.tags,
       data?.userId,
       data?.images,
