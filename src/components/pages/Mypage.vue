@@ -212,6 +212,7 @@
     updatedAt: Timestamp;
   };
   type DisplayOrder = "更新順" | "作成順" | "名前順";
+  type DisplayFilter = "全て表示" | "ロスト以外" | "ロストのみ";
 
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
@@ -221,6 +222,7 @@
   const searchText = ref("");
   const deleteDialog = ref(false);
   const displayOrder = ref<DisplayOrder>("更新順");
+  const displayFilter = ref<DisplayFilter>("全て表示");
   let deleteCharacter = {} as CharacterInformation;
 
   const onClickView = (id: string) => {
@@ -329,6 +331,20 @@
           }).length > 0
         );
       });
+    }
+    switch (displayFilter.value) {
+      case "全て表示":
+        break;
+      case "ロスト以外":
+        returnInformations = returnInformations.filter((information) => {
+          return !information.isLost;
+        });
+        break;
+      case "ロストのみ":
+        returnInformations = returnInformations.filter((information) => {
+          return information.isLost;
+        });
+        break;
     }
     switch (displayOrder.value) {
       case "更新順":
