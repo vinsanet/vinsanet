@@ -491,6 +491,43 @@
   const includeZeroValues = ref(false);
   const isCommandKutulu = ref(false);
 
+  onMounted(() => {
+    const q = query(collection(firebaseDb, "characters"), where("id", "==", id)).withConverter(characterConverter);
+    getDocs(q)
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          showSnackbar("キャラクターが存在しません", "error");
+          return;
+        }
+        const character = querySnapshot.docs[0].data();
+        if (!character.isPublishing && character.userId !== firebaseAuth.currentUser?.uid) {
+          showSnackbar("キャラクターを表示できません", "error");
+          return;
+        }
+        information.value = character;
+        information.value.remarks.forEach((remark) => {
+          const canShowRemark = remark.answer === "" || information.value.userId === firebaseAuth.currentUser?.uid;
+          canShowRemarks.value.push(canShowRemark);
+          remarksAnswerErrorMessages.value.push("");
+        });
+      })
+      .then(() => {
+        if (information.value.images.length === 0) {
+          const imageRef = storageRef(firebaseStorage, "characters/undefined.png");
+          getDownloadURL(imageRef).then((downloadUrl) => {
+            imageUrls.value.push(downloadUrl);
+          });
+        } else {
+          information.value.images.forEach((image) => {
+            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
+            getDownloadURL(imageRef).then((downloadUrl) => {
+              imageUrls.value.push(downloadUrl);
+            });
+          });
+        }
+      });
+  });
+
   const onClickRemarksAnswer = (index: number) => {
     const answer = document.getElementById(`remark-answer-${index}`) as HTMLInputElement;
     if (answer.value === "") {
@@ -612,43 +649,6 @@
     link.download = `${information.value.name}.json`;
     link.click();
   };
-
-  onMounted(() => {
-    const q = query(collection(firebaseDb, "characters"), where("id", "==", id)).withConverter(characterConverter);
-    getDocs(q)
-      .then((querySnapshot) => {
-        if (querySnapshot.empty) {
-          showSnackbar("キャラクターが存在しません", "error");
-          return;
-        }
-        const character = querySnapshot.docs[0].data();
-        if (!character.isPublishing && character.userId !== firebaseAuth.currentUser?.uid) {
-          showSnackbar("キャラクターを表示できません", "error");
-          return;
-        }
-        information.value = character;
-        information.value.remarks.forEach((remark) => {
-          const canShowRemark = remark.answer === "" || information.value.userId === firebaseAuth.currentUser?.uid;
-          canShowRemarks.value.push(canShowRemark);
-          remarksAnswerErrorMessages.value.push("");
-        });
-      })
-      .then(() => {
-        if (information.value.images.length === 0) {
-          const imageRef = storageRef(firebaseStorage, "characters/undefined.png");
-          getDownloadURL(imageRef).then((downloadUrl) => {
-            imageUrls.value.push(downloadUrl);
-          });
-        } else {
-          information.value.images.forEach((image) => {
-            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
-            getDownloadURL(imageRef).then((downloadUrl) => {
-              imageUrls.value.push(downloadUrl);
-            });
-          });
-        }
-      });
-  });
 
   const skillPoints = computed(() => {
     return information?.value?.skills?.reduce((sum, skill) => {

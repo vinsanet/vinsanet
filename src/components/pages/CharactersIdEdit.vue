@@ -838,6 +838,49 @@
   const uploadDialog = ref(false);
   const unsavedDialog = ref(false);
 
+  onMounted(() => {
+    const q = query(collection(firebaseDb, "characters"), where("id", "==", id)).withConverter(characterConverter);
+    getDocs(q)
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) {
+          showSnackbar("キャラクターが存在しません", "error");
+          return;
+        }
+        const character = querySnapshot.docs[0].data();
+        if (character.userId !== firebaseAuth.currentUser?.uid) {
+          showSnackbar("自分のキャラクター以外は編集できません", "error");
+          router.push(`/characters/${character.id}/view`);
+          return;
+        }
+        information.value = character;
+        documentId = querySnapshot.docs[0].id;
+        publish.value = character.isPublishing ? "公開" : "非公開";
+        isLost.value = character.isLost;
+        rule.value = character.rule;
+      })
+      .then(() => {
+        information.value.images.forEach((image) => {
+          const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
+          getDownloadURL(imageRef).then((downloadUrl) => {
+            imageUrls.value.push({
+              id: `${id}-${image.id}`,
+              value: downloadUrl,
+            });
+          });
+        });
+        watch(
+          information,
+          () => {
+            isDirty = true;
+          },
+          { deep: true }
+        );
+      });
+    window.onpopstate = () => {
+      onClickView(false);
+    };
+  });
+
   const uploadImage = async (event: Event) => {
     const target = event.target as HTMLInputElement;
     const fileName = (target.files as FileList)[0].name;
@@ -1022,7 +1065,6 @@
     newFile.value = [];
     uploadDialog.value = false;
   };
-
   const onClickImageAdd = () => {
     const imageInput = document.getElementById("image-input");
     if (imageInput !== null) {
@@ -1226,48 +1268,6 @@
         overlay.value = false;
       });
   };
-
-  onMounted(() => {
-    const q = query(collection(firebaseDb, "characters"), where("id", "==", id)).withConverter(characterConverter);
-    getDocs(q)
-      .then((querySnapshot) => {
-        if (querySnapshot.empty) {
-          showSnackbar("キャラクターが存在しません", "error");
-          return;
-        }
-        const character = querySnapshot.docs[0].data();
-        if (character.userId !== firebaseAuth.currentUser?.uid) {
-          showSnackbar("自分のキャラクター以外は編集できません", "error");
-          router.push(`/characters/${character.id}/view`);
-          return;
-        }
-        information.value = character;
-        documentId = querySnapshot.docs[0].id;
-        publish.value = character.isPublishing ? "公開" : "非公開";
-        rule.value = character.rule;
-      })
-      .then(() => {
-        information.value.images.forEach((image) => {
-          const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
-          getDownloadURL(imageRef).then((downloadUrl) => {
-            imageUrls.value.push({
-              id: `${id}-${image.id}`,
-              value: downloadUrl,
-            });
-          });
-        });
-        watch(
-          information,
-          () => {
-            isDirty = true;
-          },
-          { deep: true }
-        );
-      });
-    window.onpopstate = () => {
-      onClickView(false);
-    };
-  });
 
   const skillPoints = computed(() => {
     return information?.value?.skills?.reduce((sum, skill) => {

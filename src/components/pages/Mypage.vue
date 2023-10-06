@@ -225,6 +225,55 @@
   const displayFilter = ref<DisplayFilter>("全て表示");
   let deleteCharacter = {} as CharacterInformation;
 
+  firebaseAuth.onAuthStateChanged((user) => {
+    if (!user) {
+      showSnackbar("ログインしてください", "error");
+      router.push("/login");
+      return;
+    }
+    const characterData = [] as Array<CharacterType>;
+    const uid = user.uid;
+    const q = query(collection(firebaseDb, "characters"), where("userId", "==", uid)).withConverter(characterConverter);
+    getDocs(q)
+      .then((querySnapshot) => {
+        if (querySnapshot.empty) return;
+        querySnapshot.docs.forEach((doc) => {
+          characterData.push(doc.data());
+        });
+      })
+      .then(() => {
+        characterData
+          .sort((x, y) => {
+            return x.updatedAt < y.updatedAt ? 1 : -1;
+          })
+          .forEach(async (character) => {
+            const characterInformation = {} as CharacterInformation;
+            characterInformation.id = character.id;
+            characterInformation.name = character.name !== "" ? character.name : "（新規キャラクター）";
+            characterInformation.kana = character.kana;
+            characterInformation.tags = character.tags;
+            characterInformation.isLost = character.isLost;
+            characterInformation.images = character.images;
+            characterInformation.isPublishing = character.isPublishing;
+            characterInformation.createdAt = character.createdAt as Timestamp;
+            characterInformation.updatedAt = character.updatedAt as Timestamp;
+            const imagePath =
+              character.images.length !== 0
+                ? `characters/${character.images[0].id}.${character.images[0].extension}`
+                : "characters/undefined.png";
+            const imageRef = storageRef(firebaseStorage, imagePath);
+            await getDownloadURL(imageRef)
+              .then((downloadUrl) => {
+                characterInformation.avatar = downloadUrl;
+              })
+              .catch(() => {
+                characterInformation.avatar = "";
+              });
+            characterInformations.value.push(characterInformation);
+          });
+      });
+  });
+
   const onClickView = (id: string) => {
     router.push(`/characters/${id}/view`);
     return;
@@ -270,54 +319,6 @@
     deleteDialog.value = false;
     showSnackbar("キャラクターを削除しました", "success");
   };
-
-  firebaseAuth.onAuthStateChanged((user) => {
-    if (!user) {
-      showSnackbar("ログインしてください", "error");
-      router.push("/login");
-      return;
-    }
-    const characterData = [] as Array<CharacterType>;
-    const uid = user.uid;
-    const q = query(collection(firebaseDb, "characters"), where("userId", "==", uid)).withConverter(characterConverter);
-    getDocs(q)
-      .then((querySnapshot) => {
-        if (querySnapshot.empty) return;
-        querySnapshot.docs.forEach((doc) => {
-          characterData.push(doc.data());
-        });
-      })
-      .then(() => {
-        characterData
-          .sort((x, y) => {
-            return x.updatedAt < y.updatedAt ? 1 : -1;
-          })
-          .forEach(async (character) => {
-            const characterInformation = {} as CharacterInformation;
-            characterInformation.id = character.id;
-            characterInformation.name = character.name !== "" ? character.name : "（新規キャラクター）";
-            characterInformation.kana = character.kana;
-            characterInformation.tags = character.tags;
-            characterInformation.images = character.images;
-            characterInformation.isPublishing = character.isPublishing;
-            characterInformation.createdAt = character.createdAt as Timestamp;
-            characterInformation.updatedAt = character.updatedAt as Timestamp;
-            const imagePath =
-              character.images.length !== 0
-                ? `characters/${character.images[0].id}.${character.images[0].extension}`
-                : "characters/undefined.png";
-            const imageRef = storageRef(firebaseStorage, imagePath);
-            await getDownloadURL(imageRef)
-              .then((downloadUrl) => {
-                characterInformation.avatar = downloadUrl;
-              })
-              .catch(() => {
-                characterInformation.avatar = "";
-              });
-            characterInformations.value.push(characterInformation);
-          });
-      });
-  });
 
   const shapedCharacterInformations = computed(() => {
     let returnInformations = characterInformations.value;
