@@ -857,6 +857,7 @@
         publish.value = character.isPublishing ? "公開" : "非公開";
         isLost.value = character.isLost;
         rule.value = character.rule;
+        document.title = `${character.name === "" ? "新規キャラクター" : character.name} | vinsanet`;
       })
       .then(() => {
         information.value.images.forEach((image) => {

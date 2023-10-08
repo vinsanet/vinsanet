@@ -192,6 +192,7 @@
         href: question.id,
       });
     });
+    document.title = "よくある質問 | vinsanet";
   });
 </script>
 

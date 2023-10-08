@@ -54,7 +54,7 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "firebase/auth";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
@@ -78,6 +78,9 @@
         router.push("/mypage");
       }
     });
+  });
+  onMounted(() => {
+    document.title = "ログイン | vinsanet";
   });
 
   const onClickTwitter = () => {

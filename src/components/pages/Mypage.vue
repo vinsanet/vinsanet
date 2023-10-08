@@ -195,7 +195,7 @@
   import { Timestamp, collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL } from "@firebase/storage";
   import { ref as storageRef } from "firebase/storage";
-  import { computed, ref } from "vue";
+  import { computed, onMounted, ref } from "vue";
   import { useRouter } from "vue-router";
   import { useDisplay } from "vuetify";
 
@@ -272,6 +272,9 @@
             characterInformations.value.push(characterInformation);
           });
       });
+  });
+  onMounted(() => {
+    document.title = "キャラクター一覧 | vinsanet";
   });
 
   const onClickView = (id: string) => {

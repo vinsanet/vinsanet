@@ -510,6 +510,7 @@
           canShowRemarks.value.push(canShowRemark);
           remarksAnswerErrorMessages.value.push("");
         });
+        document.title = `${character.name === "" ? "新規キャラクター" : character.name} | vinsanet`;
       })
       .then(() => {
         if (information.value.images.length === 0) {

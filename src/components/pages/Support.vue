@@ -50,7 +50,11 @@
 </template>
 
 <script setup lang="ts">
-  //
+  import { onMounted } from "vue";
+
+  onMounted(() => {
+    document.title = "開発支援 | vinsanet";
+  });
 </script>
 
 <style scoped>

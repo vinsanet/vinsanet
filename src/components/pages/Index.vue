@@ -97,7 +97,7 @@
 
 <script setup lang="ts">
   import imageUrl from "@/assets/index.jpg";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
 
   const links = ref([
     { name: "利用規約", icon: "mdi-file-document", url: "/terms" },
@@ -105,4 +105,8 @@
     { name: "開発支援", icon: "mdi-hand-coin", url: "/support" },
     { name: "Twitter", icon: "mdi-twitter", url: "https://twitter.com/vinsanet_trpg" },
   ]);
+
+  onMounted(() => {
+    document.title = "vinsanet";
+  });
 </script>

@@ -189,7 +189,11 @@
 </template>
 
 <script setup lang="ts">
-  //
+  import { onMounted } from "vue";
+
+  onMounted(() => {
+    document.title = "利用規約 | vinsanet";
+  });
 </script>
 
 <style scoped>

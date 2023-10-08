@@ -238,7 +238,7 @@
     where,
   } from "@firebase/firestore";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, linkWithRedirect, unlink } from "firebase/auth";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import { useRouter } from "vue-router";
 
   const router = useRouter();
@@ -289,6 +289,10 @@
       }
     });
   });
+  onMounted(() => {
+    document.title = "アカウント | vinsanet";
+  });
+
   const onClickSaveAccountName = () => {
     if (accountName.value === null || accountName.value.length === 0) {
       showSnackbar("アカウント名を入力してください", "error");

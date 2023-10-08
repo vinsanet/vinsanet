@@ -54,7 +54,7 @@
   import { useSnackbarStore } from "@/store/snackbar";
   import { GithubAuthProvider, GoogleAuthProvider, TwitterAuthProvider, signInWithRedirect } from "@firebase/auth";
   import { collection, doc, getDocs, query, setDoc, where } from "@firebase/firestore";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import { useRouter } from "vue-router";
 
   const { showSnackbar } = useSnackbarStore();
@@ -80,6 +80,9 @@
       }
     });
     router.push("/mypage");
+  });
+  onMounted(() => {
+    document.title = "新規登録 | vinsanet";
   });
 
   const onClickTwitter = () => {
