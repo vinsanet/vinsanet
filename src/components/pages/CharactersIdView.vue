@@ -519,12 +519,13 @@
             imageUrls.value.push(downloadUrl);
           });
         } else {
-          information.value.images.forEach((image) => {
-            const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
-            getDownloadURL(imageRef).then((downloadUrl) => {
+          (async () => {
+            for (const image of information.value.images) {
+              const imageRef = storageRef(firebaseStorage, `characters/${image.id}.${image.extension}`);
+              const downloadUrl = await getDownloadURL(imageRef);
               imageUrls.value.push(downloadUrl);
-            });
-          });
+            }
+          })();
         }
       });
   });
