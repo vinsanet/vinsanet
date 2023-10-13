@@ -4,6 +4,7 @@ import MainLayout from "@/components/layouts/Main.vue";
 import SimpleLayout from "@/components/layouts/Simple.vue";
 import Account from "@/components/pages/Account.vue";
 import CharactersIdEdit from "@/components/pages/CharactersIdEdit.vue";
+import CharactersIdPrint from "@/components/pages/CharactersIdPrint.vue";
 import CharactersIdView from "@/components/pages/CharactersIdView.vue";
 import Faq from "@/components/pages/Faq.vue";
 import Index from "@/components/pages/Index.vue";
@@ -32,6 +33,11 @@ const routes = [
       { path: "", component: NotFound },
       { path: ":catchAll(.*)", component: NotFound },
     ],
+  },
+  {
+    path: "/characters/:id",
+    component: IndexLayout,
+    children: [{ path: "print", component: CharactersIdPrint }],
   },
   { path: "/mypage", component: MainLayout, children: [{ path: "", component: Mypage }] },
   { path: "/:catchAll(.*)", component: SimpleLayout, children: [{ path: "", component: NotFound }] },
