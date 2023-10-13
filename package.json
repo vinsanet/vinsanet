@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx,vue}",
     "lint:fix": "eslint --fix src/**/*.{js,jsx,ts,tsx,vue}",
-    "format": "yarn run lint:fix && prettier --write src/**/*.{js,jsx,ts,tsx,vue}"
+    "format": "yarn run lint:fix && prettier --write src/**/*.{js,jsx,ts,tsx,vue}",
+    "deploy": "yarn build && node build/set-characters-envs.js && yarn firebase deploy"
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
