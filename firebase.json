@@ -8,6 +8,11 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
+        "source": "/characters/**/view",
+        "function": "characters",
+        "region": "asia-northeast1"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
@@ -33,5 +38,13 @@
       "enabled": true
     },
     "singleProjectMode": true
-  }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": ["node_modules", ".git", "firebase-debug.log", "firebase-debug.*.log"],
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run lint", "npm --prefix \"$RESOURCE_DIR\" run build"]
+    }
+  ]
 }
