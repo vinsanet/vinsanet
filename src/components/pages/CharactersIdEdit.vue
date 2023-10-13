@@ -131,8 +131,12 @@
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index <= 4">
                     <v-row class="px-2">
-                      <v-col cols="4">{{ skill.name }}</v-col>
-                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col cols="4">
+                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
+                      </v-col>
                       <v-col>
                         <v-rating
                           v-model="skill.value"
@@ -162,8 +166,12 @@
                 <div v-for="(skill, index) in information.skills" :key="skill.name">
                   <div v-if="index >= 5">
                     <v-row class="px-2">
-                      <v-col cols="4">{{ skill.name }}</v-col>
-                      <v-col cols="2">{{ skill.value }}</v-col>
+                      <v-col cols="4">
+                        <div :class="'text-subtitle-1'">{{ skill.name }}</div>
+                      </v-col>
+                      <v-col cols="2">
+                        <div :class="'text-subtitle-1'">{{ skill.value }}</div>
+                      </v-col>
                       <v-col>
                         <v-rating
                           v-model="skill.value"
