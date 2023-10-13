@@ -21,13 +21,13 @@ export default createVuetify({
       dark: {
         colors: {
           background: "#16160e", // 暗黒色
-          primary: "#9f7acc",
-          secondary: "#687ead",
-          success: "#497a64",
-          error: "#c9797c",
-          skill: "#6db59d",
-          speciality: "#70a0ba",
-          injury: "#d98288",
+          primary: "#6f59a5",
+          secondary: "#5b8bbe",
+          success: "#198743",
+          error: "#dd3e5e",
+          skill: "#21b37d",
+          speciality: "#26afce",
+          injury: "#ef5a7d",
           grey: "#383c3c", // 羊羹色
         },
       },
