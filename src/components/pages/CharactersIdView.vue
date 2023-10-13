@@ -376,7 +376,7 @@
     </v-responsive>
   </v-container>
   <v-dialog v-model="exportDialog" width="500px" max-width="90%">
-    <v-card class="overflow-y-hidden">
+    <v-card>
       <v-card-title>キャラクター出力</v-card-title>
       <v-card-text>
         <v-row v-if="alertMessage !== ''">
@@ -429,11 +429,16 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <v-btn color="secondary" variant="outlined" block @click.stop="onClickPrint">
+              <v-icon>mdi-printer</v-icon> 印刷用ページを表示
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-row>
-          <v-col><v-btn color="primary" block @click.stop="exportDialog = false">閉じる</v-btn></v-col>
-        </v-row>
+        <v-btn color="primary" block @click.stop="exportDialog = false">閉じる</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -658,6 +663,10 @@
     link.href = URL.createObjectURL(blob);
     link.download = `${information.value.name === "" ? "noname" : information.value.name}.json`;
     link.click();
+  };
+  const onClickPrint = () => {
+    const route = router.resolve({ path: `/characters/${id}/print` });
+    window.open(route.href);
   };
 
   const skillPoints = computed(() => {
