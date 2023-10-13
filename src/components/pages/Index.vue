@@ -10,7 +10,7 @@
               </v-col>
             </v-row>
             <v-row class="mb-2">
-              <v-col><div class="text-subtitle-1 font-weight-bold">”信頼できるキャラクターシート”</div> </v-col>
+              <v-col><div class="text-subtitle-1 font-weight-bold">”信頼できるキャラクターシート”</div></v-col>
             </v-row>
             <v-row :justify="'center'" class="ma-4">
               <v-spacer></v-spacer>
