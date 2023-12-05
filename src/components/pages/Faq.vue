@@ -69,7 +69,7 @@
                         <div>
                           <p class="font-weight-bold">はい、無料です。</p>
                           <p>
-                            ただし、サービスを安定的に提供するため、ユーザーの皆様からの開発支援を受け付けております。詳しくは、
+                            ただし、サービスを安定的に提供するため、ユーザーの皆さまからの開発支援を受け付けております。詳しくは、
                             <a href="/support" class="text-decoration-none">開発支援のページ</a> をご覧ください。
                           </p>
                         </div>
@@ -95,33 +95,40 @@
                   </v-row>
                   <v-row class="mb-2">
                     <v-col>
-                      <div id="q3" :class="['pa-2', 'question', 'd-flex', 'align-center']">
+                      <div id="q4" :class="['pa-2', 'question', 'd-flex', 'align-center']">
                         <span :class="['text-h4', 'text-lg-h3', 'mr-4']">Q</span>
-                        <span class="font-weight-bold">
-                          タイトルに "Beta" と書いてありますが、これはどういう意味ですか？
-                        </span>
+                        <span class="font-weight-bold">配信や動画にvinsanetの画面を載せても良いですか？</span>
                       </div>
                       <div :class="['pa-2', 'answer', 'd-flex', 'align-center']">
                         <span :class="['text-h4', 'text-lg-h3', 'mr-4']">A</span>
                         <div>
                           <p class="font-weight-bold">
-                            本サービスがまだ正式リリース前のベータ版であることを意味しています。
+                            大歓迎です。ただし、vinsanetを利用していることを明記し、大幅な改変や加工は行わないでください。
+                          </p>
+                          <p>配信や動画にvinsanetの画面を載せる場合は、以下の二点を明記してください。</p>
+                          <p class="my-2">
+                            ・Kutulu TRPGのキャラクターシートツール「vinsanet」を利用していること<br />
+                            ・vinsanetのURL（<a href="https://vinsanet.com" class="text-decoration-none"
+                              >https://vinsanet.com</a
+                            >）
                           </p>
                           <p>
-                            ベータ版とは、正式版を公開する前にユーザーの皆さまに試用してもらうサンプルのバージョンです。ベータ版期間中は、以下の点にご留意頂きますようお願いします。
+                            上記を満たす情報の例としては、以下の一文のようなものが考えられます。ただし、表示方法はこれに限りません。
                           </p>
-                          <p class="my-2">
-                            ・動作が不安定になる場合があります。<br />
-                            ・仕様を予告なく変更する場合があります。<br />
-                            ・データが消失する場合があります。
+                          <p class="text-decoration-underline my-2">
+                            vinsanet | Kutulu TRPGキャラシツール - https://vinsanet.com
                           </p>
+                          <p>
+                            また、表示しやすいように画面を改変や加工することは問題ございませんが、原形を留めないほどの大幅な改変や加工はご遠慮ください。
+                          </p>
+                          <p>なお、キャラクターの情報が簡潔にまとまっている印刷用ページを表示するのがおすすめです。</p>
                         </div>
                       </div>
                     </v-col>
                   </v-row>
                   <v-row class="mb-2">
                     <v-col>
-                      <div id="q4" :class="['pa-2', 'question', 'd-flex', 'align-center']">
+                      <div id="q5" :class="['pa-2', 'question', 'd-flex', 'align-center']">
                         <span :class="['text-h4', 'text-lg-h3', 'mr-4']">Q</span>
                         <span class="font-weight-bold">サービスが正常に利用できません。</span>
                       </div>
@@ -146,7 +153,7 @@
                   </v-row>
                   <v-row class="mb-2">
                     <v-col>
-                      <div id="q5" :class="['pa-2', 'question', 'd-flex', 'align-center']">
+                      <div id="q6" :class="['pa-2', 'question', 'd-flex', 'align-center']">
                         <span :class="['text-h4', 'text-lg-h3', 'mr-4']">Q</span>
                         <span class="font-weight-bold">お問い合わせ先を教えてください。</span>
                       </div>
