@@ -161,7 +161,7 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="twitterDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickUnLinkTwitter">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickUnLinkTwitter">解除</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -178,7 +178,7 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="googleDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickUnLinkGoogle">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickUnLinkGoogle">解除</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -195,7 +195,7 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="githubDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickUnLinkGithub">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickUnLinkGithub">解除</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -212,7 +212,7 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="deleteDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickDeleteAccount">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickDeleteAccount">削除</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>

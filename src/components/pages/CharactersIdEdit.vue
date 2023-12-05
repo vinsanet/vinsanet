@@ -525,7 +525,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickImageClose">OK</v-btn>
+        <v-btn color="primary" block @click.stop="onClickImageClose">閉じる</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -588,7 +588,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickRemarkSetting">OK</v-btn>
+        <v-btn color="primary" block variant="flat" @click.stop="onClickRemarkSetting">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -603,7 +603,7 @@
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="remarkDeleteDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickRemarkDelete">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickRemarkDelete">削除</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
@@ -644,7 +644,7 @@
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-btn color="primary" block @click.stop="onClickSheetSettings">OK</v-btn>
+        <v-btn color="primary" block variant="flat" @click.stop="onClickSheetSettings">OK</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -730,14 +730,14 @@
     <v-card>
       <v-card-text>
         <v-row>
-          <v-col>未保存の変更があります。閲覧画面に移動しますか？</v-col>
+          <v-col>未保存の変更があります。変更を破棄しますか？</v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" @click.stop="unsavedDialog = false">キャンセル</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="error" @click.stop="onClickView(true)">OK</v-btn>
+        <v-btn color="error" variant="flat" @click.stop="onClickView(true)">破棄</v-btn>
         <v-spacer></v-spacer>
       </v-card-actions>
     </v-card>
