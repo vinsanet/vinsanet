@@ -3,8 +3,11 @@
     <v-app-bar-nav-icon variant="text" @click.stop="props.onClickNavIcon"></v-app-bar-nav-icon>
     <v-app-bar-title class="text-subtitle-1">
       <div style="cursor: pointer" @click.stop="$router.push('/mypage')">
-        vinsanet
-        <div :class="['text-caption']">v{{ version }} <v-chip size="x-small">Beta</v-chip></div>
+        <div v-if="smAndUp">
+          <v-img :src="theme === 'light' ? logoWhiteUrl : logoBlackUrl" width="150px"></v-img>
+        </div>
+        <div v-if="xs">vinsanet</div>
+        <div :class="['text-caption']">v{{ version }}</div>
       </div>
     </v-app-bar-title>
     <div class="text-subtitle-2" style="max-width: 30%; overflow: hidden; text-overflow: ellipsis">
@@ -32,15 +35,19 @@
 </template>
 
 <script setup lang="ts">
+  import logoBlackUrl from "@/assets/logo_black.png";
+  import logoWhiteUrl from "@/assets/logo_white.png";
   import ThemeSwitch from "@/components/parts/ThemeSwitch.vue";
   import { firebaseAuth, firebaseDb } from "@/firebase/firebase";
   import { accountConverter } from "@/models/account";
   import { useAccountNameStore } from "@/store/account";
   import { useSnackbarStore } from "@/store/snackbar";
+  import { useThemeStore } from "@/store/theme";
   import { collection, getDocs, query, where } from "@firebase/firestore";
   import { storeToRefs } from "pinia";
   import { ref } from "vue";
   import { useRouter } from "vue-router";
+  import { useDisplay } from "vuetify";
 
   type Props = { onClickNavIcon: () => void };
 
@@ -52,6 +59,9 @@
   const { accountName } = storeToRefs(accountNamestore);
   const { setAccountName } = accountNamestore;
   const { showSnackbar } = useSnackbarStore();
+  const themeStore = useThemeStore();
+  const { theme } = storeToRefs(themeStore);
+  const { xs, smAndUp } = useDisplay();
   const router = useRouter();
 
   firebaseAuth.onAuthStateChanged(async (user) => {
