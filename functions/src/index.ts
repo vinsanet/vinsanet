@@ -31,7 +31,7 @@ export const characters = functions.region("asia-northeast1").https.onRequest((r
 
 const createHtml = (name: string, id: string, imageUrl: string) => {
   const title = escapeHtml(name);
-  const description = "vinsanet | Kutulu TRPGキャラクターシート";
+  const description = "vinsanet | Kutulu TRPGキャラシツール";
   const siteUrl = "https://vinsanet.com";
   const url = `${siteUrl}/characters/${id}/view`;
   return `<!DOCTYPE html>
