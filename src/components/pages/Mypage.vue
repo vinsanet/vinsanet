@@ -31,19 +31,11 @@
                           </v-card>
                         </v-menu>
                       </v-btn>
-                      <v-btn color="secondary" prepend-icon="mdi-filter">
-                        {{ displayFilter }}
-                        <v-menu activator="parent" :close-on-content-click="false">
-                          <v-card class="pa-2 pr-6">
-                            <v-radio-group v-model="displayFilter" hide-details>
-                              <v-radio label="全て表示" value="全て表示"></v-radio>
-                              <v-radio label="ロスト以外" value="ロスト以外"></v-radio>
-                              <v-radio label="ロストのみ" value="ロストのみ"></v-radio>
-                            </v-radio-group>
-                          </v-card>
-                        </v-menu>
+                      <v-btn color="secondary" prepend-icon="mdi-magnify-plus" @click.stop="onClickSearch()">
+                        高度な検索
                       </v-btn>
                     </v-btn-group>
+                    <v-badge :model-value="showSearchBadge" color="error" size="small"></v-badge>
                   </v-col>
                 </v-row>
               </v-expansion-panel-text>
@@ -186,11 +178,236 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+  <v-dialog v-model="searchDialog" width="800px" max-width="90%">
+    <v-card>
+      <v-card-title>高度な検索</v-card-title>
+      <v-card-text>
+        <v-expansion-panels variant="accordion" multiple>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">ルール</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="temporarySearchConditions.rule"
+                    :items="['すべて', '基本ルール', '現代日本ソースブック']"
+                    variant="outlined"
+                    hide-details
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">公開</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="temporarySearchConditions.publish"
+                    :items="['すべて', '公開のみ', '非公開のみ']"
+                    variant="outlined"
+                    hide-details
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">ロスト</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row>
+                <v-col>
+                  <v-select
+                    v-model="temporarySearchConditions.lost"
+                    :items="['すべて', 'ロスト以外', 'ロストのみ']"
+                    variant="outlined"
+                    hide-details
+                  ></v-select>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <v-icon color="skill" class="mr-2">mdi-circle</v-icon>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">能力値</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row v-for="(condition, index) in temporarySearchConditions.skills" :key="index">
+                <v-col class="pr-0" cols="4">
+                  <v-select
+                    v-model="condition.target"
+                    :items="searchConditionSkillTargets"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="px-0" cols="3">
+                  <v-select
+                    v-model="condition.value"
+                    :items="['', '0', '1', '2', '3', '4']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="px-0" cols="4">
+                  <v-select
+                    v-model="condition.condition"
+                    :items="['', '以下', 'と同じ', '以上']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="pl-0" cols="1">
+                  <v-btn
+                    color="error"
+                    variant="text"
+                    icon="mdi-close"
+                    @click.stop="onClickSearchSkillRuleDelete(index)"
+                  ></v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    block
+                    color="primary"
+                    variant="outlined"
+                    prepend-icon="mdi-table-plus"
+                    @click.prevent="onClickSearchSkillRuleAdd"
+                    >追加</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <v-icon color="speciality" class="mr-2">mdi-circle</v-icon>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">専門分野</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row v-for="(condition, index) in temporarySearchConditions.specialities" :key="index">
+                <v-col class="pr-0" cols="4">
+                  <v-select
+                    v-model="condition.target"
+                    :items="searchConditionSpecialityTargets"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="px-0" cols="3">
+                  <v-select
+                    v-model="condition.value"
+                    :items="['', '0', '1', '2', '3']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="px-0" cols="4">
+                  <v-select
+                    v-model="condition.condition"
+                    :items="['', '以下', 'と同じ', '以上']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="pl-0" cols="1">
+                  <v-btn
+                    color="error"
+                    variant="text"
+                    icon="mdi-close"
+                    @click.stop="onClickSearchSpecialityRuleDelete(index)"
+                  ></v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    block
+                    color="primary"
+                    variant="outlined"
+                    prepend-icon="mdi-table-plus"
+                    @click.prevent="onClickSearchSpecialityRuleAdd"
+                    >追加</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+          <v-expansion-panel elevation="0" bg-color="background">
+            <v-expansion-panel-title>
+              <v-icon color="injury" class="mr-2">mdi-circle</v-icon>
+              <span :class="['text-subtitle-1', 'font-weight-bold']">負傷</span>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row v-for="(condition, index) in temporarySearchConditions.injuries" :key="index">
+                <v-col class="pr-0">
+                  <v-select
+                    v-model="condition.value"
+                    :items="['', '0', '1', '2', '3']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="px-0">
+                  <v-select
+                    v-model="condition.condition"
+                    :items="['', '以下', 'と同じ', '以上']"
+                    variant="outlined"
+                    density="comfortable"
+                    hide-details
+                  ></v-select>
+                </v-col>
+                <v-col class="pl-0" cols="1">
+                  <v-btn
+                    color="error"
+                    variant="text"
+                    icon="mdi-close"
+                    @click.stop="onClickSearchInjuryRuleDelete(index)"
+                  ></v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-btn
+                    block
+                    color="primary"
+                    variant="outlined"
+                    prepend-icon="mdi-table-plus"
+                    @click.prevent="onClickSearchInjuryRuleAdd"
+                    >追加</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block variant="flat" @click.stop="onClickSearchExecute">検索</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
   import { firebaseAuth, firebaseDb, firebaseStorage } from "@/firebase/firebase";
-  import { CharacterType, characterConverter } from "@/models/character";
+  import { CharacterType, Rule, Skill, Speciality, characterConverter } from "@/models/character";
   import { useSnackbarStore } from "@/store/snackbar";
   import { Timestamp, collection, deleteDoc, doc, getDocs, query, where } from "@firebase/firestore";
   import { deleteObject, getDownloadURL } from "@firebase/storage";
@@ -203,16 +420,24 @@
     name: string;
     kana: string;
     id: string;
+    skills: Array<Skill>;
+    specialities: Array<Speciality>;
+    injury: number;
     tags: Array<string>;
     isLost: boolean;
     avatar: string;
     images: Array<{ id: string; extension: string; description: string }>;
     isPublishing: boolean;
+    rule: Rule;
     createdAt: Timestamp;
     updatedAt: Timestamp;
   };
   type DisplayOrder = "更新順" | "作成順" | "名前順";
   type DisplayFilter = "全て表示" | "ロスト以外" | "ロストのみ";
+  type SearchRule = "すべて" | "基本ルール" | "現代日本ソースブック";
+  type SearchPublish = "すべて" | "公開のみ" | "非公開のみ";
+  type SearchLost = "すべて" | "ロスト以外" | "ロストのみ";
+  type SearchCondition = "" | "以下" | "と同じ" | "以上";
 
   const router = useRouter();
   const { showSnackbar } = useSnackbarStore();
@@ -221,6 +446,27 @@
   const characterInformations = ref([] as Array<CharacterInformation>);
   const searchText = ref("");
   const deleteDialog = ref(false);
+  const searchDialog = ref(false);
+  const searchConditions = ref(
+    {} as {
+      rule: SearchRule;
+      publish: SearchPublish;
+      lost: SearchLost;
+      skills: Array<{ target: string; value: string; condition: SearchCondition }>;
+      specialities: Array<{ target: string; value: string; condition: SearchCondition }>;
+      injuries: Array<{ value: string; condition: SearchCondition }>;
+    }
+  );
+  const temporarySearchConditions = ref(
+    {} as {
+      rule: SearchRule;
+      publish: SearchPublish;
+      lost: SearchLost;
+      skills: Array<{ target: string; value: string; condition: SearchCondition }>;
+      specialities: Array<{ target: string; value: string; condition: SearchCondition }>;
+      injuries: Array<{ value: string; condition: SearchCondition }>;
+    }
+  );
   const displayOrder = ref<DisplayOrder>("更新順");
   const displayFilter = ref<DisplayFilter>("全て表示");
   let deleteCharacter = {} as CharacterInformation;
@@ -251,10 +497,14 @@
             characterInformation.id = character.id;
             characterInformation.name = character.name !== "" ? character.name : "（新規キャラクター）";
             characterInformation.kana = character.kana;
+            characterInformation.skills = character.skills;
+            characterInformation.specialities = character.specialities;
+            characterInformation.injury = character.injury;
             characterInformation.tags = character.tags;
             characterInformation.isLost = character.isLost;
             characterInformation.images = character.images;
             characterInformation.isPublishing = character.isPublishing;
+            characterInformation.rule = character.rule;
             characterInformation.createdAt = character.createdAt as Timestamp;
             characterInformation.updatedAt = character.updatedAt as Timestamp;
             const imagePath =
@@ -275,6 +525,14 @@
   });
   onMounted(() => {
     document.title = "キャラクター一覧 | vinsanet";
+    searchConditions.value = {
+      rule: "すべて",
+      publish: "すべて",
+      lost: "すべて",
+      skills: [],
+      specialities: [],
+      injuries: [],
+    };
   });
 
   const onClickView = (id: string) => {
@@ -322,6 +580,32 @@
     deleteDialog.value = false;
     showSnackbar("キャラクターを削除しました", "success");
   };
+  const onClickSearch = () => {
+    searchDialog.value = true;
+    temporarySearchConditions.value = JSON.parse(JSON.stringify(searchConditions.value));
+  };
+  const onClickSearchSkillRuleAdd = () => {
+    temporarySearchConditions.value.skills.push({ target: "", value: "", condition: "" });
+  };
+  const onClickSearchSkillRuleDelete = (index: number) => {
+    temporarySearchConditions.value.skills.splice(index, 1);
+  };
+  const onClickSearchSpecialityRuleAdd = () => {
+    temporarySearchConditions.value.specialities.push({ target: "", value: "", condition: "" });
+  };
+  const onClickSearchSpecialityRuleDelete = (index: number) => {
+    temporarySearchConditions.value.specialities.splice(index, 1);
+  };
+  const onClickSearchInjuryRuleAdd = () => {
+    temporarySearchConditions.value.injuries.push({ value: "", condition: "" });
+  };
+  const onClickSearchInjuryRuleDelete = (index: number) => {
+    temporarySearchConditions.value.injuries.splice(index, 1);
+  };
+  const onClickSearchExecute = () => {
+    searchConditions.value = JSON.parse(JSON.stringify(temporarySearchConditions.value));
+    searchDialog.value = false;
+  };
 
   const shapedCharacterInformations = computed(() => {
     let returnInformations = characterInformations.value;
@@ -335,6 +619,39 @@
           }).length > 0
         );
       });
+    }
+    if (searchConditions.value.rule !== "すべて") {
+      returnInformations = returnInformations.filter((information) => {
+        return information.rule === searchConditions.value.rule;
+      });
+    }
+    switch (searchConditions.value.publish) {
+      case "すべて":
+        break;
+      case "公開のみ":
+        returnInformations = returnInformations.filter((information) => {
+          return information.isPublishing;
+        });
+        break;
+      case "非公開のみ":
+        returnInformations = returnInformations.filter((information) => {
+          return !information.isPublishing;
+        });
+        break;
+    }
+    switch (searchConditions.value.lost) {
+      case "すべて":
+        break;
+      case "ロスト以外":
+        returnInformations = returnInformations.filter((information) => {
+          return !information.isLost;
+        });
+        break;
+      case "ロストのみ":
+        returnInformations = returnInformations.filter((information) => {
+          return information.isLost;
+        });
+        break;
     }
     switch (displayFilter.value) {
       case "全て表示":
@@ -350,6 +667,62 @@
         });
         break;
     }
+    searchConditions.value.skills.forEach((skillCondition) => {
+      if (skillCondition.target === "" || skillCondition.value === "" || skillCondition.condition === "") return;
+      returnInformations = returnInformations.filter((information) => {
+        return (
+          information.skills.filter((skill) => {
+            if (skill.name !== skillCondition.target) return false;
+            switch (skillCondition.condition) {
+              case "以下":
+                return skill.value <= parseInt(skillCondition.value);
+              case "と同じ":
+                return skill.value === parseInt(skillCondition.value);
+              case "以上":
+                return skill.value >= parseInt(skillCondition.value);
+              default:
+                return false;
+            }
+          }).length > 0
+        );
+      });
+    });
+    searchConditions.value.specialities.forEach((specialityCondition) => {
+      if (specialityCondition.target === "" || specialityCondition.value === "" || specialityCondition.condition === "")
+        return;
+      returnInformations = returnInformations.filter((information) => {
+        return (
+          information.specialities.filter((speciality) => {
+            if (speciality.name !== specialityCondition.target) return false;
+            switch (specialityCondition.condition) {
+              case "以下":
+                return speciality.value <= parseInt(specialityCondition.value);
+              case "と同じ":
+                return speciality.value === parseInt(specialityCondition.value);
+              case "以上":
+                return speciality.value >= parseInt(specialityCondition.value);
+              default:
+                return false;
+            }
+          }).length > 0
+        );
+      });
+    });
+    searchConditions.value.injuries.forEach((injuryCondition) => {
+      if (injuryCondition.value === "" || injuryCondition.condition === "") return;
+      returnInformations = returnInformations.filter((information) => {
+        switch (injuryCondition.condition) {
+          case "以下":
+            return information.injury <= parseInt(injuryCondition.value);
+          case "と同じ":
+            return information.injury === parseInt(injuryCondition.value);
+          case "以上":
+            return information.injury >= parseInt(injuryCondition.value);
+          default:
+            return false;
+        }
+      });
+    });
     switch (displayOrder.value) {
       case "更新順":
         returnInformations.sort((a, b) => {
@@ -368,5 +741,79 @@
         break;
     }
     return returnInformations;
+  });
+  const searchConditionSkillTargets = computed(() => {
+    if (searchConditions.value.rule === "すべて") {
+      return ["敏捷", "筋力", "隠密", "射撃", "白兵", "名声", "弁舌", "家格", "信用", "知名度", "資金力", "第六感"];
+    } else if (searchConditions.value.rule === "基本ルール") {
+      return ["敏捷", "筋力", "隠密", "射撃", "白兵", "名声", "弁舌", "家格", "信用"];
+    } else {
+      return ["敏捷", "筋力", "隠密", "射撃", "白兵", "知名度", "弁舌", "資金力", "第六感"];
+    }
+  });
+  const searchConditionSpecialityTargets = computed(() => {
+    if (searchConditions.value.rule === "すべて") {
+      return [
+        "人類学＆民俗学",
+        "考古学＆歴史学",
+        "図書館＆古文書学",
+        "経済学＆法学",
+        "芸術＆工芸",
+        "犯罪学",
+        "医学",
+        "機械工学",
+        "自然科学",
+        "オカルト",
+        "心理学",
+        "言語学",
+        "文化人類学＆考古学",
+        "歴史学＆古文書学",
+        "民俗学",
+        "芸術学",
+        "会計学＆法学",
+        "地球科学",
+        "宇宙科学",
+        "医学＆獣医学",
+        "機械工学＆電子工学",
+        "情報工学",
+      ];
+    } else if (searchConditions.value.rule === "基本ルール") {
+      return [
+        "人類学＆民俗学",
+        "考古学＆歴史学",
+        "図書館＆古文書学",
+        "経済学＆法学",
+        "芸術＆工芸",
+        "犯罪学",
+        "医学",
+        "機械工学",
+        "自然科学",
+        "オカルト",
+        "心理学",
+        "言語学",
+      ];
+    } else {
+      return [
+        "文化人類学＆考古学",
+        "歴史学＆古文書学",
+        "民俗学",
+        "芸術学",
+        "会計学＆法学",
+        "地球科学",
+        "宇宙科学",
+        "医学＆獣医学",
+        "機械工学＆電子工学",
+        "情報工学",
+      ];
+    }
+  });
+  const showSearchBadge = computed(() => {
+    if (searchConditions.value.rule !== "すべて") return true;
+    if (searchConditions.value.publish !== "すべて") return true;
+    if (searchConditions.value.lost !== "すべて") return true;
+    if (searchConditions.value.skills.length !== 0) return true;
+    if (searchConditions.value.specialities.length !== 0) return true;
+    if (searchConditions.value.injuries.length !== 0) return true;
+    return false;
   });
 </script>
