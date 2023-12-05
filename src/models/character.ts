@@ -1,8 +1,8 @@
 import { DocumentSnapshot, FieldValue, SnapshotOptions } from "firebase/firestore";
 
-type Rule = "基本ルール" | "現代日本ソースブック";
-type Skill = { name: string; value: number };
-type Speciality = { name: string; value: number };
+export type Rule = "基本ルール" | "現代日本ソースブック";
+export type Skill = { name: string; value: number };
+export type Speciality = { name: string; value: number };
 type Remark = { title: string; body: string; question: string; answer: string; isPublic: boolean };
 type Image = { id: string; extension: string; description: string };
 
