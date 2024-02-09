@@ -89,7 +89,7 @@
             {{ link.name }}
           </v-btn>
         </v-col>
-        <v-col class="text-center" cols="12">© 2023 - はにーま</v-col>
+        <v-col class="text-center" cols="12">© 2023-2024 はにーま</v-col>
       </v-row>
     </v-footer>
   </v-theme-provider>
